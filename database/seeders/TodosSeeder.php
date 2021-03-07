@@ -21,7 +21,7 @@ class TodosSeeder extends Seeder
             'nombreusuario'=>'admin',
             'email'=>'admin@mail.com',
             'password'=>Hash::make('admin123'),
-            'fullacceso'=>'yes'
+            'fullacceso'=>'yes',
         ]);
         $usuario1=User::create([
             'nombres'=>'usuario moises',
@@ -29,7 +29,7 @@ class TodosSeeder extends Seeder
             'nombreusuario'=>'moises',
             'email'=>'moises@mail.com',
             'password'=>Hash::make('moises123'),
-            'fullacceso'=>'no'
+            'fullacceso'=>'no',
         ]);
     }
 }
