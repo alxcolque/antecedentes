@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SoloAdmin
+class SoloModerador
 {
     /**
      * Handle an incoming request.
@@ -19,10 +19,10 @@ class SoloAdmin
     {
         switch(auth::user()->rol){
             case ('1'):
-                return $next($request);//si es administrador continua al HOME
+                return redirect('home');//si es administrador redirige al HOME
             break;
 			case('2'):
-                return redirect('moders');// si es un usuario normal redirige a la ruta USER
+                return $next($request);// si es un moderador  continua ruta MODe
 			break;	
             case ('3'):
                 return redirect('users');//si es administrador redirige al moderador

@@ -21,15 +21,23 @@ class TodosSeeder extends Seeder
             'nombreusuario'=>'admin',
             'email'=>'admin@mail.com',
             'password'=>Hash::make('admin123'),
-            'fullacceso'=>'yes',
+            'rol'=>1,
         ]);
         $usuario1=User::create([
-            'nombres'=>'usuario moises',
+            'nombres'=>'Moises',
             'apellidos'=>'Colque Sd',
             'nombreusuario'=>'moises',
             'email'=>'moises@mail.com',
             'password'=>Hash::make('moises123'),
-            'fullacceso'=>'no',
+            'rol'=>2,
+        ]);
+        $usuario2=User::create([
+            'nombres'=>'Alicia',
+            'apellidos'=>'Colque Sd',
+            'nombreusuario'=>'alicia',
+            'email'=>'alicia@mail.com',
+            'password'=>Hash::make('alicia123'),
+            'rol'=>3,
         ]);
     }
 }
