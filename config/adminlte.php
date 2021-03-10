@@ -225,8 +225,13 @@ return [
 
     'menu' => [
         [
+            'text' => 'Link 1',
+            'url'  => '#',
+            'topnav_user'  => true,
+        ],
+        [
             'text' => 'search',
-            'search' => true,
+            'search' => false,
             'topnav' => true,
         ],
         [
@@ -235,13 +240,23 @@ return [
             'can'  => 'manage-blog',
         ],
         [
+            'text' => 'Inicio', 
+            'route' => 'home',
+            'icon' => 'fas fa-fw fa-home',
+        ],
+        [
+            'text' => 'Antecedentes',
+            'url' => 'antecedentes',
+            'icon' => 'fas fa-fw fa-key',
+        ],
+        [
             'text'        => 'pages',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'account_settings'],
+        ['header' => 'AJUSTES DE CUENTA'],
         [
             'text' => 'profile',
             'url'  => 'admin/settings',

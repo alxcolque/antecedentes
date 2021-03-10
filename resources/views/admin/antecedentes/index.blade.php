@@ -3,11 +3,11 @@
 @section('title', 'FELCC')
 
 @section('content_header')
-    <h1>Inicio</h1>
+    <h1>Antecedentes</h1>
 @stop
 
 @section('content')
-    <p>Antecedentes más recientes.</p>
+    <p>Antecedentes.</p>
     
 @stop
 
