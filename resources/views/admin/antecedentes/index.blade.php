@@ -4,13 +4,14 @@
 
 @section('content_header')
     <h1>Antecedentes</h1>
-    <button type="button" class="btn btn-success">Importar</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Importar</button>
+    <button type="button" class="btn btn-dark">Nuevo registro</button>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            
+             <importar-component/>
             <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -57,3 +58,22 @@
 @section('js')
     <script> console.log('Hi!'); </script>
 @stop
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

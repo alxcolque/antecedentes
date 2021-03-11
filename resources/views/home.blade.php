@@ -8,7 +8,6 @@
 
 @section('content')
     <p>Antecedentes más recientes.</p>
-    
 @stop
 
 @section('css')
