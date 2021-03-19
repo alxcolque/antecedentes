@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetectivesTable extends Migration
+class CreateImportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateDetectivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('detectives', function (Blueprint $table) {
+        Schema::create('imports', function (Blueprint $table) {
             $table->id();
-            $table->string('nombres');
-            /*$table->string('apellidos');
-            $table->string('ci')->unique();
+            $table->string('fechaimport');
 
-            $table->unsignedBigInteger('degree_id');
-            $table->foreign('degree_id')->references('id')->on('degrees')
+            //delitos
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')
             ->constrained()
             ->onUpdate('cascade')
-            ->onDelete('cascade');*/
+            ->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -36,6 +35,6 @@ class CreateDetectivesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detectives');
+        Schema::dropIfExists('imports');
     }
 }

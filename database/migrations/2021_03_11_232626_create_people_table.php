@@ -19,9 +19,10 @@ class CreatePeopleTable extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('nacido');
-            $table->string('fechanacimiento');
-            $table->string('nacionalidad');
+            $table->string('nacionalidad');            
+            $table->string('edad');
             $table->string('genero');
+            $table->string('foto');
             $table->timestamps();
         });
     }

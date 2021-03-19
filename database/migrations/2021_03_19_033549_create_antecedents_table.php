@@ -18,12 +18,12 @@ class CreateAntecedentsTable extends Migration
             $table->date('fechahecho');
             $table->string('hora');
             $table->string('mesregistro');
-            $table->string('lugarhecho');
-            $table->string('zonabarrio');
             $table->string('localidad');
+            $table->string('zonabarrio');
+            $table->string('lugarhecho');
+            $table->string('gps');
             $table->string('unidad');
             $table->string('temperancia');
-            $table->string('causaarresto');
             $table->string('nathecho');
             $table->string('arma');
             $table->string('remitidoa');
@@ -46,6 +46,13 @@ class CreateAntecedentsTable extends Migration
             ->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');
+            //Fecha Import
+            $table->unsignedBigInteger('import_id');
+            $table->foreign('import_id')->references('id')->on('imports')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
 
             $table->timestamps();
         });
