@@ -282,6 +282,10 @@ return [
                     'url'  => 'antecedentes',
                     'submenu' => [
                         [
+                            'text' => 'listar',
+                            'url'  => 'detectives',
+                        ],
+                        [
                             'text' => 'crear',
                             'url'  => '#',
                         ],
