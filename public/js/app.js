@@ -1889,6 +1889,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -1902,8 +1939,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
+window.Fire = new Vue();
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
-Vue.component('importar-component', __webpack_require__(/*! ./components/ImportarComponent.vue */ "./resources/js/components/ImportarComponent.vue").default);
+Vue.component('importar', __webpack_require__(/*! ./components/ImportarComponent.vue */ "./resources/js/components/ImportarComponent.vue").default);
 var app = new Vue({
   el: '#app'
 });
@@ -1927,7 +1965,8 @@ try {
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js").default;
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
-  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
+  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js"); //require('admin-lte');
+
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -37514,7 +37553,7 @@ var staticRenderFns = [
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _vm._v(
-                "\n                    Le recomiendo que se loguee.\n                "
+                "\n                    Le recomiendo que se loguee porfavor.\n                "
               )
             ])
           ])
@@ -37545,14 +37584,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "card" }, [
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [_c("importar-component"), _vm._v(" "), _vm._m(0)],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("\n      Hola como estas  \n    ")])])
+    return _c("table", { staticClass: "table" }, [
+      _c("thead", { staticClass: "thead-dark" }, [
+        _c("tr", [
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Codigo")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Nombre")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Apellidos")]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "col" } }, [_vm._v("Caso")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("tbody", [
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Mark")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Otto")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@mdo")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Jacob")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Thornton")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@fat")])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("Larry")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("the Bird")]),
+          _vm._v(" "),
+          _c("td", [_vm._v("@twitter")])
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
+//use App\Imports\AntecedentsImport;
 use Illuminate\Http\Request;
 use App\Models\Antecedent;
 use App\Models\Municipality;
 use App\Models\Province;
 use App\Models\Department;
 use Exception;
+use Excel;
 
 class AntecedenteController extends Controller
 {
@@ -18,7 +20,16 @@ class AntecedenteController extends Controller
         return view('admin.antecedentes.index');
     }
 
-    public function import(){
+    function import(Request $request)
+    {
+        $this->validate($request, [
+            'fileUpload'  => 'required|mimes:xls,xlsx'
+           ]);
+        
+    }
+ 
+
+    public function import4(){
         
         $path = public_path('prueba1.csv');
         $lines = file($path);
@@ -27,9 +38,9 @@ class AntecedenteController extends Controller
         //return array_map('str_getcsv',$utf8_lines);
         $array = array_map('str_getcsv',$utf8_lines);
         for($i=0;$i<sizeof($array);++$i){
-            $antecedent = new Antecedent();
-            $antecedent -> fechahecho = $array[$i][3];
-            $antecedent -> hora = $array[$i][4];
+            /*$antecedent = new Antecedent();
+            $antecedent -> fechahecho = $array[$i][1];
+            $antecedent -> hora = $array[$i][2];
             $antecedent -> mesregistro = $array[$i][5];
             $antecedent -> localidad = $array[$i][9];
             $antecedent -> zonabarrio = $array[$i][10];
@@ -53,8 +64,27 @@ class AntecedenteController extends Controller
                 $array[$i][6],$array[$i][7]);
 
 
-            $antecedent->save();
+            $antecedent->save();*/
+            $municipality = new Municipality();
+            $municipality -> municipio = $array[$i][8];
+            $municipality -> province_id = $this-> getProvinceID(
+                $array[$i][6],$array[$i][7]) ;
+            $municipality->save();
         }
+    }
+    public function getProvinceID($departmentName="ORuro", $provinceName="fasdf"){
+        $province = Province::where('provincia',$provinceName)->first();
+        if($province){
+            return $province->id;
+        }
+        $province = new Province();
+        $province -> provincia = $provinceName;
+        $department = Department::firstOrCreate([
+            'departamento'=>$departmentName,
+        ]);
+        $province->department_id = $department->id;
+        $province->save();
+        return $province->id;
     }
     public function getDetectiveID($degreeName, $detectiveName){
         $detective = Detective::where('nombres',$detectiveName)->first();

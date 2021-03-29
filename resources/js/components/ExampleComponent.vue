@@ -6,7 +6,7 @@
                     <div class="card-header">Bienvenido al sitio de seguimiento de antecedentes</div>
 
                     <div class="card-body">
-                        Le recomiendo que se loguee.
+                        Le recomiendo que se loguee porfavor.
                     </div>
                 </div>
             </div>

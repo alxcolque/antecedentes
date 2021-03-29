@@ -248,7 +248,81 @@ return [
             'text' => 'Antecedentes',
             'url' => 'antecedentes',
             'icon' => 'fas fa-fw fa-key',
+            'submenu' => [
+                [
+                    'text' => 'Todo',
+                    'url'  => 'antecedentes',
+                    'submenu' => [
+                        [
+                            'text' => 'crear',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Modificar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Arrestados',
+                    'url'  => 'antecedentes',
+                    'submenu' => [
+                        [
+                            'text' => 'crear',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Modificar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Personal Policial',
+                    'url'  => 'antecedentes',
+                    'submenu' => [
+                        [
+                            'text' => 'crear',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Modificar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Crimenes',
+                    'url'  => 'antecedentes',
+                    'submenu' => [
+                        [
+                            'text' => 'crear',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Modificar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Estadisticas',
+                    'url'  => 'antecedentes',
+                ],
+            ],
         ],
+        [
+            'text' => 'Usuarios',
+            'url' => 'users',
+            'icon' => 'fas fa-fw fa-user',
+            
+        ],
+        [
+            'text' => 'Usuarios',
+            'url' => 'users',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
         [
             'text'        => 'pages',
             'url'         => 'admin/pages',
@@ -267,44 +341,7 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
+        
         ['header' => 'labels'],
         [
             'text'       => 'important',
@@ -359,7 +396,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
