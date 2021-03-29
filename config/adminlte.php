@@ -246,22 +246,12 @@ return [
         ],
         [
             'text' => 'Antecedentes',
-            'url' => 'antecedentes',
             'icon' => 'fas fa-fw fa-key',
             'submenu' => [
                 [
-                    'text' => 'Todo',
+                    'text' => 'Antecedentes',
                     'url'  => 'antecedentes',
-                    'submenu' => [
-                        [
-                            'text' => 'crear',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Modificar',
-                            'url'  => '#',
-                        ],
-                    ],
+                    'icon' => 'fas fa-fw fa-user',
                 ],
                 [
                     'text' => 'Arrestados',
