@@ -15,7 +15,7 @@ class CreateProvincesTable extends Migration
     {
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
-            $table->string('provincia');
+            $table->string('provincia', 100);
             
             $table->unsignedBigInteger('department_id');
             $table->foreign('department_id')->references('id')->on('departments')

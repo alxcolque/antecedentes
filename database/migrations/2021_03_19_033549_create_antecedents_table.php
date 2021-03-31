@@ -15,19 +15,19 @@ class CreateAntecedentsTable extends Migration
     {
         Schema::create('antecedents', function (Blueprint $table) {
             $table->id();
-            $table->date('fechahecho');
-            $table->string('hora');
-            $table->string('mesregistro');
-            $table->string('localidad');
-            $table->string('zonabarrio');
-            $table->string('lugarhecho');
-            $table->string('gps');
-            $table->string('unidad');
-            $table->string('temperancia');
-            $table->string('nathecho');
-            $table->string('arma');
-            $table->string('remitidoa');
-            $table->string('pertenencias');
+            $table->date('fechahecho', 100);
+            $table->string('hora', 100);
+            $table->string('mesregistro', 100);
+            $table->string('localidad', 100);
+            $table->string('zonabarrio', 100);
+            $table->string('lugarhecho', 100);
+            $table->string('gps', 100);
+            $table->string('unidad', 100);
+            $table->string('temperancia', 100);
+            $table->string('nathecho', 100);
+            $table->string('arma', 100);
+            $table->string('remitidoa', 100);
+            $table->string('pertenencias', 100);
             //municipio
             $table->unsignedBigInteger('municipality_id');
             $table->foreign('municipality_id')->references('id')->on('municipalities')

@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Detective extends Model
+class Record extends Model
 {
     use HasFactory;
-    protected $fillable =['nombres'];
+
+    protected $table = 'records';
+    protected $guarded = array();
 }

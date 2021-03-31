@@ -15,13 +15,13 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-            $table->string('arrestado');
-            $table->string('ci');
-            $table->string('nacido');
-            $table->string('nacionalidad');            
-            $table->string('edad');
-            $table->string('genero');
-            $table->string('foto');
+            $table->string('arrestado', 100);
+            $table->string('ci', 50);
+            $table->string('nacido', 100);
+            $table->string('nacionalidad', 50);            
+            $table->string('edad', 3);
+            $table->string('genero', 50);
+            $table->string('foto', 100);
             $table->timestamps();
         });
     }

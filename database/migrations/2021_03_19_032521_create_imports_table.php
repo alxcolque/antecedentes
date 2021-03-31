@@ -15,7 +15,7 @@ class CreateImportsTable extends Migration
     {
         Schema::create('imports', function (Blueprint $table) {
             $table->id();
-            $table->string('fechaimport');
+            $table->dateTime('fechaimport')->nullable();
 
             //delitos
             $table->unsignedBigInteger('user_id');

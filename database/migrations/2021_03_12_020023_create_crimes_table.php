@@ -15,7 +15,7 @@ class CreateCrimesTable extends Migration
     {
         Schema::create('crimes', function (Blueprint $table) {
             $table->id();
-            $table->string('causaarresto');
+            $table->string('causaarresto', 100);
             $table->timestamps();
         });
     }
