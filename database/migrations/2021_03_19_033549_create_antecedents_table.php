@@ -15,22 +15,23 @@ class CreateAntecedentsTable extends Migration
     {
         Schema::create('antecedents', function (Blueprint $table) {
             $table->id();
-            $table->date('fechahecho', 100);
-            $table->string('hora', 100);
-            $table->string('mesregistro', 100);
-            $table->string('localidad', 100);
-            $table->string('zonabarrio', 100);
-            $table->string('lugarhecho', 100);
-            $table->string('gps', 100);
-            $table->string('unidad', 100);
-            $table->string('temperancia', 100);
-            $table->string('nathecho', 100);
-            $table->string('arma', 100);
-            $table->string('remitidoa', 100);
-            $table->string('pertenencias', 100);
-            //municipio
-            $table->unsignedBigInteger('municipality_id');
-            $table->foreign('municipality_id')->references('id')->on('municipalities')
+            $table->string('fechahecho', 100)->nullable();
+            $table->string('hora', 100)->nullable();
+            $table->string('mesregistro', 100)->nullable();
+            $table->string('municipio', 100)->nullable();
+            $table->string('localidad', 100)->nullable();
+            $table->string('zonabarrio', 100)->nullable();
+            $table->string('lugarhecho', 100)->nullable();
+            $table->string('gps', 100)->nullable();
+            $table->string('unidad', 100)->nullable();
+            $table->string('temperancia', 100)->nullable();
+            $table->string('nathecho', 100)->nullable();
+            $table->string('arma', 100)->nullable();
+            $table->string('remitidoa', 100)->nullable();
+            $table->string('pertenencias', 100)->nullable();
+            //province
+            $table->unsignedBigInteger('province_id');
+            $table->foreign('province_id')->references('id')->on('provinces')
             ->constrained()
             ->onUpdate('cascade')
             ->onDelete('cascade');

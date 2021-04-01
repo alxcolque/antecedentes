@@ -11,3 +11,5 @@ Route::post('import', [AntecedenteController::class, 'importExcel'])->name('file
 //Route::get('file-export', [UserController::class, 'fileExport'])->name('file-export');
 Route::resource('antecedentes',AntecedenteController::class)->names('admin.antecedentes');
 Route::resource('detectives',DetectiveController::class)->names('admin.detectives');
+//ruta para registrar la tabla de importacion
+Route::get('registrarimport', [AntecedenteController::class, 'registrarimport']);

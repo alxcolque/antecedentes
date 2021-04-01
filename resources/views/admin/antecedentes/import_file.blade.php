@@ -20,7 +20,7 @@
 @section('content')
 <div class="section">
     <div class="card">
-        <div class="row" style="padding: 0px 15px;"><a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a><a href="/excelexport" class="pull-right btn btn-default"><i class="fas fa-file-excel"></i> Export</a>&nbsp; <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a></div><br>
+        <div class="row" style="padding: 0px 15px;"><a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a><a href="/excelexport" class="pull-right btn btn-default"><i class="fas fa-file-excel"></i> Export</a>&nbsp; <a href="/antecedentes/registrarimport" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a></div><br>
         <table class="table table-bordered">
             <tr>
                 <th>No</th>

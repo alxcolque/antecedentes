@@ -21,8 +21,9 @@ use DateTime;
 class AntecedenteController extends Controller
 {
     public function index()
-    {
-        return view('admin.antecedentes.index');
+    {   $records = Record::latest()->paginate(50);
+        return view('admin.antecedentes.index',compact('records'))
+        ->with('i', (request()->input('página', 1) - 1) * 5);
     }
     public function importExcel(Request $request) 
     {
@@ -32,8 +33,41 @@ class AntecedenteController extends Controller
            
         return redirect('antecedentes/import');//->with('status', 'Archivo procesado correctamente');
     }
+    public function registrarimport()
+    {   $records = Record::get();
+        foreach ($records as $record){//echo $antecedent."\n";
+            $antecedent = new Antecedent();
+            $antecedent -> fechahecho = $record->fechahecho;
+            $antecedent -> hora = $record->hora;
+            $antecedent -> mesregistro = $record->mesregistro;
+            $antecedent -> municipio = $record->municipio;
+            $antecedent -> localidad = $record->localidad;
+            $antecedent -> zonabarrio = $record->zonabarrio;
+            $antecedent -> lugarhecho = $record->lugarhecho;
+            $antecedent -> gps = $record->gps;
+            $antecedent -> unidad = $record->unidad;         
+            $antecedent -> temperancia = $record->temperancia;
+            //$antecedent -> causaarresto = $record->;
+            $antecedent -> nathecho = $record->nathecho;
+            $antecedent -> arma = $record->arma;
+            $antecedent -> remitidoa = $record->remitidoa;
+            $antecedent -> pertenencias = $record->pertenencias;
+            
+            $antecedent -> province_id = $this-> getProvinceID($record->departamento,$record->provincia);
+
+            $antecedent -> detective_id = $this-> getDetectiveID($record->nombres);
+
+            $antecedent -> crime_id = $this-> getCrimeID($record->causaarresto);
+
+            $antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
+
+            $antecedent->save();
+        }
+        //Record::truncate();
+        return "Correcto la insercion";
+    }
     public function import(){
-        $records = Record::latest()->paginate(10);
+        $records = Record::latest()->paginate(50);
         return view('admin.antecedentes.import_file',compact('records'))
         ->with('i', (request()->input('página', 1) - 1) * 5);
     }
@@ -115,6 +149,7 @@ class AntecedenteController extends Controller
             $antecedent -> fechahecho = $array_data[1];
             $antecedent -> hora = $array_data[2];
             $antecedent -> mesregistro = $array_data[3];
+            $antecedent -> municipio = $array_data[7];
             $antecedent -> localidad = $array_data[7];
             $antecedent -> zonabarrio = $array_data[8];
             $antecedent -> lugarhecho = $array_data[9];
@@ -127,7 +162,7 @@ class AntecedenteController extends Controller
             $antecedent -> remitidoa = $array_data[22];
             $antecedent -> pertenencias = $array_data[24];
             
-            $antecedent -> municipality_id = $this-> getMunicipalityID(
+            $antecedent -> province_id = $this-> getProvinceID(
                 $array_data[6],$array_data[5],$array_data[4]);
 
             $antecedent -> detective_id = $this-> getDetectiveID(
@@ -187,31 +222,29 @@ class AntecedenteController extends Controller
             
 
     }
-    public function getMunicipalityID($municipalityName, $provinceName, $departmentName){
+    public function getMunicipalityID($departmentName, $provinceName, $municipalityName){
         //Insertar municipio
         $municipality = Municipality::where('municipio',$municipalityName)->first();
         if($municipality){
             return $municipality->id;
         }
-        $municipality = new Municipality();
+        $municipality = new Province();
         $municipality -> municipio = $municipalityName;
-        //Insertar provincia
+        return $this->getProvinceID($departmentName, $provinceName);
+    }
+    public function getProvinceID($departmentName, $provinceName){
         $province = Province::where('provincia',$provinceName)->first();
         if($province){
-            $municipality->province_id = $province->id;
-            $municipality->save();
-            return $municipality->id;
+            return $province->id;
         }
-        $municipality = new Province();
-        $municipality -> provincia = $provinceName;
-        //inserta departamento
+        $province = new Province();
+        $province -> provincia = $provinceName;
         $department = Department::firstOrCreate([
-            'departamento'=>$departmentName,
+            'departamento'=>$departmentName
         ]);
-        
-        $municipality->department_id = $department->id;
-        $municipality->save();
-        return $municipality->id;
+        $province->department_id = $department->id;
+        $province->save();
+        return $province->id;
     }
     public function getDetectiveID($detectiveName){
         
