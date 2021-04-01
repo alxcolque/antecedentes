@@ -16,12 +16,12 @@ class CreatePeopleTable extends Migration
         Schema::create('people', function (Blueprint $table) {
             $table->id();
             $table->string('arrestado', 100);
-            $table->string('ci', 50);
-            $table->string('nacido', 100);
-            $table->string('nacionalidad', 50);            
-            $table->string('edad', 3);
-            $table->string('genero', 50);
-            $table->string('foto', 100);
+            $table->string('ci', 50)->nullable();
+            $table->string('nacido', 100)->nullable();
+            $table->string('nacionalidad', 50)->nullable();            
+            $table->string('edad', 3)->nullable();
+            $table->string('genero', 50)->nullable();
+            $table->string('foto', 100)->nullable();
             $table->timestamps();
         });
     }
