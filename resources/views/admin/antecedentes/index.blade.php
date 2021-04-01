@@ -5,8 +5,8 @@
 @section('content_header')
 <h1>Antecedentes</h1>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Importar</button>
-<button type="button" class="btn btn-dark">Nuevo registro</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import"></i> Importar</button>
+<button type="button" class="btn btn-dark"><i class="fas fa-plus"></i>Nuevo registro</button>
 @stop
 
 @section('content')
@@ -14,7 +14,11 @@
 <!-- Tablas de antecedentes mas reciente -->
 <div class="section">
     <div class="card">
-        <div class="row" style="padding: 0px 15px;"><a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a><a href="/excelexport" class="pull-right btn btn-default"><i class="fas fa-file-excel"></i> Export</a>&nbsp; <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a></div><br>
+        <div class="row" style="padding: 0px 15px;">
+        <a href="/csvexport" class="pull-right btn btn-secondary"><i class="fas fa-file-csv"></i> Export CSV</a>
+        <a href="/excelexport" class="pull-right btn btn-success"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp; 
+        <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
+        </div><br>
         <table class="table table-bordered">
             <tr>
                 <th>No</th>
@@ -83,12 +87,12 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            
+
             <div class="modal-body">
 
                 <br />
                 <h2 class="text-title">Importar Excel</h2>
-                
+
                 <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ route('file-import') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="file" name="import_file" accept=".csv,.xlx, .xlsx" />
@@ -105,9 +109,9 @@
     @section('css')
     <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
     <link rel="stylesheet" href="/css/app.css">
-    
+
     @stop
 
     @section('js')
-    
+
     @stop

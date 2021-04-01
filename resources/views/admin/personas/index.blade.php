@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <p>Editar antecedentes.</p>
+    <p>Lista de personas arrestadas</p>
 @stop
 
 @section('css')

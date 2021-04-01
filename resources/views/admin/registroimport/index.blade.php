@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <p>Editar antecedentes.</p>
+    <p>registro de importaciones de archivos excel</p>
 @stop
 
 @section('css')

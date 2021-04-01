@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <p>Editar antecedentes.</p>
+    <p>control de usuarios roles entre otras cosas</p>
 @stop
 
 @section('css')

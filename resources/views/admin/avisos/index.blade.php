@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <p>Editar antecedentes.</p>
+    <p>Crea nuevos avisos.</p>
 @stop
 
 @section('css')

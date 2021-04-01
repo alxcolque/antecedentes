@@ -145,7 +145,7 @@ return [
     */
 
     'sidebar_mini' => true,
-    'sidebar_collapse' => false,
+    'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
@@ -246,97 +246,68 @@ return [
         ],
         [
             'text' => 'Antecedentes',
-            'icon' => 'fas fa-fw fa-key',
+            'icon' => 'fas fa-fw fa-book',
             'submenu' => [
                 [
-                    'text' => 'Antecedentes',
-                    'url'  => 'antecedentes',
-                    'icon' => 'fas fa-fw fa-user',
+                    'text' => 'Principal',
+                    'url'  => 'admin/antecedentes',
+                    'icon' => 'fas fa-fw fa-book',
                 ],
                 [
                     'text' => 'Arrestados',
-                    'url'  => 'antecedentes',
-                    'submenu' => [
-                        [
-                            'text' => 'crear',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Modificar',
-                            'url'  => '#',
-                        ],
-                    ],
+                    'url'  => 'admin/personas',
+                    'icon' => 'fas fa-fw fa-exclamation-triangle',
                 ],
                 [
                     'text' => 'Personal Policial',
-                    'url'  => 'antecedentes',
-                    'submenu' => [
-                        [
-                            'text' => 'listar',
-                            'url'  => 'detectives',
-                        ],
-                        [
-                            'text' => 'crear',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Modificar',
-                            'url'  => '#',
-                        ],
-                    ],
+                    'url'  => 'admin/detectives',
+                    'icon' => 'fas fa-fw fa-binoculars',
                 ],
                 [
-                    'text' => 'Crimenes',
-                    'url'  => 'antecedentes',
-                    'submenu' => [
-                        [
-                            'text' => 'crear',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text' => 'Modificar',
-                            'url'  => '#',
-                        ],
-                    ],
+                    'text' => 'Importaciones',
+                    'url'  => 'admin/importaciones',
+                    'icon' => 'fas fa-fw fa-file-import',
                 ],
-                [
-                    'text' => 'Estadisticas',
-                    'url'  => 'antecedentes',
-                ],
+                
             ],
         ],
+        ['header' => 'SISTEMA'],
         [
             'text' => 'Usuarios',
-            'url' => 'users',
-            'icon' => 'fas fa-fw fa-user',
-            
+            'url' => 'admin/usuarios',
+            'icon' => 'fas fa-fw fa-users',
         ],
         [
-            'text' => 'Usuarios',
-            'url' => 'users',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Control Acciones',
+            'url' => 'admin/acciones',
+            'icon' => 'fas fa-fw fa-eye',
+        ],
+        [
+            'text' => 'Avisos',
+            'url' => 'admin/avisos',
+            'icon' => 'fas fa-fw fa-bullhorn',
         ],
 
-        [
+        /*[
             'text'        => 'pages',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
-        ],
+        ],*/
         ['header' => 'AJUSTES DE CUENTA'],
         [
-            'text' => 'profile',
+            'text' => 'Mi perfil',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
+            'text' => 'Cambiar contraseña',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
         
-        ['header' => 'labels'],
+        /*['header' => 'labels'],
         [
             'text'       => 'important',
             'icon_color' => 'red',
@@ -351,7 +322,7 @@ return [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
-        ],
+        ],*/
     ],
 
     /*
