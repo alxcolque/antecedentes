@@ -23,3 +23,4 @@ Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
 //ruta para registrar la tabla de importacion
 Route::get('registrarimport', [AntecedenteController::class, 'registrarimport']);
+//Ajax datatables antecedentes

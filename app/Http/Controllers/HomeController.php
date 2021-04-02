@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antecedent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Middleware\SoloAdmin;
 
@@ -21,6 +22,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $antecedents = Antecedent::all();
+        return view('home',compact('antecedents'));
     }
 }
