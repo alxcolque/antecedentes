@@ -22,9 +22,8 @@ use DateTime;
 class AntecedenteController extends Controller
 {
     public function index()
-    {   $records = Record::latest()->paginate(50);
-        return view('admin.antecedentes.index',compact('records'))
-        ->with('i', (request()->input('página', 1) - 1) * 5);
+    {   $antecedents = Antecedent::all();
+        return view('admin.antecedentes.index',compact('antecedents'));
     }
     public function importExcel(Request $request) 
     {

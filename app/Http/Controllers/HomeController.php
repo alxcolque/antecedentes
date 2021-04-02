@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Antecedent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Middleware\SoloAdmin;
+use Yajra\DataTables\Datatables;
+
 
 class HomeController extends Controller
 {
@@ -22,7 +24,12 @@ class HomeController extends Controller
 
     public function index()
     {
-        $antecedents = Antecedent::all();
-        return view('home',compact('antecedents'));
+        //$antecedents = Antecedent::all();
+        //$this->tableantecedentes();
+        return view('home');
+    }
+    public function tbtljsonantecedentes()
+    {
+        return datatables()->of(Antecedent::all())->toJson();
     }
 }

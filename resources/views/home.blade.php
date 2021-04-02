@@ -28,18 +28,7 @@
                                 <th>Pertenencias</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($antecedents as $row)
-                            <tr>
-                                <td>{{$row->id}}</td>
-                                <td>{{$row->localidad}}</td>
-                                <td>{{$row->unidad}}</td>
-                                <td>{{$row->arma}}</td>
-                                <td>{{$row->remitidoa}}</td>
-                                <td>{{$row->pertenencias}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+                        
                         <tfoot>
                             <tr>
                                 <th>ID</th>
@@ -73,25 +62,48 @@
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#antecedentes').DataTable({
-        responsive:true,
-        autoWidth: false,
-        "language": {
-            "lengthMenu": "Mostrar "+
-            '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>'
-            +" registros por página",
-            "zeroRecords": "No existe registros - discupa",
-            "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtrado de _MAX_ registros totales)",
-            "search":"Buscar:",
-            "paginate":{
-                "next":"Siguiente",
-                "previous":"Anterior"
+    $(document).ready(function() {
+        $('#antecedentes').DataTable({
+            processing: true,
+            serverSide: true,
+            "ajax": "{{route('tableantecedentes')}}",
+            "columns": [{
+                    data: 'id'
+                },
+                {
+                    data: 'localidad'
+                },
+                {
+                    data: 'unidad'
+                },
+                {
+                    data: 'arma'
+                },
+                {
+                    data: 'remitidoa'
+                },
+                {
+                    data: 'pertenencias'
+                }
+            ],
+
+            responsive: true,
+            autoWidth: false,
+            "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
             }
-        }
+        });
     });
-} );
 </script>
 @stop

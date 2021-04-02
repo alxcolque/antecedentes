@@ -15,72 +15,54 @@
 <div class="section">
     <div class="card">
         <div class="row" style="padding: 0px 15px;">
-        <a href="/csvexport" class="pull-right btn btn-secondary"><i class="fas fa-file-csv"></i> Export CSV</a>
-        <a href="/excelexport" class="pull-right btn btn-success"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp; 
-        <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
+            <a href="/csvexport" class="pull-right btn btn-secondary"><i class="fas fa-file-csv"></i> Export CSV</a>
+            <a href="/excelexport" class="pull-right btn btn-success"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
+            <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
         </div><br>
-        <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Gestion</th>
-                <th>Fecha Hecho</th>
-                <th>Hora</th>
-                <th>Mes</th>
-                <th>Deptartamento</th>
-                <th>Provincia</th>
-                <th>Municipio</th>
-                <th>Localidad</th>
-                <th>Zona Barrio</th>
-                <th>Lugar Hecho</th>
-                <th>GPS</th>
-                <th>Unidad</th>
-                <th>Arrestado</th>
-                <th>CI</th>
-                <th>Nacido</th>
-                <th>Nacionalidad</th>
-                <th>Edad</th>
-                <th>Genero</th>
-                <th>Temperancia</th>
-                <th>CausaArresto</th>
-                <th>Naturaleza</th>
-                <th>Arma</th>
-                <th>Remitido a</th>
-                <th>P. Policial</th>
-                <th>Pertenencias</th>
-            </tr>
-            @foreach ($records as $record)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $record->gestion }}</td>
-                <td>{{ $record->fechahecho }}</td>
-                <td>{{ $record->hora }}</td>
-                <td>{{ $record->mesregistro }}</td>
-                <td>{{ $record->departamento }}</td>
-                <td>{{ $record->provincia }}</td>
-                <td>{{ $record->municipio }}</td>
-                <td>{{ $record->localidad }}</td>
-                <td>{{ $record->zonabarrio }}</td>
-                <td>{{ $record->lugarhecho }}</td>
-                <td>{{ $record->gps }}</td>
-                <td>{{ $record->unidad }}</td>
-                <td>{{ $record->arrestado }}</td>
-                <td>{{ $record->ci }}</td>
-                <td>{{ $record->nacido }}</td>
-                <td>{{ $record->nacionalidad }}</td>
-                <td>{{ $record->edad }}</td>
-                <td>{{ $record->genero }}</td>
-                <td>{{ $record->temperancia }}</td>
-                <td>{{ $record->causaarresto }}</td>
-                <td>{{ $record->nathecho }}</td>
-                <td>{{ $record->arma }}</td>
-                <td>{{ $record->remitidoa }}</td>
-                <td>{{ $record->nombres }}</td>
-                <td>{{ $record->pertenencias }}</td>
-            </tr>
-            @endforeach
-        </table>
+        <div class="card-body">
+            <div id="example1_wrapper" class="dataTables_wrapper">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="antecedentes" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Localidad</th>
+                                    <th>Unidad</th>
+                                    <th>Arma</th>
+                                    <th>Remitido a date</th>
+                                    <th>Pertenencias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($antecedents as $row)
+                            <tr>
+                                <td>{{$row->id}}</td>
+                                <td>{{$row->localidad}}</td>
+                                <td>{{$row->unidad}}</td>
+                                <td>{{$row->arma}}</td>
+                                <td>{{$row->remitidoa}}</td>
+                                <td>{{$row->pertenencias}}</td>
+                            </tr>
+                            @endforeach
+                            </tbody>
+                            
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Localidad</th>
+                                    <th>Unidad</th>
+                                    <th>Arma</th>
+                                    <th>Remitido a date</th>
+                                    <th>Pertenencias</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {!! $records->links() !!}
 
 </div>
 <!--Modal para importar-->
@@ -109,9 +91,39 @@
     @section('css')
     <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
 
     @stop
 
     @section('js')
-
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#antecedentes').DataTable({
+                processing: true,
+                //serverSide: true,
+                responsive: true,
+                autoWidth: false,
+                "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+            });
+        });
+    </script>
     @stop

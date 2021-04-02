@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PersonController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\HomeController;
 
 Route::get('',[AntecedenteController::class, 'index']);
 //Route::get('',[AntecedenteController::class, 'admin.import']);
@@ -24,3 +25,5 @@ Route::resource('avisos',AdviceController::class)->names('admin.avisos');
 //ruta para registrar la tabla de importacion
 Route::get('registrarimport', [AntecedenteController::class, 'registrarimport']);
 //Ajax datatables antecedentes
+//Route::get('tableantecedentes', [HomeController::class, 'tbtljsonantecedentes']);
+Route::get('/tableantecedentes', [App\Http\Controllers\HomeController::class, 'tbtljsonantecedentes'])->name('tableantecedentes');
