@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Redirect, Response, DB;
+use File;
+use PDF;
 
 class UsuarioController extends Controller
 {
@@ -14,7 +18,17 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('admin.controlusuarios.index');
+        $users = User::orderBy('id', 'desc')->get();
+        return view('admin.controlusuarios.index', compact('users'));
+        /*if(request()->ajax()) {
+            return datatables()->of(User::select('*'))
+            ->addColumn('action', '')
+            ->addColumn('image', 'image')
+            ->rawColumns(['action','image'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.controlusuarios.index');*/
     }
 
     /**
@@ -24,7 +38,6 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -35,7 +48,36 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $id = $request->id;
+
+        $details = [
+            'nombres' => $request->nombres,
+            'apellidos' => $request->apellidos,
+            'nombreusuario' => $request->nombreusuario,
+            'email' => $request->email,
+            'password' => $request->password,
+            'rol' => $request->rol
+        ];
+
+        if ($files = $request->file('foto')) {
+
+            //delete old file
+            \File::delete('public/user/' . $request->hidden_image);
+
+            //insert new file
+            $destinationPath = 'public/user/'; // upload path
+            $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
+            $files->move($destinationPath, $profileImage);
+            $details['foto'] = "$profileImage";
+        }
+
+        $user   =   User::updateOrCreate(['id' => $id], $details);
+
+        return Response::json($user);
     }
 
     /**
@@ -57,7 +99,10 @@ class UsuarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $user  = User::where($where)->first();
+
+        return Response::json($user);
     }
 
     /**
@@ -80,6 +125,10 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = User::where('id', $id)->first(['foto']);
+        \File::delete('public/user/' . $data->foto);
+        $product = User::where('id', $id)->delete();
+
+        return Response::json($product);
     }
 }

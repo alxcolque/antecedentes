@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Action;
 use Illuminate\Http\Request;
 
 class ActionController extends Controller
@@ -14,7 +15,8 @@ class ActionController extends Controller
      */
     public function index()
     {
-        return view('admin.controlacciones.index');
+        $actions = Action::orderBy('id', 'desc')->get();
+        return view('admin.controlacciones.index',compact('actions'));
     }
 
     /**

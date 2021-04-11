@@ -17,7 +17,7 @@
         <div id="example1_wrapper" class="dataTables_wrapper">
             <div class="row">
                 <div class="col-sm-12">
-                    <table id="antecedentes" class="table table-striped table-bordered" style="width:100%">
+                    <table id="antecedentes" class="display compact table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
                                 <th>ID</th>

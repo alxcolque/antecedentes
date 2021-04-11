@@ -15,9 +15,9 @@ class CreateAdviceTable extends Migration
     {
         Schema::create('advice', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo', 100);
-            $table->string('imagen', 100);
-            $table->string('descripcion');
+            $table->text('titulo');
+            $table->string('imagen', 200)->nullable();
+            $table->longText('descripcion');
             $table->timestamps();
         });
     }

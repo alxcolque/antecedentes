@@ -9,4 +9,8 @@ class Department extends Model
 {
     use HasFactory;
     protected $fillable =['departamento'];
+    //relacion uno a muchos 
+    public function provinces(){
+        return $this->hasMany(Province::class);
+    }
 }

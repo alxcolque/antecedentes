@@ -44,4 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //relacion uno a muchos  
+    public function imports(){
+        return $this->hasMany(Import::class);
+    }
+    //relacion uno a uno polimorfica
+    public function action(){
+        return $this->morphOne(Action::class,'usuario');//usurio nombre de un metodo
+    }
 }

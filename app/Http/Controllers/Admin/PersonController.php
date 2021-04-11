@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersonController extends Controller
 {
@@ -14,6 +15,11 @@ class PersonController extends Controller
      */
     public function index()
     {
+        /*$personas = DB::table('detail_ants')
+            ->join('people', 'people.id', '=', 'detail_ants.person_id')
+            ->join('antecedents', 'antecedents.id', '=', 'detail_ants.antecedent_id')
+            ->select('detail_ants.*', 'contacts.phone', 'orders.price')
+            ->get();*/
         return view('admin.personas.index');
     }
 

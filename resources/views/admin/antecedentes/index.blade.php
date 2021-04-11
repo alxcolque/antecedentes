@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'FELCC')
+@section('plugins.Sweetalert2', true)
 
 @section('content_header')
 <h1>Antecedentes</h1>
@@ -35,18 +36,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($antecedents as $row)
-                            <tr>
-                                <td>{{$row->id}}</td>
-                                <td>{{$row->localidad}}</td>
-                                <td>{{$row->unidad}}</td>
-                                <td>{{$row->arma}}</td>
-                                <td>{{$row->remitidoa}}</td>
-                                <td>{{$row->pertenencias}}</td>
-                            </tr>
-                            @endforeach
+                                @foreach ($antecedents as $row)
+                                <tr>
+                                    <td>{{$row->id}}</td>
+                                    <td>{{$row->localidad}}</td>
+                                    <td>{{$row->unidad}}</td>
+                                    <td>{{$row->arma}}</td>
+                                    <td>{{$row->remitidoa}}</td>
+                                    <td>{{$row->pertenencias}}</td>
+                                </tr>
+                                @endforeach
                             </tbody>
-                            
+
                             <tfoot>
                                 <tr>
                                     <th>ID</th>
@@ -89,17 +90,14 @@
     @stop
 
     @section('css')
-    <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/css/admin_custom.css">
+    <!-- <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
 
     @stop
 
     @section('js')
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
     <script>
@@ -110,20 +108,27 @@
                 responsive: true,
                 autoWidth: false,
                 "language": {
-                "lengthMenu": "Mostrar " +
-                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
-                    " registros por página",
-                "zeroRecords": "No existe registros - discupa",
-                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No records available",
-                "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                "search": "Buscar:",
-                "paginate": {
-                    "next": "Siguiente",
-                    "previous": "Anterior"
+                    "lengthMenu": "Mostrar " +
+                        '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                        " registros por página",
+                    "zeroRecords": "No existe registros - discupa",
+                    "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No records available",
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
                 }
-            }
             });
         });
     </script>
+    <Script>
+        Swal.fire(
+            'Good job!',
+            'You clicked the button!',
+            'success'
+        )
+    </Script>
     @stop

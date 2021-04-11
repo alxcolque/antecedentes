@@ -9,4 +9,8 @@ class Detective extends Model
 {
     use HasFactory;
     protected $fillable =['nombres'];
+    //relacion uno a muchos  
+    public function antecedents(){
+        return $this->hasMany(Antecedent::class);
+    }
 }

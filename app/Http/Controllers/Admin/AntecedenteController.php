@@ -31,7 +31,7 @@ class AntecedenteController extends Controller
 
         $request->session()->put('success', 'Your file is imported successfully in database.');
            
-        return redirect('antecedentes/import');//->with('status', 'Archivo procesado correctamente');
+        return redirect('admin/import');//->with('status', 'Archivo procesado correctamente');
     }
     public function registrarimport()
     {   $records = Record::get();
@@ -86,7 +86,7 @@ class AntecedenteController extends Controller
         $import->save();
 
 
-        return "Correcto la insercion";
+        return redirect('/home');
     }
     public function import(){
         $records = Record::latest()->paginate(50);

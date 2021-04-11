@@ -43,7 +43,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-static fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     FELCC
