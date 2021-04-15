@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Detective;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class DetectiveController extends Controller
      */
     public function index()
     {
-        return view('admin.detectives.index');
+        //
+        $datos['detective']=Detective::paginate(5);
+        return view('admin.detectives.index',$datos);
     }
 
     /**
