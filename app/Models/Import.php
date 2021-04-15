@@ -12,4 +12,8 @@ class Import extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    //relacion muchos a uno
+    public function antecedent(){
+        return $this->belongsTo(Antecedent::class);
+    }
 }

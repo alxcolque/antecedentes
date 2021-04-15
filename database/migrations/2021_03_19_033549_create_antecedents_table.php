@@ -48,6 +48,12 @@ class CreateAntecedentsTable extends Migration
             ->onUpdate('cascade')
             ->onDelete('cascade');
             
+            //import
+            $table->unsignedBigInteger('import_id');
+            $table->foreign('import_id')->references('id')->on('imports')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
 
 
             $table->timestamps();

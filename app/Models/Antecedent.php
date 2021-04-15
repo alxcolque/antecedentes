@@ -20,6 +20,10 @@ class Antecedent extends Model
     public function detective(){
         return $this->belongsTo(Detective::class);
     }
+    //relacion muchos a uno
+    public function import(){
+        return $this->belongsTo(Import::class);
+    }
     //relacion muchos a muchos
     public function people(){
         return $this->belongsToMany(Person::class);

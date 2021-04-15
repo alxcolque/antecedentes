@@ -5,18 +5,26 @@
 
 @section('content_header')
 <h1>Antecedentes</h1>
+<div class="row">
+    <div class="">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import"></i> Importar</button>
+        <button type="button" class="btn btn-dark"><i class="fas fa-plus"></i> Nuevo registro</button>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import"></i> Importar</button>
-<button type="button" class="btn btn-dark"><i class="fas fa-plus"></i> Nuevo registro</button>
-<div class="px-1 px-sm-5 mx-auto">
-    <form autocomplete="off">
-        <div class="container flex-row d-flex justify-content-center">
-            <div class="col-lg-6 col-11 px-1">
-                <div class="input-group input-daterange"> <input type="text" id="start" class="form-control text-left mr-2"> <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start Date</label> <span class="fa fa-calendar" id="fa-1"></span> <input type="text" id="end" class="form-control text-left ml-2"> <label class="ml-3 form-control-placeholder" id="end-p" for="end">End Date</label> <span class="fa fa-calendar" id="fa-2"></span> </div>
-            </div>
+    </div>
+    <div class="mt-auto ml-auto p-2">
+        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
         </div>
-    </form>
+        <div class="ui-widget">
+            <label for="tags">Por Año: </label>
+            <input id="intLimitTextBox">
+        </div>
+    </div>
+
 </div>
+
+
 @stop
 
 @section('content')
@@ -28,9 +36,9 @@
             <div id="example1_wrapper" class="dataTables_wrapper">
                 <div class="row">
 
-                    <div class="col">
-                        <a href="/csvexport" class="pull-right btn btn-secondary btn-sm"><i class="fas fa-file-csv"></i> Export CSV</a>
-                        <a href="/excelexport" class="pull-right btn btn-success  btn-sm"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
+                    <div class="">
+                        <a href="/csvexport" class="btn btn-secondary btn-sm"><i class="fas fa-file-csv"></i> Export CSV</a>
+                        <a href="/excelexport" class="btn btn-success  btn-sm"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
                         <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
                     </div>
                     <div class="btn-group btn-group-sm mt-auto ml-auto p-2 " aria-label="Basic example">
@@ -45,6 +53,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
                                     <th>Localidad</th>
                                     <th>Unidad</th>
                                     <th>Arma</th>
@@ -56,7 +66,9 @@
                                 @foreach ($antecedents as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>{{$row->localidad}}</td>
+                                    <td>{{$row->fechahecho}}</td>
+                                    <td>{{$row->hora}}</td>
+                                    <td>{{$row->localidad }}</td>
                                     <td>{{$row->unidad}}</td>
                                     <td>{{$row->arma}}</td>
                                     <td>{{$row->remitidoa}}</td>
@@ -67,7 +79,9 @@
 
                             <tfoot>
                                 <tr>
-                                    <th>ID</th>
+                                <th>ID</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
                                     <th>Localidad</th>
                                     <th>Unidad</th>
                                     <th>Arma</th>
@@ -107,13 +121,13 @@
     @stop
 
     @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link rel="stylesheet" href="/css/daterangepicker.css">
     <!-- <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"> -->
 
-    
+
 
     @stop
 
@@ -121,17 +135,12 @@
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/js/daterangepicker.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
     <script>
         $(document).ready(function() {
-            $('.input-daterange').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                calendarWeeks: true,
-                clearBtn: true,
-                disableTouchKeyboard: true
-            });
-
             //Tablas
             $('#antecedentes').DataTable({
                 processing: true,
@@ -162,5 +171,72 @@
             'success'
         ) */
     </Script>
+    <script>
+        $(function() {
 
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Hoy dia': [moment(), moment()],
+                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                    'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+        });
+    </script>
+    <script>
+        // Restricts input for the given textbox to the given inputFilter.
+        function setInputFilter(textbox, inputFilter) {
+            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+                textbox.addEventListener(event, function() {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    } else {
+                        this.value = "";
+                    }
+                });
+            });
+        }
+
+        setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
+            return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500);
+        });
+        $(function() {
+
+            const tiempoTranscurrido = Date.now();
+            const hoy = new Date(tiempoTranscurrido);
+            const anoActual = hoy.getFullYear();
+            console.log(anoActual); //2020
+
+            var availableTags = [];
+            var TagString = [];
+            var year = anoActual
+            for (i = 0; i <= 70; i++) {
+                availableTags[i] = year--;
+                TagString[i] = availableTags[i].toString();
+            }
+            $("#intLimitTextBox").autocomplete({
+                source: TagString
+            });
+        });
+    </script>
     @stop
