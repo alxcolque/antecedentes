@@ -185,10 +185,10 @@ class AntecedenteController extends Controller
         //
     }
 
-
     public function show($id) //show(Antecente $id)
     {
-        //
+        $antecedent = Antecedent::find($id);
+        return view('admin.antecedentes.show',compact('antecedent'));
     }
 
     public function edit($id)

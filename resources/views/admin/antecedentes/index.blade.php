@@ -53,6 +53,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Detalle</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Localidad</th>
@@ -66,6 +67,11 @@
                                 @foreach ($antecedents as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
+                                    <td>
+                                        <a href="{{route('admin.antecedentes.show', $row->id)}}" id=""class="delete btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
                                     <td>{{$row->fechahecho}}</td>
                                     <td>{{$row->hora}}</td>
                                     <td>{{$row->localidad }}</td>
@@ -79,7 +85,8 @@
 
                             <tfoot>
                                 <tr>
-                                <th>ID</th>
+                                    <th>ID</th>
+                                    <th>Detalle</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Localidad</th>
