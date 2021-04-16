@@ -84,5 +84,7 @@ class DetectiveController extends Controller
     public function destroy($id)
     {
         //
+        Detective::destroy($id);
+        return  redirect('admin/detectives');
     }
 }

@@ -26,7 +26,15 @@
               <td>{{$detectives->nombres}}</td>
               <td>{{$detectives->created_at}}</td>
               <td>{{$detectives->updated_at}}</td>
-              <td>Editar|Borrar</td>
+              <td>Editar|
+
+              <form action="{{url('admin/detectives/'.$detectives->id)}}" method="post">
+              @csrf
+              {{method_field('DELETE')}}
+              <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
+              </form>
+              
+              </td>
       
 
           </tr>
