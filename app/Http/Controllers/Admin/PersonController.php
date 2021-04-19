@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,8 @@ class PersonController extends Controller
             ->join('antecedents', 'antecedents.id', '=', 'detail_ants.antecedent_id')
             ->select('detail_ants.*', 'contacts.phone', 'orders.price')
             ->get();*/
+        $people = Person::orderBy('id', 'desc')->get();
+        return view('admin.personas.index', compact('people'));
         return view('admin.personas.index');
     }
 

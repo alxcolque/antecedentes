@@ -25,7 +25,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Detalle</th>
+                                    <th>Accion</th>
                                     <th>Rol</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
@@ -248,7 +248,7 @@
                 $('#btn-save').val("create-user");
                 $('#user_id').val('');
                 $('#userForm').trigger("reset");
-                $('#title').html("Nuevo");
+                $('#title').html("Nuevo Usario");
                 $('#my-modal').modal('show');
                 $('#modal-preview').attr('src', 'https://via.placeholder.com/150');
             });
@@ -274,6 +274,7 @@
                     }
                 })
             });
+            //Eliminar un registro
             $('body').on('click', '#delete-user', function() {
                 var user_id = $(this).data("id");
                 if (confirm("Usted va elimnar !")) {

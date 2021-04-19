@@ -96,7 +96,7 @@
                             <b>ACCION DIRECTA</b> <a class="float-right"></a>
                         </li>
                         <li class="list-group-item">
-                            <b>PERTENENCIAS</b> <a class="float-right">{{$antecedent->pertenecias}}</a>
+                            <b>PERTENENCIAS</b> <a class="float-right">{{$antecedent->pertenencias}}</a>
                         </li>
                         
                     </ul>
