@@ -16,8 +16,11 @@ class DetectiveController extends Controller
     public function index()
     {
         //
+        $Detecti = Detective::orderBy('id', 'desc')->get();
+        return view('admin.detectives.index', compact('Detecti'));
+        /*
         $datos['detective']=Detective::paginate(5);
-        return view('admin.detectives.index',$datos);
+        return view('admin.detectives.index',$datos);*/
     }
 
     /**
