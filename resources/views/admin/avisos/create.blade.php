@@ -38,7 +38,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('descripcion', 'Descripcion') !!}
-            {!! Form::text('descripcion', null, ['class'=>'form-control','placeholder'=>'Descripcion breve']) !!}
+            {!! Form::textarea('descripcion', null, ['class'=>'form-control','placeholder'=>'Descripcion breve']) !!}
 
             @error('descripcion')
             <span class="text-danger">{{$message}}</span>
@@ -64,8 +64,8 @@
     .image-wrapper img {
         /*position: absolute;*/
         object-fit: cover;
-        width: 100%;
-        height: 100%;
+        width: 200px;
+        height: 200px;
     }
 </style>
 @stop
