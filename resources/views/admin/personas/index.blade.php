@@ -27,8 +27,11 @@
                                     <th>Accion</th>
                                     <th>Nombre</th>
                                     <th>CI</th>
-                                    <th>Edad</th>
                                     <th>Nacido en:</th>
+                                    <th>Nacionalidad</th>
+                                   
+                                 
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,8 +49,8 @@
 
                                     <td>{{$row->arrestado}}</td>
                                     <td>{{$row->ci}}</td>
-                                    <td>{{$row->edad}}</td>
                                     <td>{{$row->nacido}}</td>
+                                    <td>{{$row->nacionalidad}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
