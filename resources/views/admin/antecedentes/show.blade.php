@@ -17,91 +17,94 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
-                    <div class="text-center">
+                    <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                         <img class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
                     </div>
                     
-                    <h3 class="profile-username text-center">Juan Manuel Perez</h3>
+                    <h3 class="profile-username text-center">{{$antecedent[0]->people[0]->arrestado}}</h3>
 
-                    <p class="text-muted text-center">CI: 7524555</p>
+                    <p class="text-muted text-center">CI: {{$antecedent[0]->people[0]->ci}}</p>
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>GESTION</b> <a class="float-right">2020</a>
+                            <b>GESTION</b> <a class="float-right">{{$antecedent[0]->gestion}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>FECHA DEL HECHO</b> <a class="float-right">{{$antecedent->fechahecho}}</a>
+                            <b>FECHA DEL HECHO</b> <a class="float-right">{{$antecedent[0]->fechahecho}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>MES DE REGISTRO</b> <a class="float-right">{{$antecedent->mesregistro}}</a>
+                            <b>MES DE REGISTRO</b> <a class="float-right">{{$antecedent[0]->mesregistro}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>DEPARTAMENTOS</b> <a class="float-right">ORURO</a>
+                            <b>DEPARTAMENTOS</b> <a class="float-right">{{$antecedent[0]->province->department->departamento}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>PROVINCIAS</b> <a class="float-right">CERCADO</a>
+                            <b>PROVINCIAS</b> <a class="float-right">{{$antecedent[0]->province->provincia}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>LOCALIDADES</b> <a class="float-right">{{$antecedent->localidad}}</a>
+                            <b>Municipio</b> <a class="float-right">{{$antecedent[0]->municipio}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>ZONA O BARRIO</b> <a class="float-right">{{$antecedent->zonabarrio}}</a>
+                            <b>LOCALIDADES</b> <a class="float-right">{{$antecedent[0]->localidad}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>LUGAR DEL HECHO</b> <a class="float-right">{{$antecedent->lugarhecho}}</a>
+                            <b>ZONA O BARRIO</b> <a class="float-right">{{$antecedent[0]->zonabarrio}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>UNIDADES</b> <a class="float-right">{{$antecedent->unidad}}</a>
+                            <b>LUGAR DEL HECHO</b> <a class="float-right">{{$antecedent[0]->lugarhecho}}</a>
                         </li>
                         <li class="list-group-item">
+                            <b>UNIDADES</b> <a class="float-right">{{$antecedent[0]->unidad}}</a>
+                        </li>
+                        <!-- <li class="list-group-item">
                             <b>DIVISION</b> <a class="float-right">FELCC</a>
                         </li>
                         <li class="list-group-item">
                             <b>DELITO</b> <a class="float-right">ROBO</a>
+                        </li> -->
+                        <li class="list-group-item">
+                            <b>NACIODO EN</b> <a class="float-right">{{$antecedent[0]->people[0]->nacido}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>NACIODO EN</b> <a class="float-right">ORURO</a>
+                            <b>NACIONALIDAD</b> <a class="float-right">{{$antecedent[0]->people[0]->nacionalidad}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>NACIONALIDAD</b> <a class="float-right">BOLIVIANO</a>
+                            <b>EDAD</b> <a class="float-right">{{$antecedent[0]->people[0]->edad}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>EDAD</b> <a class="float-right">34</a>
+                            <b>GENERO</b> <a class="float-right">{{$antecedent[0]->people[0]->genero}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>GENERO</b> <a class="float-right">HOMBRE</a>
+                            <b>TEMPERANCIA</b> <a class="float-right">{{$antecedent[0]->temperancia}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>TEMPERANCIA</b> <a class="float-right">{{$antecedent->temperancia}}</a>
+                            <b>CAUSAS ARRESTO</b> <a class="float-right">{{$antecedent[0]->lugarhecho}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>CAUSAS ARRESTO</b> <a class="float-right">{{$antecedent->lugarhecho}}</a>
+                            <b>NAT HECHO</b> <a class="float-right">{{$antecedent[0]->nathecho}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>NAT HECHO</b> <a class="float-right">{{$antecedent->nathecho}}</a>
+                            <b>ARMA</b> <a class="float-right">{{$antecedent[0]->arma}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>ARMA</b> <a class="float-right">{{$antecedent->arma}}</a>
+                            <b>REMITIDO A</b> <a class="float-right">{{$antecedent[0]->remitidoa}}</a>
                         </li>
-                        <li class="list-group-item">
-                            <b>REMITIDO</b> <a class="float-right">{{$antecedent->remitidoa}}</a>
-                        </li>
-                        <li class="list-group-item">
+                        <!-- <li class="list-group-item">
                             <b>SITUACION</b> <a class="float-right"></a>
                         </li>
                         <li class="list-group-item">
                             <b>EST</b> <a class="float-right"></a>
+                        </li> -->
+                        <li class="list-group-item">
+                            <b>ACCION DIRECTA</b> <a class="float-right">{{$antecedent[0]->detective->nombres}}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>ACCION DIRECTA</b> <a class="float-right"></a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>PERTENENCIAS</b> <a class="float-right">{{$antecedent->pertenencias}}</a>
+                            <b>PERTENENCIAS</b> <a class="float-right">{{$antecedent[0]->pertenencias}}</a>
                         </li>
                         
                     </ul>
 
-                    <a href="#" class="btn btn-primary btn-block"><b>IMPRIMIR</b></a>
+                    <a href="#" class="btn btn-primary btn-block" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>IMPRIMIR</b></a>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -115,9 +118,9 @@
             <div class="card">
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Observaciones</a></li>
+                        <li class="nav-item" title="Obsevaciones" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Observaciones</a></li>
                         
-                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ajuste</a></li>
+                        <li class="nav-item" title="Sección para ajustar datos" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Ajuste</a></li>
                     </ul>
                 </div><!-- /.card-header -->
                 <div class="card-body">
@@ -300,5 +303,10 @@
 @stop
 
 @section('js')
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 
 @stop

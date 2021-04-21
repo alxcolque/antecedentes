@@ -15,6 +15,7 @@ class CreateAntecedentsTable extends Migration
     {
         Schema::create('antecedents', function (Blueprint $table) {
             $table->id();
+            $table->string('gestion',10);
             $table->string('fechahecho', 100)->nullable();
             $table->string('hora', 100)->nullable();
             $table->string('mesregistro', 100)->nullable();

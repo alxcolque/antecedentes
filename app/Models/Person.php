@@ -10,6 +10,6 @@ class Person extends Model
     use HasFactory;
     //relacion muchos a muchos
     public function antecedents(){
-        return $this->belongsToMany(Antecedent::class);
+        return $this->belongsToMany(Antecedent::class, 'antecedent_person');
     }
 }

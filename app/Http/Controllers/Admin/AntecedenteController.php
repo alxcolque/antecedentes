@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 use App\Models\Record;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Antecedent;
+use App\Models\AntecedentPerson;
 use App\Models\Province;
 use App\Models\Department;
 use App\Models\Detective;
 use App\Models\Crime;
-use App\Models\DetailAnt;
 use App\Models\Import;
 use App\Models\Person;
 use Exception;
@@ -23,8 +23,20 @@ class AntecedenteController extends Controller
 {
     public function index()
     {
-        $antecedents = Antecedent::all();
+        //return $this->hasMany('App\Models\Person');
+        $antecedents = Antecedent::with('people', 'detective', 'crime','province')->get();
+        //$antecedents = Antecedent::all();
         return view('admin.antecedentes.index', compact('antecedents'));
+        /* $antecedents = Antecedent::all();
+        
+        foreach ($antecedents as $post) {
+            echo $post->gps;
+        } */
+        /* $antecedent = Antecedent::find(4); 
+        dd($antecedent->people[0]); */
+        //$antecedent = Antecedent::find(3);
+
+        //echo $antecedents;
     }
     public function importExcel(Request $request)
     {
@@ -70,6 +82,7 @@ class AntecedenteController extends Controller
 
         foreach ($records as $record) { //echo $antecedent."\n";
             $antecedent = new Antecedent();
+            $antecedent->gestion = $record->gestion;
             $antecedent->fechahecho = jdtogregorian(($record->fechahecho) + 2415032);
             $antecedent->hora = $this->tiempo($record->hora);
             $antecedent->mesregistro = $record->mesregistro;
@@ -99,7 +112,7 @@ class AntecedenteController extends Controller
             $person->edad = $record->edad;
             $person->genero = $record->genero;
             $person->save();
-            $detailant = new DetailAnt();
+            $detailant = new AntecedentPerson();
             $detailant->antecedent_id = Antecedent::max('id');
             $detailant->person_id = Person::max('id');
             $detailant->save();
@@ -107,21 +120,25 @@ class AntecedenteController extends Controller
         Record::truncate();
 
         //acciones del usuario
-        $import = new Action();
+        $action = new Action();
         $date = new DateTime();
-        $import->usuario = auth()->user()->nombreusuario;
-        $import->accion = "Importacion de un archivo";
-        $import->fecha = $date->format('Y-m-d H:i:s');
-        $import->save();
+        $action->usuario = auth()->user()->nombreusuario;
+        $action->accion = "Importacion de un archivo";
+        $action->fecha = $date->format('Y-m-d H:i:s');
+        $action->save();
 
 
-        return redirect('/home');
+        return redirect('/admin/antecedentes');
     }
     public function import()
     {
-        $records = Record::latest()->paginate(50);
+        /* $records = Record::latest()->paginate(50);
         return view('admin.antecedentes.import_file', compact('records'))
-            ->with('i', (request()->input('página', 1) - 1) * 5);
+            ->with('i', (request()->input('página', 1) - 1) * 5); */
+        $cantidad = Record::count('id');
+        $i = 0;
+        $records = Record::all();
+        return view('admin.antecedentes.import_file', compact('records','i','cantidad'))->with('info', 'El aviso se creó con éxito');
     }
     /**
      * @return \Illuminate\Support\Collection
@@ -187,8 +204,10 @@ class AntecedenteController extends Controller
 
     public function show($id) //show(Antecente $id)
     {
-        $antecedent = Antecedent::find($id);
-        return view('admin.antecedentes.show',compact('antecedent'));
+        $antecedent = Antecedent::with('people', 'detective', 'crime','province')->where('id',$id)->get();
+        //echo $antecedent[0]->fechahecho;
+        //$antecedent = Antecedent::find($id);
+        return view('admin.antecedentes.show', compact('antecedent'));
     }
 
     public function edit($id)

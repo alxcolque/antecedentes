@@ -4,15 +4,14 @@
 
 @section('content_header')
 <h1>Previo para guardar en la base de datos</h1>
-@if($message = Session::get('success'))
-<div class="alert alert-success alert-dismissible fade in" role="alert">
+@if(session('info'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('info')}}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
+        <span aria-hidden="true">&times;</span>
     </button>
-    <strong>Success!</strong> {{ $message }}
 </div>
 @endif
-{!! Session::forget('success') !!}
 
 
 @stop
@@ -21,72 +20,95 @@
 <div class="section">
     <div class="card">
         <div class="row" style="padding: 0px 15px;">
-        <!-- <a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a>
+            <div class="mt-3" title="Conteo de registros antes de guadar en la base de datos" data-toggle="tooltip" data-html="true">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$cantidad}}</h3>
+                        <p><span>Registros listos para guardarse en la Base de Datos</span></p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 ml-auto p-2">
+                <div class="">
+                    <a href="registrarimport" onclick="
+return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-primary" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
+                </div>
+
+
+            </div>
+            <!-- <a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a>
         <a href="/excelexport" class="pull-right btn btn-default"><i class="fas fa-file-excel"></i> Export</a>&nbsp;  -->
-        <a href="registrarimport" class="pull-right btn btn-dark"><i class="fas fa-database"></i>  Guardar En la base datos</a></div>
-        <br>
-        <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Gestion</th>
-                <th>Fecha Hecho</th>
-                <th>Hora</th>
-                <th>Mes</th>
-                <th>Deptartamento</th>
-                <th>Provincia</th>
-                <th>Municipio</th>
-                <th>Localidad</th>
-                <th>Zona Barrio</th>
-                <th>Lugar Hecho</th>
-                <th>GPS</th>
-                <th>Unidad</th>
-                <th>Arrestado</th>
-                <th>CI</th>
-                <th>Nacido</th>
-                <th>Nacionalidad</th>
-                <th>Edad</th>
-                <th>Genero</th>
-                <th>Temperancia</th>
-                <th>CausaArresto</th>
-                <th>Naturaleza</th>
-                <th>Arma</th>
-                <th>Remitido a</th>
-                <th>P. Policial</th>
-                <th>Pertenencias</th>
-            </tr>
-            @foreach ($records as $record)
-            <tr>
-                <td>{{ ++$i }}</td>
-                <td>{{ $record->gestion }}</td>
-                <td>{{ $record->fechahecho }}</td>
-                <td>{{ $record->hora }}</td>
-                <td>{{ $record->mesregistro }}</td>
-                <td>{{ $record->departamento }}</td>
-                <td>{{ $record->provincia }}</td>
-                <td>{{ $record->municipio }}</td>
-                <td>{{ $record->localidad }}</td>
-                <td>{{ $record->zonabarrio }}</td>
-                <td>{{ $record->lugarhecho }}</td>
-                <td>{{ $record->gps }}</td>
-                <td>{{ $record->unidad }}</td>
-                <td>{{ $record->arrestado }}</td>
-                <td>{{ $record->ci }}</td>
-                <td>{{ $record->nacido }}</td>
-                <td>{{ $record->nacionalidad }}</td>
-                <td>{{ $record->edad }}</td>
-                <td>{{ $record->genero }}</td>
-                <td>{{ $record->temperancia }}</td>
-                <td>{{ $record->causaarresto }}</td>
-                <td>{{ $record->nathecho }}</td>
-                <td>{{ $record->arma }}</td>
-                <td>{{ $record->remitidoa }}</td>
-                <td>{{ $record->nombres }}</td>
-                <td>{{ $record->pertenencias }}</td>
-            </tr>
-            @endforeach
+
+        </div>
+        <table id="antecedentes" class="table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Gestion</th>
+                    <th>Fecha Hecho</th>
+                    <th>Hora</th>
+                    <th>Mes</th>
+                    <th>Deptartamento</th>
+                    <th>Provincia</th>
+                    <th>Municipio</th>
+                    <th>Localidad</th>
+                    <th>Zona Barrio</th>
+                    <th>Lugar Hecho</th>
+                    <th>GPS</th>
+                    <th>Unidad</th>
+                    <th>Arrestado</th>
+                    <th>CI</th>
+                    <th>Nacido</th>
+                    <th>Nacionalidad</th>
+                    <th>Edad</th>
+                    <th>Genero</th>
+                    <th>Temperancia</th>
+                    <th>CausaArresto</th>
+                    <th>Naturaleza</th>
+                    <th>Arma</th>
+                    <th>Remitido a</th>
+                    <th>P. Policial</th>
+                    <th>Pertenencias</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($records as $record)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td>{{ $record->gestion }}</td>
+                    <td>{{ $record->fechahecho }}</td>
+                    <td>{{ $record->hora }}</td>
+                    <td>{{ $record->mesregistro }}</td>
+                    <td>{{ $record->departamento }}</td>
+                    <td>{{ $record->provincia }}</td>
+                    <td>{{ $record->municipio }}</td>
+                    <td>{{ $record->localidad }}</td>
+                    <td>{{ $record->zonabarrio }}</td>
+                    <td>{{ $record->lugarhecho }}</td>
+                    <td>{{ $record->gps }}</td>
+                    <td>{{ $record->unidad }}</td>
+                    <td>{{ $record->arrestado }}</td>
+                    <td>{{ $record->ci }}</td>
+                    <td>{{ $record->nacido }}</td>
+                    <td>{{ $record->nacionalidad }}</td>
+                    <td>{{ $record->edad }}</td>
+                    <td>{{ $record->genero }}</td>
+                    <td>{{ $record->temperancia }}</td>
+                    <td>{{ $record->causaarresto }}</td>
+                    <td>{{ $record->nathecho }}</td>
+                    <td>{{ $record->arma }}</td>
+                    <td>{{ $record->remitidoa }}</td>
+                    <td>{{ $record->nombres }}</td>
+                    <td>{{ $record->pertenencias }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+
         </table>
     </div>
-    {!! $records->links() !!}
 
 </div>
 
@@ -95,9 +117,42 @@
 @section('css')
 <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
 <link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
 
 @stop
 
 @section('js')
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        //Tablas
+        $('#antecedentes').DataTable({
+            processing: true,
+            //serverSide: true,
+            responsive: true,
+            autoWidth: false,
+            "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+    });
+</script>
 @stop

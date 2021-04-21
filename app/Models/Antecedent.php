@@ -9,7 +9,7 @@ class Antecedent extends Model
 {
     use HasFactory;
     //relacion muchos a uno
-    public function povince(){
+    public function province(){
         return $this->belongsTo(Province::class);
     }
     //relacion muchos a uno
@@ -26,6 +26,6 @@ class Antecedent extends Model
     }
     //relacion muchos a muchos
     public function people(){
-        return $this->belongsToMany(Person::class);
+        return $this->belongsToMany(Person::class,'antecedent_person');
     }
 }

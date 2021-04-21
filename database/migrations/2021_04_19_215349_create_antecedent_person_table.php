@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailAntsTable extends Migration
+class CreateAntecedentPersonTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateDetailAntsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_ants', function (Blueprint $table) {
-            //$table->id();
+        Schema::create('antecedent_person', function (Blueprint $table) {
+            $table->primary(['antecedent_id', 'person_id']);
             $table->unsignedBigInteger('antecedent_id');
             $table->unsignedBigInteger('person_id');
-            $table->index(['antecedent_id', 'person_id']);
+            
             //Antecendentes
             
             $table->foreign('antecedent_id')->references('id')->on('antecedents')
@@ -32,6 +32,7 @@ class CreateDetailAntsTable extends Migration
             ->onDelete('cascade');
 
             $table->timestamps();
+
         });
     }
 
@@ -42,6 +43,6 @@ class CreateDetailAntsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_ants');
+        Schema::dropIfExists('antecedent_person');
     }
 }

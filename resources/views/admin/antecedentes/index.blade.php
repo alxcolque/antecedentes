@@ -52,38 +52,79 @@
                         <table id="antecedentes" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>No</th>
                                     <th>Detalle</th>
-                                    <th>Fecha</th>
+                                    <th>Nombre</th>
+                                    <th>CI</th>
+                                    <th>Nacido en</th>
+                                    <th>Nacionalidad</th>
+                                    <th>Edad</th>
+                                    <th>Genero</th>
+                                    <!-- Acont -->
+                                    <th>Gestión</th>
+                                    <th>Fecha Hecho</th>
                                     <th>Hora</th>
+                                    <th>Mes registro</th>
+                                    <th>Departamento</th>
+                                    <th>Povincia</th>
+                                    <th>Municipio</th>
                                     <th>Localidad</th>
+                                    <th>Zona Barrio</th>
+                                    <th>Lugar Hecho</th>
+                                    <th>Temperancia</th>
+                                    <th>GPS</th>
+                                    <th>Causa Arresto</th>
+                                    <th>Naturaleza</th>
                                     <th>Unidad</th>
                                     <th>Arma</th>
-                                    <th>Remitido a date</th>
+                                    <th>Remitido a:</th>
                                     <th>Pertenencias</th>
+                                    <th>Acción Directa</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($antecedents as $row)
+                                @foreach ($antecedents as $antecedent)
                                 <tr>
-                                    <td>{{$row->id}}</td>
+                                    <td>{{$antecedent->id}}</td>
                                     <td>
-                                        <a href="{{route('admin.antecedentes.show', $row->id)}}" id=""class="delete btn btn-info btn-sm">
+                                        <a href="{{route('admin.antecedentes.show', $antecedent->id)}}" id="" class="delete btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </td>
-                                    <td>{{$row->fechahecho}}</td>
-                                    <td>{{$row->hora}}</td>
-                                    <td>{{$row->localidad }}</td>
-                                    <td>{{$row->unidad}}</td>
-                                    <td>{{$row->arma}}</td>
-                                    <td>{{$row->remitidoa}}</td>
-                                    <td>{{$row->pertenencias}}</td>
+
+                                    <td>{{$antecedent->people[0]->arrestado}}</td>
+                                    <td>{{$antecedent->people[0]->ci}}</td>
+                                    <td>{{$antecedent->people[0]->nacido}}</td>
+                                    <td>{{$antecedent->people[0]->nacionalidad}}</td>
+                                    <td>{{$antecedent->people[0]->edad}}</td>
+                                    <td>{{$antecedent->people[0]->genero}}</td>
+
+                                    <td>{{$antecedent->gestion}}</td>
+                                    <td>{{$antecedent->fechahecho}}</td>
+                                    <td>{{$antecedent->hora}}</td>
+                                    <td>{{$antecedent->mesregistro}}</td>
+                                    <td>{{$antecedent->province->department->departamento}}</td>
+                                    <td>{{$antecedent->province->provincia}}</td>
+                                    <td>{{$antecedent->municipio}}</td>
+
+                                    <td>{{$antecedent->localidad }}</td>
+                                    <td>{{$antecedent->zonabarrio}}</td>
+                                    <td>{{$antecedent->lugarhecho}}</td>
+                                    <td>{{$antecedent->temperancia}}</td>
+                                    <td>{{$antecedent->gps}}</td>
+                                    <td>{{$antecedent->crime->causaarresto}}</td>
+                                    
+                                    <td>{{$antecedent->nathecho}}</td>
+                                    <td>{{$antecedent->unidad}}</td>
+                                    <td>{{$antecedent->arma}}</td>
+                                    <td>{{$antecedent->remitidoa}}</td>
+                                    <td>{{$antecedent->pertenencias}}</td>
+                                    <td>{{$antecedent->detective->nombres}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
 
-                            <tfoot>
+                            <!-- <tfoot>
                                 <tr>
                                     <th>ID</th>
                                     <th>Detalle</th>
@@ -95,7 +136,7 @@
                                     <th>Remitido a date</th>
                                     <th>Pertenencias</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> -->
                         </table>
                     </div>
                 </div>
