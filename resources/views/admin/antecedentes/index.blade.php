@@ -7,22 +7,23 @@
 <h1>Antecedentes</h1>
 <div class="row">
     <div class="">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import"></i> Importar</button>
-        <button type="button" class="btn btn-dark"><i class="fas fa-plus"></i> Nuevo registro</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import" title="Importa un archivo excel desde tu computador" data-toggle="tooltip" data-html="true"></i> Importar</button>
+        <a href="{{route('admin.antecedentes.create')}}" class="btn btn-dark" title="Registrar un antecedente" data-toggle="tooltip" data-html="true"><i class="fas fa-plus"></i> Nuevo registro</a>
 
     </div>
     <div class="mt-auto ml-auto p-2">
-        <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+        <!-- <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
             <i class="fa fa-calendar"></i>&nbsp;
             <span></span> <i class="fa fa-caret-down"></i>
-        </div>
-        <div class="ui-widget">
+        </div> -->
+        <!-- <div class="ui-widget">
             <label for="tags">Por Año: </label>
             <input id="intLimitTextBox">
-        </div>
+        </div> -->
     </div>
 
 </div>
+
 
 
 @stop
@@ -37,22 +38,22 @@
                 <div class="row">
 
                     <div class="">
-                        <a href="/csvexport" class="btn btn-secondary btn-sm"><i class="fas fa-file-csv"></i> Export CSV</a>
-                        <a href="/excelexport" class="btn btn-success  btn-sm"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
+                        <a href="/csvexport" class="btn btn-secondary btn-sm" title="Descargar el archivo en formato CSV" data-toggle="tooltip" data-html="true"><i class="fas fa-file-csv"></i> Export CSV</a>
+                        <a href="/excelexport" class="btn btn-success  btn-sm" title="Descargar el archivo en formato EXCEL" data-toggle="tooltip" data-html="true"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
                         <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
                     </div>
                     <div class="btn-group btn-group-sm mt-auto ml-auto p-2 " aria-label="Basic example">
                         <button type="button" class="btn btn-outline-dark btn-sm">Ultima Importación</button>
                         <button type="button" class="btn btn-outline-dark btn-sm">Todo</button>
-                        <button type="button" class="btn btn-outline-dark btn-sm">Por fecha</button>
-                        <button type="button" class="btn btn-outline-dark btn-sm">Por año</button>
+                        <button type="button" id="fitroPorFecha" class="btn btn-outline-dark btn-sm">Por fecha</button>
+                        <button type="button" id="filtroYear" class="btn btn-outline-dark btn-sm">Por año</button>
 
                     </div>
                     <div class="col-sm-12">
                         <table id="antecedentes" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
+                                    <th title="Identificador del antecedente" data-toggle="tooltip" data-html="true">No</th>
                                     <th>Detalle</th>
                                     <th>Nombre</th>
                                     <th>CI</th>
@@ -87,7 +88,7 @@
                                 <tr>
                                     <td>{{$antecedent->id}}</td>
                                     <td>
-                                        <a href="{{route('admin.antecedentes.show', $antecedent->id)}}" id="" class="delete btn btn-info btn-sm">
+                                        <a href="{{route('admin.antecedentes.show', $antecedent->id)}}" id="" class="delete btn btn-info btn-sm" title="Ver detalle de antecedente del señor: {{$antecedent->people[0]->arrestado}}" data-toggle="tooltip" data-html="true">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     </td>
@@ -113,7 +114,7 @@
                                     <td>{{$antecedent->temperancia}}</td>
                                     <td>{{$antecedent->gps}}</td>
                                     <td>{{$antecedent->crime->causaarresto}}</td>
-                                    
+
                                     <td>{{$antecedent->nathecho}}</td>
                                     <td>{{$antecedent->unidad}}</td>
                                     <td>{{$antecedent->arma}}</td>
@@ -157,7 +158,7 @@
 
                 <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ route('file-import') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <input type="file" name="import_file" accept=".csv,.xlx, .xlsx" />
+                    <input type="file" name="import_file" accept=".csv,.xlx, .xlsx" required>
                     <button class="btn btn-primary">Importar arvhivo</button>
                 </form>
 
@@ -165,126 +166,202 @@
             </div>
         </div>
     </div>
+</div>
 
-    @stop
+<!-- Filtro por FECHA -->
+<div class="modal fade" id="modalFecha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleMod">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                    <input type="text" name="fechainicio" id="fechainicio" hidden>
+                    <input type="text" name="fechafin" id="fechafin" hidden>
+                    <br>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
 
-    @section('css')
-    <link rel="stylesheet" href="/css/daterangepicker.css">
-    <!-- <link rel="stylesheet" href="/css/app.css">
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Filtro por año -->
+<div class="modal fade" id="modalYear" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    <div class="ui-widget">
+                        <label for="tags">Por Año: </label>
+                        <input id="intLimitTextBox"
+                        name="gestion"
+                        value="2021"
+                        class="awesomplete form-control" 
+                        placeholder="2021"
+                        autocomplete="off"
+                        data-list="1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021"
+                        data-minChars="1"
+                        required
+                        >
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@stop
+
+@section('css')
+<link rel="stylesheet" href="/css/daterangepicker.css">
+<!-- <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
-    <!-- <link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+<!-- <link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"> -->
+<link rel="stylesheet" href="/css/awesomplete.base.css">
+<link rel="stylesheet" href="/css/awesomplete.theme.css">
 
 
+@stop
 
-    @stop
+@section('js')
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="/js/daterangepicker.js"></script>
+<script type="text/javascript" src="/js/awesomplete.min.js"></script>
 
-    @section('js')
-    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="/js/daterangepicker.js"></script>
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
+<script>
+    $('#fitroPorFecha').click(function() {
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
-    <script>
-        $(document).ready(function() {
-            //Tablas
-            $('#antecedentes').DataTable({
-                processing: true,
-                //serverSide: true,
-                responsive: true,
-                autoWidth: false,
-                "language": {
-                    "lengthMenu": "Mostrar " +
-                        '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
-                        " registros por página",
-                    "zeroRecords": "No existe registros - discupa",
-                    "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No records available",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                    "search": "Buscar:",
-                    "paginate": {
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
+        $('#titleMod').html("Filtro por fecha");
+        $('#modalFecha').modal('show');
+        modalYear
+    });
+    $('#filtroYear').click(function() {
+
+        $('.modal-title').html("Filtro por Año");
+        $('#modalYear').modal('show');
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        //Tablas
+        $('#antecedentes').DataTable({
+            processing: true,
+            //serverSide: true,
+            responsive: true,
+            autoWidth: false,
+            "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
                 }
-            });
+            }
         });
-    </script>
-    <Script>
-        /* Swal.fire(
+    });
+</script>
+<Script>
+    /* Swal.fire(
             'Good job!',
             'You clicked the button!',
             'success'
         ) */
-    </Script>
-    <script>
-        $(function() {
+</Script>
+<script>
+    $(function() {
 
-            var start = moment().subtract(29, 'days');
-            var end = moment();
+        var start = moment().subtract(29, 'days');
+        var end = moment();
 
-            function cb(start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            }
-
-            $('#reportrange').daterangepicker({
-                startDate: start,
-                endDate: end,
-                ranges: {
-                    'Hoy dia': [moment(), moment()],
-                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
-                    'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
-            }, cb);
-
-            cb(start, end);
-
-        });
-    </script>
-    <script>
-        // Restricts input for the given textbox to the given inputFilter.
-        function setInputFilter(textbox, inputFilter) {
-            ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-                textbox.addEventListener(event, function() {
-                    if (inputFilter(this.value)) {
-                        this.oldValue = this.value;
-                        this.oldSelectionStart = this.selectionStart;
-                        this.oldSelectionEnd = this.selectionEnd;
-                    } else if (this.hasOwnProperty("oldValue")) {
-                        this.value = this.oldValue;
-                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                    } else {
-                        this.value = "";
-                    }
-                });
-            });
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#fechainicio').val(start.format('MM/DD/YYYY'));
+            $('#fechafin').val(end.format('MM/DD/YYYY'));
         }
 
-        setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
-            return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 500);
-        });
-        $(function() {
-
-            const tiempoTranscurrido = Date.now();
-            const hoy = new Date(tiempoTranscurrido);
-            const anoActual = hoy.getFullYear();
-            console.log(anoActual); //2020
-
-            var availableTags = [];
-            var TagString = [];
-            var year = anoActual
-            for (i = 0; i <= 70; i++) {
-                availableTags[i] = year--;
-                TagString[i] = availableTags[i].toString();
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Hoy dia': [moment(), moment()],
+                'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+                'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
-            $("#intLimitTextBox").autocomplete({
-                source: TagString
+        }, cb);
+
+        cb(start, end);
+
+    });
+</script>
+<script>
+    // Restricts input for the given textbox to the given inputFilter.
+    function setInputFilter(textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+            textbox.addEventListener(event, function() {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
             });
         });
-    </script>
-    @stop
+    }
+
+    setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
+        const tiempoTranscurrido = Date.now();
+        const hoy = new Date(tiempoTranscurrido);
+        const anoActual = hoy.getFullYear();
+        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= anoActual);
+    });
+</script>
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+@stop

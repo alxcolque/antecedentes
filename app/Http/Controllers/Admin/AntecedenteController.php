@@ -24,7 +24,7 @@ class AntecedenteController extends Controller
     public function index()
     {
         //return $this->hasMany('App\Models\Person');
-        $antecedents = Antecedent::with('people', 'detective', 'crime','province')->get();
+        $antecedents = Antecedent::with('people', 'detective', 'crime', 'province')->get();
         //$antecedents = Antecedent::all();
         return view('admin.antecedentes.index', compact('antecedents'));
         /* $antecedents = Antecedent::all();
@@ -138,7 +138,7 @@ class AntecedenteController extends Controller
         $cantidad = Record::count('id');
         $i = 0;
         $records = Record::all();
-        return view('admin.antecedentes.import_file', compact('records','i','cantidad'))->with('info', 'El aviso se creó con éxito');
+        return view('admin.antecedentes.import_file', compact('records', 'i', 'cantidad'))->with('info', 'El aviso se creó con éxito');
     }
     /**
      * @return \Illuminate\Support\Collection
@@ -193,18 +193,67 @@ class AntecedenteController extends Controller
 
     public function create()
     {
-        //
+        return view('admin.antecedentes.create');
     }
 
 
     public function store(Request $request)
     {
-        //
+        //tabla import
+        $import = new Import();
+        $date = new DateTime();
+        $import->fechaimport = $date->format('Y-m-d H:i:s');
+        $import->user_id = auth()->user()->id;
+        $import->save();
+        //guardar antecedentes
+        $antecedent = new Antecedent();
+        $antecedent->gestion = $request->gestion;
+        $antecedent->fechahecho = $request->fechahecho;
+        $antecedent->hora = $request->hora;
+        $antecedent->mesregistro = $request->mesregistro;
+        $antecedent->municipio = $request->municipio;
+        $antecedent->localidad = $request->localidad;
+        $antecedent->zonabarrio = $request->zonabarrio;
+        $antecedent->lugarhecho = $request->lugarhecho;
+        $antecedent->gps = $request->gps;
+        $antecedent->unidad = $request->unidad;
+        $antecedent->temperancia = $request->temperancia;
+        //$antecedent -> causaarresto = $request->;
+        $antecedent->nathecho = $request->nathecho;
+        $antecedent->arma = $request->arma;
+        $antecedent->remitidoa = $request->remitidoa;
+        $antecedent->pertenencias = $request->pertenencias;
+        $antecedent->province_id = $this->getProvinceID($request->departamento, $request->provincia);
+        $antecedent->detective_id = $this->getDetectiveID($request->nombres);
+        $antecedent->crime_id = $this->getCrimeID($request->causaarresto);
+        $antecedent->import_id = Import::max('id');
+        //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
+        $antecedent->save();
+        $person = new Person();
+        $person->arrestado = $request->arrestado;
+        $person->ci = $request->ci;
+        $person->nacido = $request->nacido;
+        $person->nacionalidad = $request->nacionalidad;
+        $person->edad = $request->edad;
+        $person->genero = $request->genero;
+        $person->foto = 'arrestado.png';
+        $person->save();
+        $detailant = new AntecedentPerson();
+        $detailant->antecedent_id = Antecedent::max('id');
+        $detailant->person_id = Person::max('id');
+        $detailant->save();
+        //acciones del usuario
+        $action = new Action();
+        $date = new DateTime();
+        $action->usuario = auth()->user()->nombreusuario;
+        $action->accion = "Un antecedentes registrado";
+        $action->fecha = $date->format('Y-m-d H:i:s');
+        $action->save();
     }
 
     public function show($id) //show(Antecente $id)
     {
-        $antecedent = Antecedent::with('people', 'detective', 'crime','province')->where('id',$id)->get();
+        $antecedent = Antecedent::with('people', 'detective', 'crime', 'province')->where('id', $id)->get();
         //echo $antecedent[0]->fechahecho;
         //$antecedent = Antecedent::find($id);
         return view('admin.antecedentes.show', compact('antecedent'));
@@ -218,7 +267,6 @@ class AntecedenteController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
     }
 
 

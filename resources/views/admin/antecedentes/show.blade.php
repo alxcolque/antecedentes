@@ -20,7 +20,6 @@
                     <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                         <img class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
                     </div>
-                    
                     <h3 class="profile-username text-center">{{$antecedent[0]->people[0]->arrestado}}</h3>
 
                     <p class="text-muted text-center">CI: {{$antecedent[0]->people[0]->ci}}</p>
@@ -104,7 +103,7 @@
                         <li class="list-group-item">
                             <b>PERTENENCIAS</b> <a class="float-right">{{$antecedent[0]->pertenencias}}</a>
                         </li>
-                        
+
                     </ul>
 
                     <a href="#" class="btn btn-primary btn-block" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>IMPRIMIR</b></a>
@@ -113,7 +112,7 @@
             </div>
             <!-- /.card -->
 
-            
+
             <!-- /.card -->
         </div>
         <!-- /.col -->
@@ -122,15 +121,21 @@
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item" title="Obsevaciones" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Observaciones</a></li>
-                        
+
                         <li class="nav-item" title="Sección para ajustar datos" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Ajuste</a></li>
                     </ul>
                 </div><!-- /.card-header -->
+
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="active tab-pane" id="activity">
                             <!-- Post -->
+
                             <div class="post">
+
+                                <li class="list-group-item">
+                                    <b>GPS</b> <a class="float-right">{{$antecedent[0]->gps}}</a>
+                                </li>
                                 <input class="form-control form-control-sm" type="text" placeholder="Obs 1"><br>
                                 <input class="form-control form-control-sm" type="text" placeholder="Obs 2"><br>
                                 <input class="form-control form-control-sm" type="text" placeholder="Obs 3"><br>
@@ -143,146 +148,148 @@
                             </div>
                             <!-- /.post -->
 
-                            
+
                         </div>
-                       
+
 
                         <div class="tab-pane" id="settings">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="{{ route('admin.antecedentes.update', $antecedent[0]->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
                                 <div class="form-group row">
                                     <label for="gestion" class="col-sm-4 col-form-label">GESTION</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->gestion}}"  placeholder="GESTION">
+                                        <input type="text" name="gestion" class="form-control" value="{{$antecedent[0]->gestion}}" placeholder="GESTION">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="FECHA" class="col-sm-4 col-form-label">FECHA DEL HECHO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->fechahecho}}" placeholder="FECHA">
+                                        <input type="text" name="fechahecho" class="form-control" value="{{$antecedent[0]->fechahecho}}" placeholder="FECHA">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="HORA" class="col-sm-4 col-form-label">HORA DEL HECHO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->hora}}" placeholder="Name">
+                                        <input type="text" name="hora" class="form-control" value="{{$antecedent[0]->hora}}" placeholder="Name">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="MES" class="col-sm-4 col-form-label">MES REGISTRO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->mesregistro}}" placeholder="MES REGISTRO">
+                                        <input type="text" name="mesregistro" class="form-control" value="{{$antecedent[0]->mesregistro}}" placeholder="MES REGISTRO">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="DEPARTAMENTOS" class="col-sm-4 col-form-label">DEPARTAMENTOS</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->province->department->departamento}}" id="DEPARTAMENTOS" placeholder="DEPARTAMENTOS">
+                                        <input type="text" name="departamento" class="form-control" value="{{$antecedent[0]->province->department->departamento}}" id="DEPARTAMENTOS" placeholder="DEPARTAMENTOS">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="PROVINCIA" class="col-sm-4 col-form-label">PROVINCIAS</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->province->provincia}}" placeholder="PROVINCIAS">
+                                        <input type="text" name="provincia" class="form-control" value="{{$antecedent[0]->province->provincia}}" placeholder="PROVINCIAS">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="MUNICIPIOS" class="col-sm-4 col-form-label">MUNICIPIOS</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->municipio}}" placeholder="MUNICIPIOS">
+                                        <input type="text" name="municipio" class="form-control" value="{{$antecedent[0]->municipio}}" placeholder="MUNICIPIOS">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="LOCALIDADES" class="col-sm-4 col-form-label">LOCALIDADES</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->localidad}}" placeholder="LOCALIDADES">
+                                        <input type="text" name="localidad" class="form-control" value="{{$antecedent[0]->localidad}}" placeholder="LOCALIDADES">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="ZONA O BARRIO" class="col-sm-4 col-form-label">ZONA BARRIO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->zonabarrio}}" placeholder="ZONA BARRIO">
+                                        <input type="text" name="zonabarrio" class="form-control" value="{{$antecedent[0]->zonabarrio}}" placeholder="ZONA BARRIO">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="LUGAR HECHO" class="col-sm-4 col-form-label">LUGAR HECHO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->lugarhecho}}" placeholder="LUGAR HECHO">
+                                        <input type="text" name="lugarhecho" class="form-control" value="{{$antecedent[0]->lugarhecho}}" placeholder="LUGAR HECHO">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="UNIDAD" class="col-sm-4 col-form-label">UNIDAD</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->unidad}}" placeholder="UNIDAD">
+                                        <input type="text" name="unidad" class="form-control" value="{{$antecedent[0]->unidad}}" placeholder="UNIDAD">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="NACIDO EN" class="col-sm-4 col-form-label">NACIDO EN</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->people[0]->nacido}}" placeholder="NACIDO EN">
+                                        <input type="text" name="nacido" class="form-control" value="{{$antecedent[0]->people[0]->nacido}}" placeholder="NACIDO EN">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="NACIONALIDAD" class="col-sm-4 col-form-label">NACIONALIDAD</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->people[0]->nacionalidad}}" placeholder="NACIONALIDAD">
+                                        <input type="text" name="nacionalidad" class="form-control" value="{{$antecedent[0]->people[0]->nacionalidad}}" placeholder="NACIONALIDAD">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="EDAD" class="col-sm-4 col-form-label">EDAD</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->people[0]->edad}}" placeholder="EDAD">
+                                        <input type="text" name="edad" class="form-control" value="{{$antecedent[0]->people[0]->edad}}" placeholder="EDAD">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="GENERO" class="col-sm-4 col-form-label">GENERO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->people[0]->genero}}" placeholder="GENERO">
+                                        <input type="text" name="genero" class="form-control" value="{{$antecedent[0]->people[0]->genero}}" placeholder="GENERO">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="TEMPERANCIA" class="col-sm-4 col-form-label">TEMPERANCIA</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->temperancia}}" placeholder="TEMPERANCIA">
+                                        <input type="text" name="temperancia" class="form-control" value="{{$antecedent[0]->temperancia}}" placeholder="TEMPERANCIA">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="CAUSA ARRESTO" class="col-sm-4 col-form-label">CAUSA ARRESTO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->crime->causaarresto}}" placeholder="CAUSA ARRESTO">
+                                        <input type="text" name="causaarresto" class="form-control" value="{{$antecedent[0]->crime->causaarresto}}" placeholder="CAUSA ARRESTO">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="NATHECHO" class="col-sm-4 col-form-label">NATHECHO</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->nathecho}}" placeholder="NATHECHO">
+                                        <input type="text" name="nathecho" class="form-control" value="{{$antecedent[0]->nathecho}}" placeholder="NATHECHO">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="ARMA" class="col-sm-4 col-form-label">ARMA</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->arma}}" placeholder="ARMA">
+                                        <input type="text" name="arma" class="form-control" value="{{$antecedent[0]->arma}}" placeholder="ARMA">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="REMITIDO A" class="col-sm-4 col-form-label">REMITIDO A</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->remitidoa}}" placeholder="REMITIDO A">
+                                        <input type="text" name="remitidoa" class="form-control" value="{{$antecedent[0]->remitidoa}}" placeholder="REMITIDO A">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="ACCION DIRECTA" class="col-sm-4 col-form-label">ACCION DIRECTA</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->detective->nombres}}" placeholder="ACCION DIRECTA">
+                                        <input type="text" name="nombres" class="form-control" value="{{$antecedent[0]->detective->nombres}}" placeholder="ACCION DIRECTA">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="PERTENENCIAS" class="col-sm-4 col-form-label">PERTENENCIAS</label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" value="{{$antecedent[0]->pertenencias}}" placeholder="PERTENENCIAS">
+                                        <input type="text" name="pertenencias" class="form-control" value="{{$antecedent[0]->pertenencias}}" placeholder="PERTENENCIAS">
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row">
                                     <div class="offset-sm-2 col-sm-10">
                                         <div class="checkbox">
