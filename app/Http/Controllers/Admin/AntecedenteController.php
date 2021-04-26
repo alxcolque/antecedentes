@@ -18,26 +18,158 @@ use App\Models\Import;
 use App\Models\Person;
 use Exception;
 use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class AntecedenteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //return $this->hasMany('App\Models\Person');
-        $antecedents = Antecedent::with('people', 'detective', 'crime', 'province')->get();
-        //$antecedents = Antecedent::all();
-        return view('admin.antecedentes.index', compact('antecedents'));
-        /* $antecedents = Antecedent::all();
         
-        foreach ($antecedents as $post) {
-            echo $post->gps;
-        } */
-        /* $antecedent = Antecedent::find(4); 
-        dd($antecedent->people[0]); */
-        //$antecedent = Antecedent::find(3);
-
-        //echo $antecedents;
+        //$antecedents = Antecedent::with('people', 'detective', 'crime', 'province')->limit(8)->get();;
+        $date = new DateTime();
+        $hoy = $date->format('Y');
+        //echo $hoy;
+        if(request()->ajax()) {
+            return datatables()->of(DB::table('antecedents')
+            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+            ->join('departments', 'provinces.id', '=', 'departments.id')
+            ->where('gestion', [$hoy])
+            ->get(array(
+                'antecedents.id',
+                'arrestado',
+                'ci',
+                'nacido',
+                'nacionalidad',
+                'edad',
+                'genero',
+                'gestion',
+                'fechahecho',
+                'hora',
+                'mesregistro',
+                'departamento',
+                'provincia',
+                'municipio',
+                'localidad',
+                'zonabarrio',
+                'lugarhecho',
+                'temperancia',
+                'gps',
+                'causaarresto',
+                'nathecho',
+                'unidad',
+                'arma',
+                'remitidoa',
+                'pertenencias',
+                'nombres',
+            )))
+            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+            ->rawColumns(['detalle'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        return view('admin.antecedentes.index');
     }
+    public function filterbydate(Request $request)
+    {
+        //$this->filtroAntecedente('12/01/2020', '12/30/2020');
+        
+        if(request()->ajax()) {
+            return datatables()->of(DB::table('antecedents')
+            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+            ->join('departments', 'provinces.id', '=', 'departments.id')
+            ->where('gestion', ['2020'])
+            ->get(array(
+                'antecedents.id',
+                'arrestado',
+                'ci',
+                'nacido',
+                'nacionalidad',
+                'edad',
+                'genero',
+                'gestion',
+                'fechahecho',
+                'hora',
+                'mesregistro',
+                'departamento',
+                'provincia',
+                'municipio',
+                'localidad',
+                'zonabarrio',
+                'lugarhecho',
+                'temperancia',
+                'gps',
+                'causaarresto',
+                'nathecho',
+                'unidad',
+                'arma',
+                'remitidoa',
+                'pertenencias',
+                'nombres',
+            )))
+            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+            ->rawColumns(['detalle'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+    }
+    public function buscarPorYear(Request $request)
+    {
+        //echo $request['gestion'];
+        if(request()->ajax()) {
+            return datatables()->of(DB::table('antecedents')
+            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+            ->join('departments', 'provinces.id', '=', 'departments.id')
+            ->where('gestion', ['2020'])
+            ->get(array(
+                'antecedents.id',
+                'arrestado',
+                'ci',
+                'nacido',
+                'nacionalidad',
+                'edad',
+                'genero',
+                'gestion',
+                'fechahecho',
+                'hora',
+                'mesregistro',
+                'departamento',
+                'provincia',
+                'municipio',
+                'localidad',
+                'zonabarrio',
+                'lugarhecho',
+                'temperancia',
+                'gps',
+                'causaarresto',
+                'nathecho',
+                'unidad',
+                'arma',
+                'remitidoa',
+                'pertenencias',
+                'nombres',
+            )))
+            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+            ->rawColumns(['detalle'])
+            ->addIndexColumn()
+            ->make(true);
+        }
+        //return view('admin.antecedentes.index');
+
+        
+    }
+    
     public function importExcel(Request $request)
     {
         Excel::import(new RecordsImport, $request->import_file);
@@ -51,21 +183,16 @@ class AntecedenteController extends Controller
         $secondsInDay = 86400;
         # Time as a float must greater or equal to zero and less or equal to one.
         $dayAsFloat = $doubl;
-
         # Determine the number of seconds
         $totalSeconds = intval($secondsInDay * $dayAsFloat);
-
         # Calculate number of seconds
         $seconds = $totalSeconds % 60;
         $totalSeconds = $totalSeconds / 60;
-
         # Calculate number of minutes
         $minutes = $totalSeconds % 60;
         $totalSeconds = $totalSeconds / 60;
-
         # Calculate number of hours
         $hours = $totalSeconds % 60;
-
         $timeString = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
         return $timeString;
     }

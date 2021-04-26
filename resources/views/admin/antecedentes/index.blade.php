@@ -83,61 +83,7 @@
                                     <th>Acción Directa</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($antecedents as $antecedent)
-                                <tr>
-                                    <td>{{$antecedent->id}}</td>
-                                    <td>
-                                        <a href="{{route('admin.antecedentes.show', $antecedent->id)}}" id="" class="delete btn btn-info btn-sm" title="Ver detalle de antecedente del señor: {{$antecedent->people[0]->arrestado}}" data-toggle="tooltip" data-html="true">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </td>
 
-                                    <td>{{$antecedent->people[0]->arrestado}}</td>
-                                    <td>{{$antecedent->people[0]->ci}}</td>
-                                    <td>{{$antecedent->people[0]->nacido}}</td>
-                                    <td>{{$antecedent->people[0]->nacionalidad}}</td>
-                                    <td>{{$antecedent->people[0]->edad}}</td>
-                                    <td>{{$antecedent->people[0]->genero}}</td>
-
-                                    <td>{{$antecedent->gestion}}</td>
-                                    <td>{{$antecedent->fechahecho}}</td>
-                                    <td>{{$antecedent->hora}}</td>
-                                    <td>{{$antecedent->mesregistro}}</td>
-                                    <td>{{$antecedent->province->department->departamento}}</td>
-                                    <td>{{$antecedent->province->provincia}}</td>
-                                    <td>{{$antecedent->municipio}}</td>
-
-                                    <td>{{$antecedent->localidad }}</td>
-                                    <td>{{$antecedent->zonabarrio}}</td>
-                                    <td>{{$antecedent->lugarhecho}}</td>
-                                    <td>{{$antecedent->temperancia}}</td>
-                                    <td>{{$antecedent->gps}}</td>
-                                    <td>{{$antecedent->crime->causaarresto}}</td>
-
-                                    <td>{{$antecedent->nathecho}}</td>
-                                    <td>{{$antecedent->unidad}}</td>
-                                    <td>{{$antecedent->arma}}</td>
-                                    <td>{{$antecedent->remitidoa}}</td>
-                                    <td>{{$antecedent->pertenencias}}</td>
-                                    <td>{{$antecedent->detective->nombres}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-
-                            <!-- <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Detalle</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Localidad</th>
-                                    <th>Unidad</th>
-                                    <th>Arma</th>
-                                    <th>Remitido a date</th>
-                                    <th>Pertenencias</th>
-                                </tr>
-                            </tfoot> -->
                         </table>
                     </div>
                 </div>
@@ -179,7 +125,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                <form>
+                    @csrf
                     <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                         <i class="fa fa-calendar"></i>&nbsp;
                         <span></span> <i class="fa fa-caret-down"></i>
@@ -188,7 +135,8 @@
                     <input type="text" name="fechafin" id="fechafin" hidden>
                     <br>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+                    <button type="button" class="btn btn-primary btn-date"><i class="fas fa-search"></i> Buscar</button>
+
 
                 </form>
             </div>
@@ -209,23 +157,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="post">
+                <form>
+                    @csrf
+
                     <div class="ui-widget">
                         <label for="tags">Por Año: </label>
-                        <input id="intLimitTextBox"
-                        name="gestion"
-                        value="2021"
-                        class="awesomplete form-control" 
-                        placeholder="2021"
-                        autocomplete="off"
-                        data-list="1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021"
-                        data-minChars="1"
-                        required
-                        >
+                        <input id="gestion" name="gestion" value="2021" class="awesomplete form-control" placeholder="2021" autocomplete="off" data-list="1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021" data-minChars="1" required>
                     </div>
                     <br>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+                    <button type="button" class="btn btn-primary btn-year"><i class="fas fa-search"></i> Buscar</button>
 
                 </form>
             </div>
@@ -259,27 +200,48 @@
 
 <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
+
 <script>
+    //var url = '';
+    $(document).ready(function() {
+        var url = "{{ route('antecedentestable') }}";
+        mytable(url);
+    });
+
     $('#fitroPorFecha').click(function() {
 
         $('#titleMod').html("Filtro por fecha");
         $('#modalFecha').modal('show');
-        modalYear
     });
     $('#filtroYear').click(function() {
 
         $('.modal-title').html("Filtro por Año");
         $('#modalYear').modal('show');
+        
     });
-</script>
-<script>
-    $(document).ready(function() {
+
+    $(".btn-year").click(function(e) {
+        e.preventDefault();
+
+        var _token = $("input[name='_token']").val();
+        var gestion = $("#gestion").val();
+        var url = "{{route('filterbyyear')}}";
+        mytable(url);
+    });
+    $(".btn-date").click(function(e) {
+        e.preventDefault();
+        var url = "{{route('filterbydate')}}";
+        mytable(url);
+    });
+
+    function mytable(url) {
         //Tablas
         $('#antecedentes').DataTable({
             processing: true,
             //serverSide: true,
             responsive: true,
             autoWidth: false,
+            destroy: true,
             "language": {
                 "lengthMenu": "Mostrar " +
                     '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
@@ -293,9 +255,111 @@
                     "next": "Siguiente",
                     "previous": "Anterior"
                 }
-            }
+            },
+            "ajax": {
+                "url": url,
+                data: { gestion: '2020' },
+            },
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'detalle',
+                    name: 'detalle',
+                    orderable: false
+                },
+                {
+                    data: 'arrestado',
+                    name: 'arrestado'
+                },
+                {
+                    data: 'ci',
+                    name: 'ci'
+                },
+                {
+                    data: 'nacido',
+                    name: 'nacido'
+                },
+                {
+                    data: 'nacionalidad',
+                    name: 'nacionalidad'
+                },
+                {
+                    data: 'edad',
+                    name: 'edad'
+                }, {
+                    data: 'genero',
+                    name: 'genero'
+                },
+                {
+                    data: 'gestion',
+                    name: 'gestion'
+                }, {
+                    data: 'fechahecho',
+                    name: 'fechahecho'
+                }, {
+                    data: 'hora',
+                    name: 'hora'
+                }, {
+                    data: 'mesregistro',
+                    name: 'mesregistro'
+                }, {
+                    data: 'departamento',
+                    name: 'departamento'
+                },
+                {
+                    data: 'provincia',
+                    name: 'provincia'
+                },
+                {
+                    data: 'municipio',
+                    name: 'municipio'
+                },
+                {
+                    data: 'localidad',
+                    name: 'localidad'
+                }, {
+                    data: 'zonabarrio',
+                    name: 'zonabarrio'
+                }, {
+                    data: 'lugarhecho',
+                    name: 'lugarhecho'
+                }, {
+                    data: 'temperancia',
+                    name: 'temperancia'
+                }, {
+                    data: 'gps',
+                    name: 'gps'
+                }, {
+                    data: 'causaarresto',
+                    name: 'causaarresto'
+                }, {
+                    data: 'nathecho',
+                    name: 'nathecho'
+                }, {
+                    data: 'unidad',
+                    name: 'unidad'
+                }, {
+                    data: 'arma',
+                    name: 'arma'
+                }, {
+                    data: 'remitidoa',
+                    name: 'remitidoa'
+                }, {
+                    data: 'pertenencias',
+                    name: 'pertenencias'
+                }, {
+                    data: 'nombres',
+                    name: 'nombres'
+                },
+
+            ],
+            order: [
+                [0, 'desc']
+            ]
         });
-    });
+    }
 </script>
 <Script>
     /* Swal.fire(
@@ -352,7 +416,7 @@
         });
     }
 
-    setInputFilter(document.getElementById("intLimitTextBox"), function(value) {
+    setInputFilter(document.getElementById("gestion"), function(value) {
         const tiempoTranscurrido = Date.now();
         const hoy = new Date(tiempoTranscurrido);
         const anoActual = hoy.getFullYear();

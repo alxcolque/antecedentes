@@ -31,4 +31,7 @@ Route::get('import', [App\Http\Controllers\Admin\AntecedenteController::class, '
 //user ajax
 Route::get('usu', [UsuarioController::class, 'index'])->name('usu');
 Route::get('usuarios/delete/{id}', [UsuarioController::class, 'destroy']);
-//mostrar detalle
+//filtro por año
+Route::get('filterbyyear', [App\Http\Controllers\Admin\AntecedenteController::class, 'buscarPorYear'])->name('filterbyyear');
+Route::get('filterbydate', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterbydate'])->name('filterbydate');
+Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteController::class, 'index'])->name('antecedentestable');
