@@ -32,6 +32,8 @@ Route::get('import', [App\Http\Controllers\Admin\AntecedenteController::class, '
 Route::get('usu', [UsuarioController::class, 'index'])->name('usu');
 Route::get('usuarios/delete/{id}', [UsuarioController::class, 'destroy']);
 //filtro por año
-Route::get('filterbyyear', [App\Http\Controllers\Admin\AntecedenteController::class, 'buscarPorYear'])->name('filterbyyear');
-Route::get('filterbydate', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterbydate'])->name('filterbydate');
+Route::post('filterbyyear', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterbyYear'])->name('filterbyyear');
+Route::post('filterbydate', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterbydate'])->name('filterbydate');
+Route::get('filterall', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterall'])->name('filterall');
+Route::get('filterultimateimport', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterultimateimport'])->name('filterultimateimport');
 Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteController::class, 'index'])->name('antecedentestable');

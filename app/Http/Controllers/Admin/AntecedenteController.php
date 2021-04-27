@@ -19,157 +19,262 @@ use App\Models\Person;
 use Exception;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class AntecedenteController extends Controller
 {
     public function index(Request $request)
     {
-        
+
         //$antecedents = Antecedent::with('people', 'detective', 'crime', 'province')->limit(8)->get();;
         $date = new DateTime();
         $hoy = $date->format('Y');
         //echo $hoy;
-        if(request()->ajax()) {
+        if (request()->ajax()) {
             return datatables()->of(DB::table('antecedents')
-            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
-            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
-            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
-            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
-            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-            ->join('departments', 'provinces.id', '=', 'departments.id')
-            ->where('gestion', [$hoy])
-            ->get(array(
-                'antecedents.id',
-                'arrestado',
-                'ci',
-                'nacido',
-                'nacionalidad',
-                'edad',
-                'genero',
-                'gestion',
-                'fechahecho',
-                'hora',
-                'mesregistro',
-                'departamento',
-                'provincia',
-                'municipio',
-                'localidad',
-                'zonabarrio',
-                'lugarhecho',
-                'temperancia',
-                'gps',
-                'causaarresto',
-                'nathecho',
-                'unidad',
-                'arma',
-                'remitidoa',
-                'pertenencias',
-                'nombres',
-            )))
-            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
-            ->rawColumns(['detalle'])
-            ->addIndexColumn()
-            ->make(true);
+                ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+                ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+                ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+                ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->where('gestion', [$hoy])
+                ->get(array(
+                    'antecedents.id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
         }
         return view('admin.antecedentes.index');
     }
     public function filterbydate(Request $request)
     {
         //$this->filtroAntecedente('12/01/2020', '12/30/2020');
-        
-        if(request()->ajax()) {
+        $date1 = $request->date1;
+        $date2 = $request->date2;
+        if (request()->ajax()) {
             return datatables()->of(DB::table('antecedents')
-            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
-            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
-            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
-            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
-            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-            ->join('departments', 'provinces.id', '=', 'departments.id')
-            ->where('gestion', ['2020'])
-            ->get(array(
-                'antecedents.id',
-                'arrestado',
-                'ci',
-                'nacido',
-                'nacionalidad',
-                'edad',
-                'genero',
-                'gestion',
-                'fechahecho',
-                'hora',
-                'mesregistro',
-                'departamento',
-                'provincia',
-                'municipio',
-                'localidad',
-                'zonabarrio',
-                'lugarhecho',
-                'temperancia',
-                'gps',
-                'causaarresto',
-                'nathecho',
-                'unidad',
-                'arma',
-                'remitidoa',
-                'pertenencias',
-                'nombres',
-            )))
-            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
-            ->rawColumns(['detalle'])
-            ->addIndexColumn()
-            ->make(true);
+                ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+                ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+                ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+                ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->whereBetween('fechahecho', [$date1, $date2])
+                ->get(array(
+                    'antecedents.id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
         }
     }
-    public function buscarPorYear(Request $request)
+    public function filterbyYear(Request $request)
     {
-        //echo $request['gestion'];
-        if(request()->ajax()) {
+        
+        $year = $request->id;
+  
+        //return response()->json($data);
+   
+        if (request()->ajax()) {
+            
             return datatables()->of(DB::table('antecedents')
-            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
-            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
-            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
-            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
-            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-            ->join('departments', 'provinces.id', '=', 'departments.id')
-            ->where('gestion', ['2020'])
-            ->get(array(
-                'antecedents.id',
-                'arrestado',
-                'ci',
-                'nacido',
-                'nacionalidad',
-                'edad',
-                'genero',
-                'gestion',
-                'fechahecho',
-                'hora',
-                'mesregistro',
-                'departamento',
-                'provincia',
-                'municipio',
-                'localidad',
-                'zonabarrio',
-                'lugarhecho',
-                'temperancia',
-                'gps',
-                'causaarresto',
-                'nathecho',
-                'unidad',
-                'arma',
-                'remitidoa',
-                'pertenencias',
-                'nombres',
-            )))
-            ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
-            ->rawColumns(['detalle'])
-            ->addIndexColumn()
-            ->make(true);
+                ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+                ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+                ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+                ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->where('gestion', [$year])
+                ->get(array(
+                    'antecedents.id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        //return view('admin.antecedentes.index');
+        
+
+    }
+    public function filterall(Request $request)
+    {
+        if (request()->ajax()) {
+            return datatables()->of(DB::table('antecedents')
+                ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+                ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+                ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+                ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+                ->join('departments', 'provinces.id', '=', 'departments.id')
+
+                ->get(array(
+                    'antecedents.id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
         }
         //return view('admin.antecedentes.index');
 
-        
+
     }
-    
+    public function filterultimateimport(Request $request)
+    {
+        //echo $request['gestion'];
+        $import = Import::max('id');
+        if (request()->ajax()) {
+            return datatables()->of(DB::table('antecedents')
+                ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+                ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+                ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+                ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->where('import_id', $import)
+                ->get(array(
+                    'antecedents.id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'admin.antecedentes.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+        //return view('admin.antecedentes.index');
+
+
+    }
+
     public function importExcel(Request $request)
     {
         Excel::import(new RecordsImport, $request->import_file);
@@ -198,15 +303,28 @@ class AntecedenteController extends Controller
     }
     public function registrarimport()
     {
-        $records = Record::get();
 
-        //tabla import
-        $import = new Import();
-        $date = new DateTime();
-        $import->fechaimport = $date->format('Y-m-d H:i:s');
-        $import->user_id = auth()->user()->id;
-        $import->save();
-
+        //control impotacion
+        $count = Import::count('id');
+        if ($count === 0) {
+            $import_id = 2;
+            $records = Record::get();
+            //tabla import
+            $import = new Import();
+            $date = new DateTime();
+            $import->id = $import_id;
+            $import->fechaimport = $date->format('Y-m-d H:i:s');
+            $import->user_id = auth()->user()->id;
+            $import->save();
+        } else {
+            $records = Record::get();
+            //tabla import
+            $import = new Import();
+            $date = new DateTime();
+            $import->fechaimport = $date->format('Y-m-d H:i:s');
+            $import->user_id = auth()->user()->id;
+            $import->save();
+        }
         foreach ($records as $record) { //echo $antecedent."\n";
             $antecedent = new Antecedent();
             $antecedent->gestion = $record->gestion;
@@ -326,12 +444,17 @@ class AntecedenteController extends Controller
 
     public function store(Request $request)
     {
-        //tabla import
-        $import = new Import();
-        $date = new DateTime();
-        $import->fechaimport = $date->format('Y-m-d H:i:s');
-        $import->user_id = auth()->user()->id;
-        $import->save();
+         //control impotacion
+         $min = Import::min('id');
+         if ($min === 2) {
+             $import_id = 1;
+             $import = new Import();
+             $date = new DateTime();
+             $import->id = $import_id;
+             $import->fechaimport = $date->format('Y-m-d H:i:s');
+             $import->user_id = auth()->user()->id;
+             $import->save();
+         }
         //guardar antecedentes
         $antecedent = new Antecedent();
         $antecedent->gestion = $request->gestion;
@@ -353,7 +476,7 @@ class AntecedenteController extends Controller
         $antecedent->province_id = $this->getProvinceID($request->departamento, $request->provincia);
         $antecedent->detective_id = $this->getDetectiveID($request->nombres);
         $antecedent->crime_id = $this->getCrimeID($request->causaarresto);
-        $antecedent->import_id = Import::max('id');
+        $antecedent->import_id = 1;
         //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
         $antecedent->save();
         $person = new Person();
@@ -376,6 +499,8 @@ class AntecedenteController extends Controller
         $action->accion = "Un antecedentes registrado";
         $action->fecha = $date->format('Y-m-d H:i:s');
         $action->save();
+
+        return view('admin.antecedentes.create');
     }
 
     public function show($id) //show(Antecente $id)

@@ -43,10 +43,10 @@
                         <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
                     </div>
                     <div class="btn-group btn-group-sm mt-auto ml-auto p-2 " aria-label="Basic example">
-                        <button type="button" class="btn btn-outline-dark btn-sm">Ultima Importación</button>
-                        <button type="button" class="btn btn-outline-dark btn-sm">Todo</button>
-                        <button type="button" id="fitroPorFecha" class="btn btn-outline-dark btn-sm">Por fecha</button>
-                        <button type="button" id="filtroYear" class="btn btn-outline-dark btn-sm">Por año</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm btn-show-import-ultimate" title="Ver todos los datos de la última importacion" data-toggle="tooltip" data-html="true">Ultima Importación</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm btn-all"title="Mostrar todos los registros de antecedentes" data-toggle="tooltip" data-html="true">Todo</button>
+                        <button type="button" id="fitroPorFecha" class="btn btn-outline-dark btn-sm" title="Filtro de dato por fecha" data-toggle="tooltip" data-html="true">Por fecha</button>
+                        <button type="button" id="filtroYear" class="btn btn-outline-dark btn-sm" title="Filtro por año" data-toggle="tooltip" data-html="true">Por año</button>
 
                     </div>
                     <div class="col-sm-12">
@@ -162,7 +162,7 @@
 
                     <div class="ui-widget">
                         <label for="tags">Por Año: </label>
-                        <input id="gestion" name="gestion" value="2021" class="awesomplete form-control" placeholder="2021" autocomplete="off" data-list="1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021" data-minChars="1" required>
+                        <input id="gestion" name="gestionn" value="2021" class="awesomplete form-control" placeholder="2021" autocomplete="off" data-list="1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021" data-minChars="1" required>
                     </div>
                     <br>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -202,10 +202,19 @@
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
 
 <script>
+    $(".btn-group > .btn").click(function() {
+        $(".btn-group > .btn").removeClass("active");
+        $(this).addClass("active");
+    });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     //var url = '';
     $(document).ready(function() {
         var url = "{{ route('antecedentestable') }}";
-        mytable(url);
+        mytable(url, 'get');
     });
 
     $('#fitroPorFecha').click(function() {
@@ -217,7 +226,7 @@
 
         $('.modal-title').html("Filtro por Año");
         $('#modalYear').modal('show');
-        
+
     });
 
     $(".btn-year").click(function(e) {
@@ -226,16 +235,41 @@
         var _token = $("input[name='_token']").val();
         var gestion = $("#gestion").val();
         var url = "{{route('filterbyyear')}}";
-        mytable(url);
+        $('#modalYear').modal('hide');
+        mytable(url, 'post');
     });
     $(".btn-date").click(function(e) {
         e.preventDefault();
         var url = "{{route('filterbydate')}}";
-        mytable(url);
+        $('#modalFecha').modal('hide');
+        mytable(url, 'post');
+    });
+    $(".btn-all").click(function(e) {
+        e.preventDefault();
+        var url = "{{route('filterall')}}";
+        mytable(url, 'get');
+    });
+    //btn-show-import-ultimate
+    $(".btn-show-import-ultimate").click(function(e) {
+        e.preventDefault();
+        var url = "{{route('filterultimateimport')}}";
+        mytable(url, 'get');
     });
 
-    function mytable(url) {
+    function mytable(url, type) {
         //Tablas
+        /*$.ajax({
+              url: url,
+              type: type,
+              data: {
+                  id:2012
+              },
+              cache: false,
+              success: function(responseOutput){
+                  console.log(responseOutput)
+                  
+              }
+          });*/
         $('#antecedentes').DataTable({
             processing: true,
             //serverSide: true,
@@ -258,7 +292,14 @@
             },
             "ajax": {
                 "url": url,
-                data: { gestion: '2020' },
+                type: type,
+                data: {
+                    id: $('#gestion').val(),
+                    date1: $('#fechainicio').val(),
+                    date2: $('#fechafin').val(),
+                },
+                cache: false,
+
             },
             columns: [{
                     data: 'id',
