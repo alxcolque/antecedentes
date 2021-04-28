@@ -40,7 +40,7 @@ class CreateRecordsTable extends Migration
             $table->string('remitidoa', 50)->nullable();
             $table->string('nombres', 100)->nullable();
             $table->string('pertenencias', 100)->nullable();
-            
+            $table->enum('tiporegistro', [1, 2]);
             $table->timestamps();
         });
     }

@@ -38,13 +38,13 @@
                 <div class="row">
 
                     <div class="">
-                        <a href="/csvexport" class="btn btn-secondary btn-sm" title="Descargar el archivo en formato CSV" data-toggle="tooltip" data-html="true"><i class="fas fa-file-csv"></i> Export CSV</a>
-                        <a href="/excelexport" class="btn btn-success  btn-sm" title="Descargar el archivo en formato EXCEL" data-toggle="tooltip" data-html="true"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
+                        <!-- <a href="csvexport" class="btn btn-secondary btn-sm" title="Descargar el archivo en formato CSV" data-toggle="tooltip" data-html="true"><i class="fas fa-file-csv"></i> Export CSV</a> -->
+                        <a href="file-export" class="btn btn-success  btn-sm" title="Descargar el archivo en formato EXCEL" data-toggle="tooltip" data-html="true"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
                         <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
                     </div>
                     <div class="btn-group btn-group-sm mt-auto ml-auto p-2 " aria-label="Basic example">
                         <button type="button" class="btn btn-outline-dark btn-sm btn-show-import-ultimate" title="Ver todos los datos de la última importacion" data-toggle="tooltip" data-html="true">Ultima Importación</button>
-                        <button type="button" class="btn btn-outline-dark btn-sm btn-all"title="Mostrar todos los registros de antecedentes" data-toggle="tooltip" data-html="true">Todo</button>
+                        <button type="button" class="btn btn-outline-dark btn-sm btn-all" title="Mostrar todos los registros de antecedentes" data-toggle="tooltip" data-html="true">Todo</button>
                         <button type="button" id="fitroPorFecha" class="btn btn-outline-dark btn-sm" title="Filtro de dato por fecha" data-toggle="tooltip" data-html="true">Por fecha</button>
                         <button type="button" id="filtroYear" class="btn btn-outline-dark btn-sm" title="Filtro por año" data-toggle="tooltip" data-html="true">Por año</button>
 
@@ -131,8 +131,8 @@
                         <i class="fa fa-calendar"></i>&nbsp;
                         <span></span> <i class="fa fa-caret-down"></i>
                     </div>
-                    <input type="text" name="fechainicio" id="fechainicio" hidden>
-                    <input type="text" name="fechafin" id="fechafin" hidden>
+                    <input type="text" name="fechainicio" id="fechainicio" >
+                    <input type="text" name="fechafin" id="fechafin" >
                     <br>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary btn-date"><i class="fas fa-search"></i> Buscar</button>
@@ -290,6 +290,7 @@
                     "previous": "Anterior"
                 }
             },
+
             "ajax": {
                 "url": url,
                 type: type,

@@ -15,7 +15,7 @@
         <div class="col-md-7">
 
             <!-- Profile Image -->
-            <div class="card card-primary card-outline">
+            <div id="content" class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                         <img class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
@@ -106,7 +106,7 @@
 
                     </ul>
 
-                    <a href="#" class="btn btn-primary btn-block" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>IMPRIMIR</b></a>
+                    <button id="cmd" class="btn btn-primary btn-block " title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>IMPRIMIR</b></button>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -332,5 +332,21 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+<script>
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#cmd': function(element, renderer) {
+            return true;
+        }
+    };
 
+    $('#cmd').click(function() {
+        doc.fromHTML($('#content').html(), 15, 15, {
+            'width': 170,
+            'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });
+</script>
 @stop

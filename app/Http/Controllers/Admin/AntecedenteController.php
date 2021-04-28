@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AntecedentExport;
 use App\Http\Controllers\Controller;
 use App\Imports\RecordsImport;
 use App\Models\Action;
@@ -20,6 +21,7 @@ use Exception;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use PhpParser\Node\Expr\New_;
 
 class AntecedenteController extends Controller
 {
@@ -37,7 +39,7 @@ class AntecedenteController extends Controller
                 ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
                 ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
                 ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->join('departments', 'provinces.department_id', '=', 'departments.id')
                 ->where('gestion', [$hoy])
                 ->get(array(
                     'antecedents.id',
@@ -86,7 +88,7 @@ class AntecedenteController extends Controller
                 ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
                 ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
                 ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->join('departments', 'provinces.department_id', '=', 'departments.id')
                 ->whereBetween('fechahecho', [$date1, $date2])
                 ->get(array(
                     'antecedents.id',
@@ -124,13 +126,13 @@ class AntecedenteController extends Controller
     }
     public function filterbyYear(Request $request)
     {
-        
+
         $year = $request->id;
-  
+
         //return response()->json($data);
-   
+
         if (request()->ajax()) {
-            
+
             return datatables()->of(DB::table('antecedents')
                 ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
                 ->join('people', 'antecedent_person.person_id', '=', 'people.id')
@@ -173,19 +175,21 @@ class AntecedenteController extends Controller
                 ->make(true);
         }
         //return view('admin.antecedentes.index');
-        
+
 
     }
     public function filterall(Request $request)
     {
+        
         if (request()->ajax()) {
             return datatables()->of(DB::table('antecedents')
                 ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
                 ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+                //->join('antecedent_person', 'antecedent_person.person_id', '=', 'antecedent_person.antecedent_id')
                 ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
                 ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
                 ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->join('departments', 'provinces.department_id', '=', 'departments.id')
 
                 ->get(array(
                     'antecedents.id',
@@ -235,7 +239,7 @@ class AntecedenteController extends Controller
                 ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
                 ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
                 ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
-                ->join('departments', 'provinces.id', '=', 'departments.id')
+                ->join('departments', 'provinces.department_id', '=', 'departments.id')
                 ->where('import_id', $import)
                 ->get(array(
                     'antecedents.id',
@@ -279,9 +283,7 @@ class AntecedenteController extends Controller
     {
         Excel::import(new RecordsImport, $request->import_file);
 
-        $request->session()->put('success', 'Your file is imported successfully in database.');
-
-        return redirect('admin/import'); //->with('status', 'Archivo procesado correctamente');
+        return redirect('admin/import')->with('info', 'el archivo seleccionado se ha cargado con exito, Verifique que los datos estén correctos');
     }
     public function tiempo($doubl)
     {
@@ -301,130 +303,176 @@ class AntecedenteController extends Controller
         $timeString = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
         return $timeString;
     }
+    //Pasar a la base de datos
     public function registrarimport()
     {
+        try {
+            $count = Import::count('id');
+            if ($count === 0) {
+                $import_id = 2;
+                $records = DB::table('records')->where('tiporegistro', 1)->get();
+                //tabla import
+                $import = new Import();
+                $date = new DateTime();
+                $import->id = $import_id;
+                $import->fechaimport = $date->format('Y-m-d H:i:s');
+                $import->user_id = auth()->user()->id;
+                $import->save();
+            } else {
+                $records = DB::table('records')->where('tiporegistro', 1)->get();
+                //tabla import
+                $import = new Import();
+                $date = new DateTime();
+                $import->fechaimport = $date->format('Y-m-d H:i:s');
+                $import->user_id = auth()->user()->id;
+                $import->save();
+            }
+            foreach ($records as $record) { //echo $antecedent."\n";
+                $antecedent = new Antecedent();
+                $antecedent->gestion = $record->gestion;
+                $antecedent->fechahecho = jdtogregorian(($record->fechahecho) + 2415019);
+                $antecedent->hora = $this->tiempo($record->hora);
+                $antecedent->mesregistro = $record->mesregistro;
+                $antecedent->municipio = $record->municipio;
+                $antecedent->localidad = $record->localidad;
+                $antecedent->zonabarrio = $record->zonabarrio;
+                $antecedent->lugarhecho = $record->lugarhecho;
+                $antecedent->gps = $record->gps;
+                $antecedent->unidad = $record->unidad;
+                $antecedent->temperancia = $record->temperancia;
+                //$antecedent -> causaarresto = $record->;
+                $antecedent->nathecho = $record->nathecho;
+                $antecedent->arma = $record->arma;
+                $antecedent->remitidoa = $record->remitidoa;
+                $antecedent->pertenencias = $record->pertenencias;
+                $antecedent->province_id = $this->getProvinceID($record->departamento, $record->provincia);
+                $antecedent->detective_id = $this->getDetectiveID($record->nombres);
+                $antecedent->crime_id = $this->getCrimeID($record->causaarresto);
+                $antecedent->import_id = Import::max('id');
+                //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
+                $antecedent->save();
+                $person = new Person();
+                $person->arrestado = $record->arrestado;
+                $person->ci = $record->ci;
+                $person->nacido = $record->nacido;
+                $person->nacionalidad = $record->nacionalidad;
+                $person->edad = $record->edad;
+                $person->genero = $record->genero;
+                $person->save();
+                $detailant = new AntecedentPerson();
+                $detailant->antecedent_id = Antecedent::max('id');
+                $detailant->person_id = Person::max('id');
+                $detailant->save();
+                Record::destroy($record->id);
+            }
+            //Record::truncate();
 
-        //control impotacion
-        $count = Import::count('id');
-        if ($count === 0) {
-            $import_id = 2;
-            $records = Record::get();
-            //tabla import
-            $import = new Import();
+            //acciones del usuario
+            $action = new Action();
             $date = new DateTime();
-            $import->id = $import_id;
-            $import->fechaimport = $date->format('Y-m-d H:i:s');
-            $import->user_id = auth()->user()->id;
-            $import->save();
-        } else {
-            $records = Record::get();
-            //tabla import
-            $import = new Import();
-            $date = new DateTime();
-            $import->fechaimport = $date->format('Y-m-d H:i:s');
-            $import->user_id = auth()->user()->id;
-            $import->save();
+            $action->usuario = auth()->user()->nombreusuario;
+            $action->accion = "Importacion de un archivo";
+            $action->fecha = $date->format('Y-m-d H:i:s');
+            $action->save();
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
-        foreach ($records as $record) { //echo $antecedent."\n";
-            $antecedent = new Antecedent();
-            $antecedent->gestion = $record->gestion;
-            $antecedent->fechahecho = jdtogregorian(($record->fechahecho) + 2415032);
-            $antecedent->hora = $this->tiempo($record->hora);
-            $antecedent->mesregistro = $record->mesregistro;
-            $antecedent->municipio = $record->municipio;
-            $antecedent->localidad = $record->localidad;
-            $antecedent->zonabarrio = $record->zonabarrio;
-            $antecedent->lugarhecho = $record->lugarhecho;
-            $antecedent->gps = $record->gps;
-            $antecedent->unidad = $record->unidad;
-            $antecedent->temperancia = $record->temperancia;
-            //$antecedent -> causaarresto = $record->;
-            $antecedent->nathecho = $record->nathecho;
-            $antecedent->arma = $record->arma;
-            $antecedent->remitidoa = $record->remitidoa;
-            $antecedent->pertenencias = $record->pertenencias;
-            $antecedent->province_id = $this->getProvinceID($record->departamento, $record->provincia);
-            $antecedent->detective_id = $this->getDetectiveID($record->nombres);
-            $antecedent->crime_id = $this->getCrimeID($record->causaarresto);
-            $antecedent->import_id = Import::max('id');
-            //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
-            $antecedent->save();
-            $person = new Person();
-            $person->arrestado = $record->arrestado;
-            $person->ci = $record->ci;
-            $person->nacido = $record->nacido;
-            $person->nacionalidad = $record->nacionalidad;
-            $person->edad = $record->edad;
-            $person->genero = $record->genero;
-            $person->save();
-            $detailant = new AntecedentPerson();
-            $detailant->antecedent_id = Antecedent::max('id');
-            $detailant->person_id = Person::max('id');
-            $detailant->save();
-        }
-        Record::truncate();
-
-        //acciones del usuario
-        $action = new Action();
-        $date = new DateTime();
-        $action->usuario = auth()->user()->nombreusuario;
-        $action->accion = "Importacion de un archivo";
-        $action->fecha = $date->format('Y-m-d H:i:s');
-        $action->save();
-
-
-        return redirect('/admin/antecedentes');
+        return redirect('/admin/antecedentes')->with('info', 'Importación exitosa a la base de datos');
     }
     public function import()
     {
         /* $records = Record::latest()->paginate(50);
         return view('admin.antecedentes.import_file', compact('records'))
             ->with('i', (request()->input('página', 1) - 1) * 5); */
-        $cantidad = Record::count('id');
+        
+        //$cantidad = Record::count('id')->where('tiporegistro', 1)->get();
+        $cantidad = DB::table('records')->where('tiporegistro',1)->count();
+        $cantidad1 = DB::table('records')->where('tiporegistro',2)->count();
+        /* ->select(DB::raw('count(*) as user_count, tiporegistro'))
+        ->where('tiporegistro', '<>', 1)
+        ->get(); */
+        //->count()->where('tiporegistro',1)->get();
         $i = 0;
         $records = Record::all();
-        return view('admin.antecedentes.import_file', compact('records', 'i', 'cantidad'))->with('info', 'El aviso se creó con éxito');
+        return view('admin.antecedentes.import_file', compact('records', 'i', 'cantidad', 'cantidad1'))->with('info', 'Datos subido con éxito');
+    }
+    public function deleterecordall(Request $request)
+    {
+        Record::truncate();
+        $request->session()->put('success', 'Your file is imported successfully in database.');
+        return redirect('admin/import')->with('info', 'La tabla se ha limpiado con éxto');
     }
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function exportExcelCSV($slug)
+    public function fileExport()
     {
         //return Excel::download(new UsersExport, 'users.'.$slug);
+        return Excel::download(new AntecedentExport, 'antecedent.xlsx');
     }
 
     public function getProvinceID($departmentName, $provinceName)
     {
-        $province = Province::where('provincia', $provinceName)->first();
-        if ($province) {
+        if ($departmentName === NULL || $provinceName === NULL) {
+            $province = Province::where('provincia', "CERCADO")->first();
+            if ($province) {
+                return $province->id;
+            }
+            $province = new Province();
+            $province->provincia = "CERCADO";
+            $department = Department::firstOrCreate([
+                'departamento' => "ORURO"
+            ]);
+            $province->department_id = $department->id;
+            $province->save();
+            return $province->id;
+        } else {
+            $province = Province::where('provincia', $provinceName)->first();
+            if ($province) {
+                return $province->id;
+            }
+            $province = new Province();
+            $province->provincia = $provinceName;
+            $department = Department::firstOrCreate([
+                'departamento' => $departmentName
+            ]);
+            $province->department_id = $department->id;
+            $province->save();
             return $province->id;
         }
-        $province = new Province();
-        $province->provincia = $provinceName;
-        $department = Department::firstOrCreate([
-            'departamento' => $departmentName
-        ]);
-        $province->department_id = $department->id;
-        $province->save();
-        return $province->id;
     }
     public function getDetectiveID($detectiveName)
     {
-
-        $detective = Detective::firstOrCreate([
-            'nombres' => $detectiveName
-        ]);
-        $detective->save();
-        return $detective->id;
+        if ($detectiveName === NULL) {
+            $detective = Detective::firstOrCreate([
+                'nombres' => "NINGUN OFICIAL A CARGO"
+            ]);
+            $detective->save();
+            return $detective->id;
+        } else {
+            $detective = Detective::firstOrCreate([
+                'nombres' => $detectiveName
+            ]);
+            $detective->save();
+            return $detective->id;
+        }
     }
     public function getCrimeID($crimeName)
     {
-
-        $crime = Crime::firstOrCreate([
-            'causaarresto' => $crimeName
-        ]);
-        $crime->save();
-        return $crime->id;
+        if ($crimeName === NULL) {
+            $ca = "NO SE HA DEFINIDO";
+            $crime = Crime::firstOrCreate([
+                'causaarresto' => $ca,
+            ]);
+            $crime->save();
+            return $crime->id;
+        } else {
+            $crime = Crime::firstOrCreate([
+                'causaarresto' => $crimeName
+            ]);
+            $crime->save();
+            return $crime->id;
+        }
     }
     public function getImpotID($idUser)
     {
@@ -444,63 +492,69 @@ class AntecedenteController extends Controller
 
     public function store(Request $request)
     {
-         //control impotacion
-         $min = Import::min('id');
-         if ($min === 2) {
-             $import_id = 1;
-             $import = new Import();
-             $date = new DateTime();
-             $import->id = $import_id;
-             $import->fechaimport = $date->format('Y-m-d H:i:s');
-             $import->user_id = auth()->user()->id;
-             $import->save();
-         }
-        //guardar antecedentes
-        $antecedent = new Antecedent();
-        $antecedent->gestion = $request->gestion;
-        $antecedent->fechahecho = $request->fechahecho;
-        $antecedent->hora = $request->hora;
-        $antecedent->mesregistro = $request->mesregistro;
-        $antecedent->municipio = $request->municipio;
-        $antecedent->localidad = $request->localidad;
-        $antecedent->zonabarrio = $request->zonabarrio;
-        $antecedent->lugarhecho = $request->lugarhecho;
-        $antecedent->gps = $request->gps;
-        $antecedent->unidad = $request->unidad;
-        $antecedent->temperancia = $request->temperancia;
-        //$antecedent -> causaarresto = $request->;
-        $antecedent->nathecho = $request->nathecho;
-        $antecedent->arma = $request->arma;
-        $antecedent->remitidoa = $request->remitidoa;
-        $antecedent->pertenencias = $request->pertenencias;
-        $antecedent->province_id = $this->getProvinceID($request->departamento, $request->provincia);
-        $antecedent->detective_id = $this->getDetectiveID($request->nombres);
-        $antecedent->crime_id = $this->getCrimeID($request->causaarresto);
-        $antecedent->import_id = 1;
-        //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
-        $antecedent->save();
-        $person = new Person();
-        $person->arrestado = $request->arrestado;
-        $person->ci = $request->ci;
-        $person->nacido = $request->nacido;
-        $person->nacionalidad = $request->nacionalidad;
-        $person->edad = $request->edad;
-        $person->genero = $request->genero;
-        $person->foto = 'arrestado.png';
-        $person->save();
-        $detailant = new AntecedentPerson();
-        $detailant->antecedent_id = Antecedent::max('id');
-        $detailant->person_id = Person::max('id');
-        $detailant->save();
-        //acciones del usuario
-        $action = new Action();
-        $date = new DateTime();
-        $action->usuario = auth()->user()->nombreusuario;
-        $action->accion = "Un antecedentes registrado";
-        $action->fecha = $date->format('Y-m-d H:i:s');
-        $action->save();
+        try {
 
-        return view('admin.antecedentes.create');
+            //control impotacion
+            $min = Import::min('id');
+            if ($min === 2) {
+                $import_id = 1;
+                $import = new Import();
+                $date = new DateTime();
+                $import->id = $import_id;
+                $import->fechaimport = $date->format('Y-m-d H:i:s');
+                $import->user_id = auth()->user()->id;
+                $import->save();
+            }
+            //guardar antecedentes
+            $antecedent = new Antecedent();
+            $antecedent->gestion = $request->gestion;
+            $antecedent->fechahecho = $request->fechahecho;
+            $antecedent->hora = $request->hora;
+            $antecedent->mesregistro = $request->mesregistro;
+            $antecedent->municipio = $request->municipio;
+            $antecedent->localidad = $request->localidad;
+            $antecedent->zonabarrio = $request->zonabarrio;
+            $antecedent->lugarhecho = $request->lugarhecho;
+            $antecedent->gps = $request->gps;
+            $antecedent->unidad = $request->unidad;
+            $antecedent->temperancia = $request->temperancia;
+            //$antecedent -> causaarresto = $request->;
+            $antecedent->nathecho = $request->nathecho;
+            $antecedent->arma = $request->arma;
+            $antecedent->remitidoa = $request->remitidoa;
+            $antecedent->pertenencias = $request->pertenencias;
+            $antecedent->province_id = $this->getProvinceID($request->departamento, $request->provincia);
+            $antecedent->detective_id = $this->getDetectiveID($request->nombres);
+            $antecedent->crime_id = $this->getCrimeID($request->causaarresto);
+            $antecedent->import_id = 1;
+            //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
+            $antecedent->save();
+            $person = new Person();
+            $person->arrestado = $request->arrestado;
+            $person->ci = $request->ci;
+            $person->nacido = $request->nacido;
+            $person->nacionalidad = $request->nacionalidad;
+            $person->edad = $request->edad;
+            $person->genero = $request->genero;
+            $person->foto = 'arrestado.png';
+            $person->save();
+            $detailant = new AntecedentPerson();
+            $detailant->antecedent_id = Antecedent::max('id');
+            $detailant->person_id = Person::max('id');
+            $detailant->save();
+            //acciones del usuario
+            $action = new Action();
+            $date = new DateTime();
+            $action->usuario = auth()->user()->nombreusuario;
+            $action->accion = "Un antecedentes registrado";
+            $action->fecha = $date->format('Y-m-d H:i:s');
+            $action->save();
+
+            return view('admin.antecedentes.create');
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
+        }
     }
 
     public function show($id) //show(Antecente $id)

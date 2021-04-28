@@ -14,7 +14,7 @@ Route::get('',[AntecedenteController::class, 'index'])->name('admin.home');
 //Route::get('',[AntecedenteController::class, 'admin.import']);
 
 Route::post('import', [AntecedenteController::class, 'importExcel'])->name('file-import');
-//Route::get('file-export', [UserController::class, 'fileExport'])->name('file-export');
+Route::get('file-export', [AntecedenteController::class, 'fileExport'])->name('file-export');
 Route::resource('antecedentes',AntecedenteController::class)->names('admin.antecedentes');
 Route::resource('personas',PersonController::class)->names('admin.personas');
 Route::resource('detectives',DetectiveController::class)->names('admin.detectives');
@@ -23,7 +23,8 @@ Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
 //ruta para registrar la tabla de importacion
-Route::get('registrarimport', [AntecedenteController::class, 'registrarimport']);
+Route::get('registrarimport', [AntecedenteController::class, 'registrarimport'])->name('registrarimport');
+Route::get('deleterecord', [AntecedenteController::class, 'deleterecordall']);
 //Ajax datatables antecedentes
 //Route::get('tableantecedentes', [HomeController::class, 'tbtljsonantecedentes']);
 Route::get('tableantecedentes', [App\Http\Controllers\HomeController::class, 'tbtljsonantecedentes'])->name('tableantecedentes');
