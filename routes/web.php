@@ -24,6 +24,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/user', [HomeController::class, 'getUser']);
 //Route::get('/moders', [App\Http\Controllers\ModeradorController::class, 'index'])->name('moderador');
-Route::resource('/moders', ModeradorController::class);
+//Route::resource('/moders', ModeradorController::class);
 Route::resource('/users', UserController::class);
 

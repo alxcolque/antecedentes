@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         Storage::deleteDirectory('avisos');
         Storage::makeDirectory('avisos');
 
+        Storage::deleteDirectory('personas');
+        Storage::makeDirectory('personas');
+
         $this->call(TodosSeeder::class);
     }
 }

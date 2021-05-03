@@ -7,6 +7,21 @@
 </div>
 @endif
 
+@if (session('error'))
+<div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+@if(session('info'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('info')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 <div class="content-fluid">
     <div class="col-md-12">
         <div class="card">
@@ -86,49 +101,53 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                     <div class="form-group row">
                                         <label for="ARRESTADO" class="col-sm-4 col-form-label">ARRESTADO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="arrestado" class="form-control" placeholder="ARRESTADO" required>
+                                            <input type="text" name="arrestado" class="form-control" placeholder="ARRESTADO" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="ci" class="col-sm-4 col-form-label">ci</label>
+                                        <label for="ci" class="col-sm-4 col-form-label">CI</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="ci" class="form-control" placeholder="ci" required>
+                                            <input type="text" id="cival" name="ci" class="form-control" placeholder="CI" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="NACIDO EN" class="col-sm-4 col-form-label">NACIDO EN</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="nacido" value="ORURO" class="awesomplete form-control" placeholder="NACIDO EN" autocomplete="off" data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO" data-minChars="1" required>
+                                            <input type="text" name="nacido" value="ORURO" class="awesomplete form-control" placeholder="NACIDO EN" autocomplete="off" data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="NACIONALIDAD" class="col-sm-4 col-form-label">NACIONALIDAD</label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="BOLIVIANO" name="nacionalidad" placeholder="NACIONALIDAD" class="awesomplete form-control" placeholder="NACIDO EN" autocomplete="off" data-list="VENEZOLANO,PERUANO,ARGENTINO,CHILENO,BRASILERO,BOLIVIANO" data-minChars="1" required>
+                                            <input type="text" value="BOLIVIANO" name="nacionalidad" placeholder="NACIONALIDAD" class="awesomplete form-control" placeholder="NACIDO EN" autocomplete="off" data-list="VENEZOLANO,PERUANO,ARGENTINO,CHILENO,BRASILERO,BOLIVIANO" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="EDAD" class="col-sm-4 col-form-label">EDAD</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="edadArr" name="edad" class="form-control" placeholder="EDAD" required>
+                                            <input type="text" id="edadArr" name="edad" class="form-control" placeholder="EDAD" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="GENERO" class="col-sm-4 col-form-label">GENERO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="genero" value="VARON" class="awesomplete form-control" placeholder="GENERO" autocomplete="off" data-list="VARON,MUJER,OTRO" data-minChars="1" required>
+                                            <input type="text" name="genero" value="VARON" class="awesomplete form-control" placeholder="GENERO" autocomplete="off" data-list="VARON,MUJER,OTRO" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="card bg-light text-dark">
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 control-label">Foto</label>
-                                            <div class="col-sm-4">
-                                                <input id="foto" type="file" name="foto" accept="image/*" onchange="readURL(this);">
-                                                <input type="hidden" name="hidden_image" id="hidden_image">
-                                            </div>
+
+
+                                        <div class="card-header bg-light text-dark">
+                                            Ajustar imagen
                                         </div>
-                                        <div class="center-block">
-                                            <img id="modal-preview" src="https://via.placeholder.com/150" alt="Preview" class="form-group hidden" width="100" height="100">
+                                        <div class="card-body">
+                                            <input type="file" name="before_crop_image" id="before_crop_image" accept="image/*" />
+                                            <img id="idimag" class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
+                                        </div>
+                                        <label for="fotopersona" class="col-sm-4 col-form-label">Imagen</label>
+                                        <div class="col-sm-8">
+
+                                            <input type="text" name="fotopersona" id="fotopersona" value="persona.png" class="form-control" readonly required>
                                         </div>
 
                                     </div>
@@ -138,25 +157,25 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                     <div class="form-group row">
                                         <label for="gestion" class="col-sm-4 col-form-label">GESTION</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="gestion" id="intLimitTextBox" value="2021" class="form-control" placeholder="GESTION" required>
+                                            <input type="text" name="gestion" id="intLimitTextBox" value="2021" class="form-control" placeholder="GESTION" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="FECHA" class="col-sm-4 col-form-label">FECHA DEL HECHO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="fechahecho" id="mydate" class="form-control" placeholder="FECHA" required>
+                                            <input type="text" name="fechahecho" id="mydate" class="form-control" placeholder="FECHA" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="HORA" class="col-sm-4 col-form-label">HORA DEL HECHO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="hora" class="form-control hora" value="00:00" placeholder="HORA DEL HECHO" maxlength="5" required>
+                                            <input type="text" name="hora" class="form-control hora" value="00:00" placeholder="HORA DEL HECHO" maxlength="5" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="MES" class="col-sm-4 col-form-label">MES REGISTRO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="latinTextBox" name="mesregistro" class="awesomplete form-control" placeholder="MES REGISTRO" autocomplete="off" data-list="ENERO,FEBRERO,MARZO,ABRIL,MAYO,JUNIO,JULIO,AGOSTO,SEPTIEMBRE,OCTUBRE,NOVIEMBRE,DICIEMBRE" data-minChars="1" required>
+                                            <input type="text" id="latinTextBox" name="mesregistro" class="awesomplete form-control" placeholder="MES REGISTRO" autocomplete="off" data-list="ENERO,FEBRERO,MARZO,ABRIL,MAYO,JUNIO,JULIO,AGOSTO,SEPTIEMBRE,OCTUBRE,NOVIEMBRE,DICIEMBRE" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                             <div class="invalid-feedback">
                                                 Please provide a valid city.
                                             </div>
@@ -165,63 +184,63 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                     <div class="form-group row">
                                         <label for="DEPARTAMENTOS" class="col-sm-4 col-form-label">DEPARTAMENTOS</label>
                                         <div class="col-sm-8">
-                                            <input id="deptoid" type="text" name="departamento" class="awesomplete form-control" placeholder="DEPARTAMENTOS" value="ORURO" autocomplete="off" data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO" data-minChars="1" required>
+                                            <input id="deptoid" type="text" name="departamento" class="awesomplete form-control" placeholder="DEPARTAMENTOS" value="ORURO" autocomplete="off" data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="PROVINCIA" class="col-sm-4 col-form-label">PROVINCIAS</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="soloprov" value="CERCADO" name="provincia" class="awesomplete form-control" autocomplete="off" data-list="SABAYA, CARANGAS, CERCADO, LADISLAO CABRERA, LITORAL, MEJILLONES, NOR CARANGAS, PANTALÉON DALENCE, POOPÓ, SAJAMA, PEDRO DE TOTORA, SAUCARÍ, SEBASTIÁN PAGADOR, SUD CARANGAS, TOMÁS BARRÓN" data-minChars="1" placeholder="PROVINCIAS" required>
+                                            <input type="text" id="soloprov" value="CERCADO" name="provincia" class="awesomplete form-control" autocomplete="off" data-list="SABAYA, CARANGAS, CERCADO, LADISLAO CABRERA, LITORAL, MEJILLONES, NOR CARANGAS, PANTALÉON DALENCE, POOPÓ, SAJAMA, PEDRO DE TOTORA, SAUCARÍ, SEBASTIÁN PAGADOR, SUD CARANGAS, TOMÁS BARRÓN" data-minChars="1" placeholder="PROVINCIAS" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="MUNICIPIOS" class="col-sm-4 col-form-label">MUNICIPIOS</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="soloMUN" name="municipio" class="form-control" placeholder="MUNICIPIOS" required>
+                                            <input type="text" id="soloMUN" name="municipio" class="form-control" placeholder="MUNICIPIOS" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="LOCALIDADES" class="col-sm-4 col-form-label">LOCALIDADES</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="localidad" class="form-control" placeholder="LOCALIDADES" required>
+                                            <input type="text" name="localidad" class="form-control" placeholder="LOCALIDADES" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="ZONA O BARRIO" class="col-sm-4 col-form-label">ZONA BARRIO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="zonabarrio" class="form-control" placeholder="ZONA BARRIO" required>
+                                            <input type="text" name="zonabarrio" class="form-control" placeholder="ZONA BARRIO" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="LUGAR HECHO" class="col-sm-4 col-form-label">LUGAR HECHO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="lugarhecho" class="form-control" placeholder="LUGAR HECHO" required>
+                                            <input type="text" name="lugarhecho" class="form-control" placeholder="LUGAR HECHO" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="UNIDAD" class="col-sm-4 col-form-label">UNIDAD</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="unidad" value="FELCC" class="form-control" placeholder="UNIDAD" required>
+                                            <input type="text" name="unidad" value="FELCC" class="form-control" placeholder="UNIDAD" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="TEMPERANCIA" class="col-sm-4 col-form-label">TEMPERANCIA</label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="SOBRIO" name="temperancia" class="form-control" placeholder="TEMPERANCIA" required>
+                                            <input type="text" value="SOBRIO" name="temperancia" class="form-control" placeholder="TEMPERANCIA" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="CAUSA ARRESTO" class="col-sm-4 col-form-label">CAUSA ARRESTO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="causaarresto" class="awesomplete form-control" placeholder="CAUSA ARRESTO" autocomplete="off" data-list="POR COMISION DEL DELITO (F.E.L.C.C.), ADUANA, POR COMISION DEL DELITO (F.E.L.C.N),POR COMISION DEL DELITO (F.E.LC.C.)" data-minChars="1" required>
+                                            <input type="text" name="causaarresto" class="awesomplete form-control" placeholder="CAUSA ARRESTO" autocomplete="off" data-list="POR COMISION DEL DELITO (F.E.L.C.C.), ADUANA, POR COMISION DEL DELITO (F.E.L.C.N),POR COMISION DEL DELITO (F.E.LC.C.)" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="NATHECHO" class="col-sm-4 col-form-label">NATHECHO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required>
+                                            <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -233,45 +252,44 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                     <div class="form-group row">
                                         <label for="REMITIDO A" class="col-sm-4 col-form-label">REMITIDO A</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="remitidoa" value="FELCC" class="awesomplete form-control" placeholder="REMITIDO A" placeholder="CAUSA ARRESTO" autocomplete="off" data-list="FELCC,FELCV,FELCN)" data-minChars="1" required>
+                                            <input type="text" name="remitidoa" value="FELCC" class="awesomplete form-control" placeholder="REMITIDO A" placeholder="CAUSA ARRESTO" autocomplete="off" data-list="FELCC,FELCV,FELCN)" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
 
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="ACCION DIRECTA" class="col-sm-4 col-form-label">ACCION DIRECTA</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="nombres" class="form-control" placeholder="ACCION DIRECTA" required>
+                                            <input type="text" name="nombres" class="form-control" placeholder="ACCION DIRECTA" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="PERTENENCIAS" class="col-sm-4 col-form-label">PERTENENCIAS</label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="NINGUNO" name="pertenencias" class="form-control" placeholder="PERTENENCIAS" required>
+                                            <input type="text" value="NINGUNO" name="pertenencias" class="form-control" placeholder="PERTENENCIAS" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="GPS" class="col-sm-4 col-form-label">GPS</label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="-17.969944,-67.115266" name="gps" class="form-control" placeholder="GPS" required>
+                                            <input type="text" id="gps" value="-17.969944,-67.115266" name="gps" class="form-control" placeholder="GPS" required>
                                         </div>
+                                        
                                     </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los cambios de esta acción</a>
-                                            </label>
+                                    
+                                </div><div class="form-group ">
+                                            <div class="">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-info">Submit</button>
-                                    </div>
-                                </div>
+                                        <div class="form-group ">
+                                            <div class="">
+                                                <button type="submit" class="btn btn-info">Guardar registro</button>
+                                            </div>
+                                        </div>
 
                             </div>
                         </form>
@@ -286,17 +304,66 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
 
 
 </div>
-
+<div id="imageModel" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajusta el imagen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 text-center">
+                        <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                    </div>
+                    <div class="col-md-4" style="padding-top:30px;">
+                        <br />
+                        <br />
+                        <br />
+                        <button class="btn btn-success crop_image">Guardar Foto</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/css/awesomplete.base.css">
 <link rel="stylesheet" href="/css/awesomplete.theme.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
 @endsection
 @section('js')
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/awesomplete.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
 <script>
     var date = $("#mydate").datepicker({
         dateFormat: 'mm/dd/yy'
@@ -339,6 +406,11 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
     setInputFilter(document.getElementById("edadArr"), function(value) {
         return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 200);
     });
+    //Solo acepta coordenadas
+    setInputFilter(document.getElementById("gps"), function(value) {
+            return /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/i.test(value); });
+    setInputFilter(document.getElementById("cival"), function(value) {
+            return /^[A-Za-z0-9\s]+$/g.test(value); });
 
     $(function() {
 
@@ -382,7 +454,7 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
     }
 </script>
 <script>
-    function readURL(input, id) {
+    /* function readURL(input, id) {
         id = id || '#modal-preview';
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -393,6 +465,59 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
             $('#modal-preview').removeClass('hidden');
             $('#start').hide();
         }
-    }
+    } */
+</script>
+<script>
+    $(document).ready(function() {
+        $image_crop = $('#image_demo').croppie({
+            enableExif: true,
+            viewport: {
+                width: 200,
+                height: 200,
+                type: 'circle' //circle o square
+            },
+            boundary: {
+                width: 300,
+                height: 300
+            }
+        });
+        $('#before_crop_image').on('change', function() {
+            var reader = new FileReader();
+            reader.onload = function(event) {
+                $image_crop.croppie('bind', {
+                    url: event.target.result
+                }).then(function() {
+                    console.log('jQuery bind complete');
+                });
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#imageModel').modal('show');
+        });
+        $('.crop_image').click(function(event) {
+            $image_crop.croppie('result', {
+                type: 'canvas',
+                size: 'viewport'
+            }).then(function(response) {
+                $.ajax({
+                    url: "{{url('moders/editimage')}}",
+                    type: 'POST',
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        'image': response
+                    },
+                    success: function(data) {
+                        $('#imageModel').modal('hide');
+                        //alert('Crop image has been uploaded');
+                        var json = $.parseJSON(data); // create an object with the key of the array
+                        //console.log(json.nombrefoto);
+                        $('#idimag').attr("src", 'storage/personas/' + json.nombrefoto);
+                        $('#fotopersona').val(json.nombrefoto);
+
+                    }
+                })
+            });
+        });
+
+    });
 </script>
 @endsection

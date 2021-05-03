@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PersonController;
 use App\Http\Controllers\Admin\UsuarioController;
-use App\Http\Controllers\HomeController;
 
 Route::get('',[AntecedenteController::class, 'index'])->name('admin.home');
 //Route::get('',[AntecedenteController::class, 'admin.import']);

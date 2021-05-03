@@ -41,6 +41,7 @@ class CreateRecordsTable extends Migration
             $table->string('nombres', 100)->nullable();
             $table->string('pertenencias', 100)->nullable();
             $table->enum('tiporegistro', [1, 2]);
+            $table->string('fotopersona', 100)->nullable();
             $table->timestamps();
         });
     }
