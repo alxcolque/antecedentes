@@ -22,9 +22,10 @@ Route::resource('importaciones',ImportController::class)->names('admin.importaci
 Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
-//ruta para registrar la tabla de importacion
+//ruta para registrar la tabla de importacion registrarantecedentesusuario1
 Route::get('registrarimport', [AntecedenteController::class, 'registrarimport'])->name('registrarimport');
-Route::get('deleterecord', [AntecedenteController::class, 'deleterecordall']);
+Route::get('registrarantecedentesusuario1', [AntecedenteController::class, 'registrarantecedentesusuario1'])->name('registrarantecedentesusuario1');
+Route::post('deleterecord/{tiporegistro}', [AntecedenteController::class, 'deleterecordall'])->name('deleterecord');
 //Ajax datatables antecedentes
 //Route::get('tableantecedentes', [HomeController::class, 'tbtljsonantecedentes']);
 Route::get('tableantecedentes', [App\Http\Controllers\HomeController::class, 'tbtljsonantecedentes'])->name('tableantecedentes');
@@ -37,4 +38,8 @@ Route::post('filterbyyear', [App\Http\Controllers\Admin\AntecedenteController::c
 Route::post('filterbydate', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterbydate'])->name('filterbydate');
 Route::get('filterall', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterall'])->name('filterall');
 Route::get('filterultimateimport', [App\Http\Controllers\Admin\AntecedenteController::class, 'filterultimateimport'])->name('filterultimateimport');
+Route::get('deleteallantecedents', [App\Http\Controllers\Admin\AntecedenteController::class, 'deleteallantecedents'])->name('deleteallantecedents');
+
 Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteController::class, 'index'])->name('antecedentestable');
+Route::get('eliminarecord', [App\Http\Controllers\Admin\AntecedenteController::class, 'eliminarecord'])->name('eliminarecord');
+Route::post('deleter/{id}', [AntecedenteController::class, 'deleter']);

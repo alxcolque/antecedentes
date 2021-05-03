@@ -4,7 +4,38 @@
 @section('plugins.Sweetalert2', true)
 
 @section('content_header')
-<h1>Antecedentes</h1>
+@if (session('error'))
+<div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif 
+<!-- warning -->
+@if(session('warning'))
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('warning')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+<!-- msg success -->
+@if(session('info'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('info')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+<div class="row">
+    <h4>Antecedentes <span class="text-secondary">{{$cant_ant}} registros</span></h4>
+    <div class="mt-auto ml-auto p-2">
+        <b id="ajustes" class="btn btn-secondary" title="Mas Ajustes" data-toggle="tooltip" data-html="true"><i class="fas fa-cogs"></i></b>
+    </div>
+</div>
+
 <div class="row">
     <div class="">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-file-import" title="Importa un archivo excel desde tu computador" data-toggle="tooltip" data-html="true"></i> Importar</button>
@@ -104,7 +135,7 @@
 
                 <form style="border: 4px solid #a1a1a1;margin-top: 15px;padding: 10px;" action="{{ route('file-import') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
-                    <input type="file" name="import_file" accept=".csv,.xlx, .xlsx" required>
+                    <input type="file" name="import_file" accept=".xls, .xlsx" required>
                     <button class="btn btn-primary">Importar arvhivo</button>
                 </form>
 
@@ -131,8 +162,8 @@
                         <i class="fa fa-calendar"></i>&nbsp;
                         <span></span> <i class="fa fa-caret-down"></i>
                     </div>
-                    <input type="text" name="fechainicio" id="fechainicio" >
-                    <input type="text" name="fechafin" id="fechafin" >
+                    <input type="text" name="fechainicio" id="fechainicio" hidden>
+                    <input type="text" name="fechafin" id="fechafin" hidden>
                     <br>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary btn-date"><i class="fas fa-search"></i> Buscar</button>
@@ -176,6 +207,26 @@
         </div>
     </div>
 </div>
+<!-- Ajustes -->
+<div class="modal fade" id="modalAjuste" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="#" onclick="return confirm('¿Estas loco seguro que quieres eliminar todos los antecedentes?')" class="btn btn-danger btn-ajuste" title="Eliminar todos los antecedentes de la base de datos" data-toggle="tooltip" data-html="true"><i class="fas fa-database "></i> <i class="fas fa-times"></i></a>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @stop
 
@@ -402,6 +453,27 @@
             ]
         });
     }
+    $('#ajustes').click(function() {
+
+        $('.modal-title').html("Ajustes");
+        $('#modalAjuste').modal('show');
+
+    });
+    $(".btn-ajuste").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "{{route('deleteallantecedents')}}",
+            type: 'GET',
+            success: function(responseOutput) {
+                $('#modalAjuste').modal('hide');
+                location.reload(true);
+                //mytable("{{ route('antecedentestable') }}", 'GET');
+            }
+        });
+        /*var url = "{{route('filterall')}}";
+        $('#modalYear').modal('hide');
+        mytable(url, 'post');*/
+    });
 </script>
 <Script>
     /* Swal.fire(

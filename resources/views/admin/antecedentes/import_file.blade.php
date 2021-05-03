@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('title', 'FELCC')
+@section('plugins.Sweetalert2', true)
 
 @section('content_header')
 <h1>Previo para guardar en la base de datos</h1>
@@ -72,18 +73,19 @@
                                 <div class="">
                                     <a href="registrarimport" onclick="
 return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-dark" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-                                    <a href="deleterecord" onclick="
-return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn btn-danger" data-toggle="tooltip" data-html="true" title="Boton para limpiar la tabla"><i class="fas fa-trash"></i> Limpiar tabla</a>
+                                    
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{1}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord">Limpiar tabla</a>
                                 </div>
 
 
                             </div>
                         </div>
 
-                        <table id="antecedentes" class="table-striped table-bordered" style="width:100%">
+                        <table id="example" class="stripe row-border order-column" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Acciones</th>
                                     <th>Gestion</th>
                                     <th>Fecha Hecho</th>
                                     <th>Hora</th>
@@ -111,12 +113,21 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
                                     <th>Pertenencias</th>
                                 </tr>
                             </thead>
-                            @foreach ($records as $record)
-                            @if($record->tiporegistro === "1")
+                            <tbody>
+                                @foreach ($records as $record)
+                                @if($record->tiporegistro === "1")
                                 <tr>
-                                    
+
                                     <td>{{ ++$i }}</td>
+                                    <td>
+                                        <button onclick="deleteConfirmation('{{$record->id}}')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-html="true" title="Eliminar esta fila"><i class="fas fa-times"></i></button>
+                                    </td>
+                                    @if($record->gestion == '2018' || $record->gestion == '2019' || $record->gestion == '2020' || $record->gestion == '2021')
                                     <td>{{ $record->gestion }}</td>
+                                    @else
+                                    <td class="bg-warning">{{ $record->gestion }}</td>
+                                    @endif
+
                                     <td>{{ $record->fechahecho }}</td>
                                     <td>{{ $record->hora }}</td>
                                     <td>{{ $record->mesregistro }}</td>
@@ -141,11 +152,13 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
                                     <td>{{ $record->remitidoa }}</td>
                                     <td>{{ $record->nombres }}</td>
                                     <td>{{ $record->pertenencias }}</td>
-                                    
+
 
                                 </tr>
                                 @endif
                                 @endforeach
+                            </tbody>
+
 
                         </table>
 
@@ -157,10 +170,9 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
 
                             <div class="ml-auto p-2">
                                 <div class="">
-                                    <a href="registrarimport" onclick="
-return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-info" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-                                    <a href="deleterecord" onclick="
-return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn btn-danger" data-toggle="tooltip" data-html="true" title="Boton para limpiar la tabla"><i class="fas fa-trash"></i> Limpiar tabla</a>
+                                    <a href="registrarantecedentesusuario1" onclick="
+return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-info" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{2}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord">Limpiar tabla</a>
                                 </div>
 
 
@@ -170,6 +182,7 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Accion</th>
                                     <th>Gestion</th>
                                     <th>Fecha Hecho</th>
                                     <th>Hora</th>
@@ -197,11 +210,15 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
                                     <th>Pertenencias</th>
                                 </tr>
                             </thead>
-                            @foreach ($records as $record)
-                            @if($record->tiporegistro === "2")
+                            <tbody>
+                                @foreach ($records as $record)
+                                @if($record->tiporegistro === "2")
                                 <tr>
-                                    
+
                                     <td>{{ ++$i }}</td>
+                                    <td>
+                                        <button onclick="deleteConfirmation('{{$record->id}}')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-html="true" title="Eliminar esta fila"><i class="fas fa-times"></i></button>
+                                    </td>
                                     <td>{{ $record->gestion }}</td>
                                     <td>{{ $record->fechahecho }}</td>
                                     <td>{{ $record->hora }}</td>
@@ -227,11 +244,14 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
                                     <td>{{ $record->remitidoa }}</td>
                                     <td>{{ $record->nombres }}</td>
                                     <td>{{ $record->pertenencias }}</td>
-                                    
+
 
                                 </tr>
                                 @endif
                                 @endforeach
+
+                            </tbody>
+
 
                         </table>
                     </div>
@@ -253,13 +273,28 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
 <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
 <link rel="stylesheet" href="/css/app.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+<style>
+    /* Ensure that the demo table scrolls */
+    th,
+    td {
+        white-space: nowrap;
+    }
 
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+
+    div.container {
+        width: 80%;
+    }
+</style>
 @stop
 
 @section('js')
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.queryloader2/3.2.2/jquery.queryloader2.min.js"></script>
+<!-- 
+<script src="https://cdn.jsdelivr.net/jquery.queryloader2/3.2.2/jquery.queryloader2.min.js"></script> -->
 <script>
     $(function() {
         $('[data-toggle="tooltip"]').tooltip()
@@ -268,31 +303,24 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
 <script>
     $(document).ready(function() {
         //Tablas
-        $('#antecedentes').DataTable({
-            processing: true,
-            //serverSide: true,
-            responsive: true,
-            autoWidth: false,
-            "language": {
-                "lengthMenu": "Mostrar " +
-                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
-                    " registros por página",
-                "zeroRecords": "No existe registros - discupa",
-                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No records available",
-                "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                "search": "Buscar:",
-                "paginate": {
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            }
+        var table = $('#example').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            columnDefs: [{
+                width: '20%',
+                targets: 0
+            }],
+            fixedColumns: true
         });
         //Tablas2
         $('#antecedentes1').DataTable({
             processing: true,
             //serverSide: true,
-            responsive: true,
+            //responsive: true,
+            scrollX: true,
+            scrollY: 200,
             autoWidth: false,
             "language": {
                 "lengthMenu": "Mostrar " +
@@ -312,18 +340,80 @@ return confirm('¿Seguro que quiere eliminar todo este registro?')" class="btn b
     });
 </script>
 <script>
-    $("body").queryLoader2({
-        barColor: "#555566",
-        backgroundColor: "#fff",
-        percentage: true,
-        barHeight: 1,
-        completeAnimation: "grow",
-        minimumTime: 100,
-        onLoadComplete: hidePreLoader
-    });
+    function deleteConfirmation(id) {
+        //alert(id);
+        swal.fire({
+            title: "Eliminar?",
+            icon: 'question',
+            text: "Este registo!",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Si!",
+            cancelButtonText: "No, Cancelar!",
+            reverseButtons: !0
+        }).then(function(e) {
 
-    function hidePreLoader() {
-        $("#precarga").hide();
+            if (e.value === true) {
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{url('admin/deleter')}}/" + id,
+                    data: {
+                        _token: CSRF_TOKEN
+                    },
+                    dataType: 'JSON',
+                    success: function(results) {
+                        if (results.success === true) {
+                            swal.fire("Listo!", results.message, "success");
+                            // refresh page after 2 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            swal.fire("Error!", results.message, "error");
+                        }
+                    }
+                });
+
+            } else {
+                e.dismiss;
+            }
+
+        }, function(dismiss) {
+            return false;
+        })
     }
 </script>
+<script>
+    $(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('body').on('click', '.deleteRecord', function() {
+
+            var Record_id = $(this).data("id");
+            confirm("¿Seguro desea eliminar todos los registros!!!?");
+
+            $.ajax({
+                type: "POST",
+                url: "{{url('admin/deleterecord')}}/" + Record_id,
+
+                success: function(data) {
+                    //table.draw();
+                    setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        });
+
+    });
+</script>
+
 @stop

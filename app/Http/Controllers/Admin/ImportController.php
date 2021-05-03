@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Import;
 use Illuminate\Http\Request;
 
 class ImportController extends Controller
@@ -14,7 +15,8 @@ class ImportController extends Controller
      */
     public function index()
     {
-        return view('admin.registroimport.index');
+        $imports = Import::all();
+        return view('admin.registroimport.index',compact('imports'));
     }
 
     /**

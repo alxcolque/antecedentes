@@ -38,9 +38,6 @@
                                         <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $row->id }}" data-original-title="Edit" class="edit btn btn-dark btn-sm edit-user">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="javascript:void(0);" id="delete-user" data-toggle="tooltip" data-original-title="Delete" data-id="{{ $row->id }}" class="delete btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
                                     </td>
 
                                         <td>{{$row->nombres}}</td>
