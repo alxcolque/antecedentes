@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Antecedent;
 use App\Models\Models\Image;
+use App\Models\Person;
+use App\Models\Record;
 use Illuminate\Http\Request;
 use Illuminate\Http\Middleware\SoloModerador;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ModeradorController extends Controller
 {
@@ -16,9 +21,48 @@ class ModeradorController extends Controller
 
     public function index()
     {
-        return view('moder');
+        return view('moders.index');
     }
-
+    // Get all record === 2 
+    public function getrecords()
+    {
+        if (request()->ajax()) {
+            return datatables()->of(DB::table('records')
+                ->where('tiporegistro', "2")
+                ->get(array(
+                    'id',
+                    'arrestado',
+                    'ci',
+                    'nacido',
+                    'nacionalidad',
+                    'edad',
+                    'genero',
+                    'gestion',
+                    'fechahecho',
+                    'hora',
+                    'mesregistro',
+                    'departamento',
+                    'provincia',
+                    'municipio',
+                    'localidad',
+                    'zonabarrio',
+                    'lugarhecho',
+                    'temperancia',
+                    'gps',
+                    'causaarresto',
+                    'nathecho',
+                    'unidad',
+                    'arma',
+                    'remitidoa',
+                    'pertenencias',
+                    'nombres',
+                )))
+                ->addColumn('detalle', 'moders.btn-detalle')
+                ->rawColumns(['detalle'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+    }
     public function editimage(Request $request)
     {
         try {
@@ -66,7 +110,43 @@ class ModeradorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $record = new Record();
+
+            $record->gestion = $request->gestion;
+            $record->fechahecho = $request->fechahecho;
+            $record->hora = $request->hora;
+            $record->mesregistro = $request->mesregistro;
+            $record->departamento = $request->departamento;
+            $record->provincia = $request->provincia;
+            $record->municipio = $request->municipio;
+            $record->localidad = $request->localidad;
+            $record->zonabarrio = $request->gestion;
+            $record->lugarhecho = $request->lugarhecho;
+            $record->gps = $request->gps;
+            $record->unidad = $request->unidad;
+            $record->arrestado = $request->arrestado;
+            $record->ci = $request->ci;
+            $record->nacido = $request->nacido;
+            $record->nacionalidad = $request->nacionalidad;
+            $record->edad = $request->edad;
+            $record->genero = $request->genero;
+            $record->temperancia = $request->temperancia;
+            $record->causaarresto = $request->causaarresto;
+            $record->nathecho = $request->nathecho;
+            $record->arma = $request->arma;
+            $record->remitidoa = $request->remitidoa;
+            $record->pertenencias = $request->pertenencias;
+            $record->nombres = $request->nombres;
+            $record->tiporegistro = 2;
+            $record->fotopersona = $request->fotopersona;
+
+            $record->save();
+
+            return redirect('/moders')->with('info', 'Los datos se han guadado con éxito');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
     /**
@@ -75,9 +155,89 @@ class ModeradorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function ver($id)
     {
-        //
+        try {
+            $where = array('id' => $id);
+            $antecedent  = Record::where($where)->first();
+            return view('moders.show', compact('antecedent'));
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+    public function consulta()
+    {
+        $antecedents = [];
+        return view('moders.consulta', compact('antecedents'));
+    }
+    public function resultadobusqueda(Request $request)
+    {   $texto = $request->get('text');
+        if (strlen($texto) <=0) {
+            $antecedents = [];
+        return view('moders.consulta', compact('antecedents'));
+        }
+        
+        $antecedents = DB::table('antecedents')
+            ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
+            ->join('people', 'antecedent_person.person_id', '=', 'people.id')
+            ->join('crimes', 'antecedents.crime_id', '=', 'crimes.id')
+            ->join('detectives', 'antecedents.detective_id', '=', 'detectives.id')
+            ->join('provinces', 'antecedents.province_id', '=', 'provinces.id')
+            ->join('departments', 'provinces.department_id', '=', 'departments.id')
+            ->where('people.arrestado', 'LIKE', '%' . $texto . '%')
+            ->get(array(
+                'antecedents.id',
+                'arrestado',
+                'ci',
+                'foto',
+                'nacido',
+                'nacionalidad',
+                'edad',
+                'genero',
+                'gestion',
+                'fechahecho',
+                'hora',
+                'mesregistro',
+                'departamento',
+                'provincia',
+                'municipio',
+                'localidad',
+                'zonabarrio',
+                'lugarhecho',
+                'temperancia',
+                'gps',
+                'causaarresto',
+                'nathecho',
+                'unidad',
+                'arma',
+                'remitidoa',
+                'pertenencias',
+                'nombres',
+            ));
+        $i = 0;
+        return view('moders.consulta', compact('antecedents', 'i'));
+    }
+    public function search(Request $request)
+    {
+        try {
+            $term = $request->get('term');
+            $querys = Person::where('arrestado', 'LIKE', '%' . $term . '%')->get();
+            //$querys = Antecedent::with('people', 'detective', 'crime', 'province')->where('arrestado', 'LIKE','%'.$term.'%')->get();
+            /* $querys = DB::table('people')
+            ->select('arrestado')
+            ->where('arrestado', 'LIKE','%'.$term.'%'); */
+            //->orWhere('ci','LIKE','%'.$term.'%');
+            //return $query;
+            $data = [];
+            foreach ($querys as $query) {
+                $data[] = [
+                    'label' => $query->arrestado //.' (CI:) '.$query->ci,
+                ];
+            }
+            return $data;
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
     /**
@@ -112,5 +272,11 @@ class ModeradorController extends Controller
     public function destroy($id)
     {
         //
+    }
+    ///perfil
+    public function perfil()
+    {
+        $user = Auth::user();
+        return view('moders.perfil',compact('user'));
     }
 }

@@ -329,7 +329,7 @@ class AntecedenteController extends Controller
                 $min = DB::table('records')->where('tiporegistro',"1")->get(array(
                     'gestion'));
                 if(!is_integer($min[0]->gestion)) {
-                    return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, no son correctos');
+                    return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, Estos no son correctos');
                 }
                 //tabla import
                 $import = new Import();
@@ -391,9 +391,7 @@ class AntecedenteController extends Controller
             if ($count === 0) {
                 $import_id = 2;
                 $records = DB::table('records')->where('tiporegistro', 2)->get();
-                if(!is_integer($records->fechahecho[0])) {
-                    return redirect('/admin/antecedentes')->with('error', 'Revise los datos no son correctos');
-                }
+                
                 //tabla import
                 $import = new Import();
                 $date = new DateTime();
@@ -403,9 +401,7 @@ class AntecedenteController extends Controller
                 $import->save();
             } else {
                 $records = DB::table('records')->where('tiporegistro', 2)->get();
-                if(!is_integer($records->fechahecho[0])) {
-                    return redirect('/admin/antecedentes')->with('error', 'Revise los datos no son correctos');
-                }
+                
                 //tabla import
                 $import = new Import();
                 $date = new DateTime();
@@ -417,8 +413,8 @@ class AntecedenteController extends Controller
             foreach ($records as $record) { //echo $antecedent."\n";
                 $antecedent = new Antecedent();
                 $antecedent->gestion = $record->gestion;
-                $antecedent->fechahecho = jdtogregorian(($record->fechahecho) + 2415019);
-                $antecedent->hora = $this->tiempo($record->hora);
+                $antecedent->fechahecho = $record->fechahecho;
+                $antecedent->hora = $record->hora;
                 $antecedent->mesregistro = $record->mesregistro;
                 $antecedent->municipio = $record->municipio;
                 $antecedent->localidad = $record->localidad;
@@ -445,6 +441,7 @@ class AntecedenteController extends Controller
                 $person->nacionalidad = $record->nacionalidad;
                 $person->edad = $record->edad;
                 $person->genero = $record->genero;
+                $person->foto = $record->fotopersona;
                 $person->save();
                 $detailant = new AntecedentPerson();
                 $detailant->antecedent_id = Antecedent::max('id');

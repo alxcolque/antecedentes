@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
+@section('navbar')
+<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    <li class="nav-item active">
+        <a class="nav-link text-success" href="{{ url('/moders') }}">Inicio <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('moders.consulta') }}">Consulta <span class="sr-only">(current)</span></a>
+    </li>
+</ul>
+@endsection
+
 @section('content')
+<!-- Mensajes -->
 @if (session('status'))
 <div class="alert alert-success" role="alert">
     {{ session('status') }}
@@ -25,6 +37,7 @@
 <div class="content-fluid">
     <div class="col-md-12">
         <div class="card">
+
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item" title="Mi registro" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Antecedentes</a></li>
@@ -36,21 +49,8 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
-                        <div class="row">
 
-                            <div class="ml-auto p-2">
-                                <div class="">
-                                    <a href="registrarimport" onclick="
-return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-dark" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-
-                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{1}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord">Limpiar tabla</a>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                        <table id="example" class="stripe row-border order-column" style="width:100%">
+                        <table id="mytable" class="datatable stripe row-border order-column" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -82,9 +82,7 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                     <th>Pertenencias</th>
                                 </tr>
                             </thead>
-                            <tbody>
 
-                            </tbody>
 
 
                         </table>
@@ -93,7 +91,7 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
 
 
                     <div class="tab-pane" id="settings">
-                        <form class="form-horizontal" action="{{ route('admin.antecedentes.store')}}" method="POST">
+                        <form class="form-horizontal" action="{{ route('moders.store')}}" method="POST">
                             @csrf
                             <div class="row bg-light text-dark">
 
@@ -273,25 +271,34 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                         <div class="col-sm-8">
                                             <input type="text" id="gps" value="-17.969944,-67.115266" name="gps" class="form-control" placeholder="GPS" required>
                                         </div>
-                                        
+
                                     </div>
-                                    
-                                </div><div class="form-group ">
-                                            <div class="">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
-                                                    </label>
+
+                                </div>
+                                
+
+
+                            </div>
+                            <div class="card bg-secondary">
+                                    <div class="container-fluid h-100">
+                                        <div class="row w-100 align-items-center">
+                                            <div class="form-group ">
+                                                <div class="col text-center">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group ">
+                                                <div class="">
+                                                    <button type="submit" class="btn btn-info">Guardar registro</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group ">
-                                            <div class="">
-                                                <button type="submit" class="btn btn-info">Guardar registro</button>
-                                            </div>
-                                        </div>
-
-                            </div>
+                                    </div>
+                                </div>
                         </form>
                     </div>
                     <!-- /.tab-pane -->
@@ -358,12 +365,146 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
 <link rel="stylesheet" href="/css/awesomplete.base.css">
 <link rel="stylesheet" href="/css/awesomplete.theme.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 @endsection
 @section('js')
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript" src="/js/awesomplete.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script> -->
+
+<!-- CRUD -->
+<script>
+    $(document).ready(function() {
+        // init datatable.
+        var dataTable = $('.datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            scrollY: "300px",
+            scrollX: true,
+            autoWidth: false,
+            "order": [
+                [0, "desc"]
+            ],
+            ajax: "{{ route('getrecords') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'detalle',
+                    name: 'detalle',
+                    orderable: false
+                },
+                {
+                    data: 'arrestado',
+                    name: 'arrestado'
+                },
+                {
+                    data: 'ci',
+                    name: 'ci'
+                },
+                {
+                    data: 'nacido',
+                    name: 'nacido'
+                },
+                {
+                    data: 'nacionalidad',
+                    name: 'nacionalidad'
+                },
+                {
+                    data: 'edad',
+                    name: 'edad'
+                }, {
+                    data: 'genero',
+                    name: 'genero'
+                },
+                {
+                    data: 'gestion',
+                    name: 'gestion'
+                }, {
+                    data: 'fechahecho',
+                    name: 'fechahecho'
+                }, {
+                    data: 'hora',
+                    name: 'hora'
+                }, {
+                    data: 'mesregistro',
+                    name: 'mesregistro'
+                }, {
+                    data: 'departamento',
+                    name: 'departamento'
+                },
+                {
+                    data: 'provincia',
+                    name: 'provincia'
+                },
+                {
+                    data: 'municipio',
+                    name: 'municipio'
+                },
+                {
+                    data: 'localidad',
+                    name: 'localidad'
+                }, {
+                    data: 'zonabarrio',
+                    name: 'zonabarrio'
+                }, {
+                    data: 'lugarhecho',
+                    name: 'lugarhecho'
+                }, {
+                    data: 'temperancia',
+                    name: 'temperancia'
+                }, {
+                    data: 'gps',
+                    name: 'gps'
+                }, {
+                    data: 'causaarresto',
+                    name: 'causaarresto'
+                }, {
+                    data: 'nathecho',
+                    name: 'nathecho'
+                }, {
+                    data: 'unidad',
+                    name: 'unidad'
+                }, {
+                    data: 'arma',
+                    name: 'arma'
+                }, {
+                    data: 'remitidoa',
+                    name: 'remitidoa'
+                },
+                {
+                    data: 'nombres',
+                    name: 'nombres'
+                },
+                {
+                    data: 'pertenencias',
+                    name: 'pertenencias'
+                },
+
+            ],
+            "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+    });
+</script>
 <script>
     var date = $("#mydate").datepicker({
         dateFormat: 'mm/dd/yy'
@@ -408,9 +549,11 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
     });
     //Solo acepta coordenadas
     setInputFilter(document.getElementById("gps"), function(value) {
-            return /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/i.test(value); });
+        return /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/i.test(value);
+    });
     setInputFilter(document.getElementById("cival"), function(value) {
-            return /^[A-Za-z0-9\s]+$/g.test(value); });
+        return /^[A-Za-z0-9\s]+$/g.test(value);
+    });
 
     $(function() {
 
@@ -519,5 +662,10 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
         });
 
     });
+</script>
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 @endsection

@@ -49,15 +49,15 @@
                                     <td>
                                         @switch($row->rol)
                                         @case(1)
-                                        <span class="badge bg-success">Admin</span>
+                                        <span class="badge bg-success">ADMINISTRADOR</span>
                                         @break
 
                                         @case(2)
-                                        <span class="badge bg-warning">Moderador</span>
+                                        <span class="badge bg-warning">USUARIO 1</span>
                                         @break
 
                                         @default
-                                        <span class="badge bg-danger">Usuario común</span>
+                                        <span class="badge bg-danger">CONSULTOR</span>
                                         @endswitch
                                     </td>
                                     <td>{{$row->nombres}}</td>
