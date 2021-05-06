@@ -314,7 +314,7 @@ class AntecedenteController extends Controller
                 $records = DB::table('records')->where('tiporegistro', "1")->get();
                 $min = DB::table('records')->where('tiporegistro',"1")->get(array(
                     'gestion'));
-                if(!is_integer($min[0]->gestion)) {
+                if(is_integer($min[0]->gestion)) {
                     return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, no son correctos');
                 }
                 //tabla import
@@ -328,7 +328,7 @@ class AntecedenteController extends Controller
                 $records = DB::table('records')->where('tiporegistro', "1")->get();
                 $min = DB::table('records')->where('tiporegistro',"1")->get(array(
                     'gestion'));
-                if(!is_integer($min[0]->gestion)) {
+                if(is_integer($min[0]->gestion)) {
                     return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, Estos no son correctos');
                 }
                 //tabla import
@@ -369,6 +369,7 @@ class AntecedenteController extends Controller
                 $person->nacionalidad = $record->nacionalidad;
                 $person->edad = $record->edad;
                 $person->genero = $record->genero;
+                $person->foto = $record->fotopersona;
                 $person->save();
                 $detailant = new AntecedentPerson();
                 $detailant->antecedent_id = Antecedent::max('id');
@@ -638,7 +639,7 @@ class AntecedenteController extends Controller
             $person->nacionalidad = $request->nacionalidad;
             $person->edad = $request->edad;
             $person->genero = $request->genero;
-            $person->foto = 'arrestado.png';
+            $person->foto = 'persona.png';
             $person->save();
             $detailant = new AntecedentPerson();
             $detailant->antecedent_id = Antecedent::max('id');

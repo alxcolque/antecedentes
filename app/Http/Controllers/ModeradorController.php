@@ -171,12 +171,13 @@ class ModeradorController extends Controller
         return view('moders.consulta', compact('antecedents'));
     }
     public function resultadobusqueda(Request $request)
-    {   $texto = $request->get('text');
-        if (strlen($texto) <=0) {
+    {
+        $texto = $request->get('text');
+        if (strlen($texto) <= 0) {
             $antecedents = [];
-        return view('moders.consulta', compact('antecedents'));
+            return view('moders.consulta', compact('antecedents'));
         }
-        
+
         $antecedents = DB::table('antecedents')
             ->join('antecedent_person', 'antecedents.id', '=', 'antecedent_person.antecedent_id')
             ->join('people', 'antecedent_person.person_id', '=', 'people.id')
@@ -260,7 +261,54 @@ class ModeradorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            //return $id;
+            $record = Record::find($id);
+            $record->update([
+                'gestion' => $request->gestion, //Carbon::parse()->format('Y-m-01'),
+                'fechahecho' => $request->fechahecho,
+                'hora' => $request->hora,
+                'mesregistro' => $request->mesregistro,
+                'departamento' => $request->departamento,
+                'provincia' => $request->provincia,
+                'municipio' => $request->municipio,
+                'localidad' => $request->localidad,
+                'zonabarrio' => $request->zonabarrio,
+                'lugarhecho' => $request->lugarhecho,
+                'gps' => $request->gps,
+                'unidad' => $request->unidad,
+                'arrestado' => $request->arrestado,
+                'ci' => $request->ci,
+                'nacido' => $request->nacido,
+                'nacionalidad' => $request->nacionalidad,
+                'edad' => $request->edad,
+                'genero' => $request->genero,
+                'temperancia' => $request->temperancia,
+                'causaarresto' => $request->causaarresto,
+                'nathecho' => $request->nathecho,
+                'arma' => $request->arma,
+                'remitidoa' => $request->remitidoa,
+                'nombres' => $request->nombres,
+                'pertenencias' => $request->pertenencias,
+                'fotopersona' => $request->fotopersona,
+                //'tiporegistro' => 1,
+
+            ]);
+            return back()->with('info', 'Registro actualizado con éxito');
+            //return response()->json(['success' => 'Registro actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+    public function deleter($id)
+    {
+        try {
+            Record::destroy($id);
+            return redirect('/moders')->with('info', 'Registro Eliminado con éxito');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        
     }
 
     /**
@@ -277,6 +325,6 @@ class ModeradorController extends Controller
     public function perfil()
     {
         $user = Auth::user();
-        return view('moders.perfil',compact('user'));
+        return view('moders.perfil', compact('user'));
     }
 }

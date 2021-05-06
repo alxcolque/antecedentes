@@ -42,6 +42,7 @@ class RecordsImport implements ToModel//, WithHeadingRow
             'remitidoa' => $row[22],
             'nombres' => $row[23],
             'pertenencias' => $row[24],
+            'fotopersona'=>'persona.png',
             'tiporegistro' => 1,
         ]);
     }

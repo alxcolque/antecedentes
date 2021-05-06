@@ -22,7 +22,7 @@ class TodosSeeder extends Seeder
             'email'=>'admin@mail.com',
             'password'=>Hash::make('admin123'),
             'rol'=>1,
-            'foto'=>'user.jpg',
+            'foto'=>'user.png',
         ]);
         $usuario1=User::create([
             'nombres'=>'Moises',
@@ -31,7 +31,7 @@ class TodosSeeder extends Seeder
             'email'=>'moises@mail.com',
             'password'=>Hash::make('moises123'),
             'rol'=>2,
-            'foto'=>'user.jpg',
+            'foto'=>'user.png',
         ]);
         $usuario2=User::create([
             'nombres'=>'Alicia',
@@ -40,7 +40,7 @@ class TodosSeeder extends Seeder
             'email'=>'alicia@mail.com',
             'password'=>Hash::make('alicia123'),
             'rol'=>3,
-            'foto'=>'user.jpg',
+            'foto'=>'user.png',
         ]);
     }
 }
