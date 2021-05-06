@@ -115,11 +115,11 @@
 
                 <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                   @if($user->fotopersona == "user.png")
+                  <img id="idimag" class="profile-user-img img-fluid rounded-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
 
-                  <img id="idimag" class="profile-user-img img-fluid rounded-circle" src="{{ asset ('/storage/users/'.$user->foto)}}" alt="User profile picture">
 
                   @else
-                  <img  id="idimag" class="profile-user-img img-fluid rounded-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
+                  <img id="idimag" class="profile-user-img img-fluid rounded-circle" src="{{ asset ('/storage/users/'.$user->foto)}}" alt="User profile picture">
                   @endif
 
                   <input type="file" name="before_crop_image" id="before_crop_image" accept="image/*" />
@@ -134,18 +134,18 @@
                 <div class="form-group row">
                   <label for="nombres" class="col-sm-4 col-form-label">Nombres</label>
                   <div class="col-sm-8">
-                    <input type="text" name="nombres" class="form-control" value="{{$user->nombres}}" placeholder="nombres" required onkeyup="this.value = this.value.toUpperCase();">
+                    <input type="text" name="nombres" class="form-control" value="{{$user->nombres}}" placeholder="nombres" required>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="apellidos" class="col-sm-4 col-form-label">Apellidos</label>
                   <div class="col-sm-8">
-                    <input type="text" name="apellidos" class="form-control" value="{{$user->apellidos}}" placeholder="apellidos" required onkeyup="this.value = this.value.toUpperCase();">
+                    <input type="text" name="apellidos" class="form-control" value="{{$user->apellidos}}" placeholder="apellidos" required>
                   </div>
                 </div>
 
-                
-                
+
+
                 <div class="form-group row">
                   <div class="offset-sm-3 col-sm-10">
                     <div class="checkbox">
@@ -178,32 +178,32 @@
 
 <!-- Fin contenido -->
 <div id="imageModel" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Ajusta el imagen</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-8 text-center">
-                        <div id="image_demo" style="width:350px; margin-top:30px"></div>
-                    </div>
-                    <div class="col-md-4" style="padding-top:30px;">
-                        <br />
-                        <br />
-                        <br />
-                        <button class="btn btn-success crop_image">Guardar Foto</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ajusta el imagen</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8 text-center">
+            <div id="image_demo" style="width:350px; margin-top:30px"></div>
+          </div>
+          <div class="col-md-4" style="padding-top:30px;">
+            <br />
+            <br />
+            <br />
+            <button class="btn btn-success crop_image">Guardar Foto</button>
+          </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 @endsection
 @section('css')
@@ -218,56 +218,56 @@
   })
 </script>
 <script>
-    $(document).ready(function() {
-        $image_crop = $('#image_demo').croppie({
-            enableExif: true,
-            viewport: {
-                width: 200,
-                height: 200,
-                type: 'circle' //circle o square
-            },
-            boundary: {
-                width: 300,
-                height: 300
-            }
-        });
-        $('#before_crop_image').on('change', function() {
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                $image_crop.croppie('bind', {
-                    url: event.target.result
-                }).then(function() {
-                    console.log('jQuery bind complete');
-                });
-            }
-            reader.readAsDataURL(this.files[0]);
-            $('#imageModel').modal('show');
-        });
-        $('.crop_image').click(function(event) {
-            $image_crop.croppie('result', {
-                type: 'canvas',
-                size: 'viewport'
-            }).then(function(response) {
-                $.ajax({
-                    url: "{{url('moders/profileimage')}}",
-                    type: 'POST',
-                    data: {
-                        '_token': $('meta[name="csrf-token"]').attr('content'),
-                        'image': response
-                    },
-                    success: function(data) {
-                        $('#imageModel').modal('hide');
-                        //alert('Crop image has been uploaded');
-                        var json = $.parseJSON(data); // create an object with the key of the array
-                        //console.log(json.nombrefoto);
-                        $('#idimag').attr("src", '/storage/users/' + json.nombrefoto);
-                        $('#foto').val(json.nombrefoto);
-
-                    }
-                })
-            });
-        });
-
+  $(document).ready(function() {
+    $image_crop = $('#image_demo').croppie({
+      enableExif: true,
+      viewport: {
+        width: 200,
+        height: 200,
+        type: 'circle' //circle o square
+      },
+      boundary: {
+        width: 300,
+        height: 300
+      }
     });
+    $('#before_crop_image').on('change', function() {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        $image_crop.croppie('bind', {
+          url: event.target.result
+        }).then(function() {
+          console.log('jQuery bind complete');
+        });
+      }
+      reader.readAsDataURL(this.files[0]);
+      $('#imageModel').modal('show');
+    });
+    $('.crop_image').click(function(event) {
+      $image_crop.croppie('result', {
+        type: 'canvas',
+        size: 'viewport'
+      }).then(function(response) {
+        $.ajax({
+          url: "{{url('moders/profileimage')}}",
+          type: 'POST',
+          data: {
+            '_token': $('meta[name="csrf-token"]').attr('content'),
+            'image': response
+          },
+          success: function(data) {
+            $('#imageModel').modal('hide');
+            //alert('Crop image has been uploaded');
+            var json = $.parseJSON(data); // create an object with the key of the array
+            //console.log(json.nombrefoto);
+            $('#idimag').attr("src", '/storage/users/' + json.nombrefoto);
+            $('#foto').val(json.nombrefoto);
+
+          }
+        })
+      });
+    });
+
+  });
 </script>
 @endsection

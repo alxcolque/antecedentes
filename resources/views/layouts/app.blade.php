@@ -76,8 +76,8 @@
 
 
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                            <span class="header-username">{{ Auth::user()->nombreusuario }}</span>
-                            <img src="https://via.placeholder.com/30" class="rounded-circle" alt="">
+                            <span class="header-username">{{ Auth::user()->nombres }}</span>
+                            <img src="{{ asset ('/storage/users/'.Auth::user()->foto)}}" width="30" class="rounded-circle" alt="">
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
