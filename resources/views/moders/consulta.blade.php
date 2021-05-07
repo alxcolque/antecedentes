@@ -48,15 +48,15 @@
                 <form action="{{route('moders.resultado')}}" method="get">
                     <div class="input-group mb-3 col-sm-8">
 
-                        <input type="text" name="text" id="search" class="form-control" placeholder="Nombre de la persona" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <input type="text" name="text" id="search" class="form-control form-control-lg" placeholder="Escriba un nombre aquí para encontrar un antecedente (ej. Juan)" aria-label="Recipient's username" aria-describedby="button-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-success" type="submit" id="button-addon2">Buscar</button>
+                            <button class="btn btn-outline-success" type="submit" id="button-addon2"> <i class="fa fa-search"></i> Buscar</button>
                         </div>
                     </div>
                 </form>
 
                 @if(count($antecedents) <= 0) <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Hey!</strong> No hay resultados, si desea buscar use la caja de búsqueda
+                    <strong></strong> Encontrar un antecedente escribiendo el nombre de la persona en la caja de búsqueda
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -353,7 +353,12 @@
     function verdetalle(id, arrestado, ci, foto, nacido, nacionalidad, edad, genero, gestion, fechahecho, hora, mesregistro, departamento, provincia, municipio, localidad, zonabarrio, lugarhecho, gps, unidad, temperancia, causaarresto, nathecho, arma, remitidoa, nombres, pertenencias) {
         $('.modal-title').html("Detalle del antecedente");
         $('#modalverdetalle').modal('show');
-        $('#idimag').attr("src", '/storage/personas/' + foto);
+        if(foto == "persona.png"){
+
+        }else{
+            $('#idimag').attr("src", '/storage/personas/' + foto);
+        }
+        
         //$('#nombre').val(arrestado);
         //document.getElementById('nombre').innerHTML = arrestado;
         document.getElementById('arrestado').innerHTML = arrestado;

@@ -77,7 +77,12 @@
 
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                             <span class="header-username">{{ Auth::user()->nombres }}</span>
+                            @if (Auth::user()->foto == "user.png")
+                            <img src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" width="30" class="rounded-circle" alt="">
+                            
+                            @else
                             <img src="{{ asset ('/storage/users/'.Auth::user()->foto)}}" width="30" class="rounded-circle" alt="">
+                            @endif
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

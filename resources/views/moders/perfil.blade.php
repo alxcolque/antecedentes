@@ -114,21 +114,29 @@
                 @method('PUT')
 
                 <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
-                  @if($user->fotopersona == "user.png")
+                  @if($user->foto == "user.png")
                   <img id="idimag" class="profile-user-img img-fluid rounded-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
 
 
                   @else
                   <img id="idimag" class="profile-user-img img-fluid rounded-circle" src="{{ asset ('/storage/users/'.$user->foto)}}" alt="User profile picture">
                   @endif
+                  <div class="file-field">
+                    <div class="btn btn-primary btn-sm float-left">
+                      <span>Cambiar foto</span>
+                      <input type="file" name="before_crop_image" id="before_crop_image" accept="image/*" />
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input type="text" id="foto" name="foto" class="form-control" value="{{$user->foto}}" placeholder="Foto" required readonly>
+                    </div>
+                  </div>
 
-                  <input type="file" name="before_crop_image" id="before_crop_image" accept="image/*" />
                 </div>
 
                 <div class="form-group row">
-                  <label for="foto" class="col-sm-4 col-form-label">Foto</label>
+
                   <div class="col-sm-8">
-                    <input type="text" id="foto" name="foto" class="form-control" value="{{$user->foto}}" placeholder="Foto" required readonly>
+
                   </div>
                 </div>
                 <div class="form-group row">
