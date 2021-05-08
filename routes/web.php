@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
 
 Auth::routes();
-Auth::routes(['register' => false]);
+//Auth::routes(['register' => false]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::get('/user', [HomeController::class, 'getUser']);
 //Route::get('/moders', [App\Http\Controllers\ModeradorController::class, 'index'])->name('moderador');

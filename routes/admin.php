@@ -44,5 +44,7 @@ Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteControlle
 Route::get('eliminarecord', [App\Http\Controllers\Admin\AntecedenteController::class, 'eliminarecord'])->name('eliminarecord');
 Route::post('deleter/{id}', [AntecedenteController::class, 'deleter']);
 //profile admin.password
-Route::get('perfil', [UserController::class, 'profile'])->name('admin.profile');
+Route::get('profile', [UserController::class, 'profile'])->name('admin.profile');
 Route::get('password', [UserController::class, 'resetpass'])->name('admin.password');
+
+//Route::get('/profile', [UserController::class, 'resetpass'])->name('admin.profile');

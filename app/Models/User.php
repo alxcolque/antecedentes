@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -57,7 +58,12 @@ class User extends Authenticatable
     }
     public static function adminlte_image()
     {
-        return 'https://picsum.photos/300/300';
+        $user = Auth::user();
+        if($user->foto == 'user.png'){
+            return 'https://picsum.photos/300/300';
+        }
+        return '/storage/users/'.$user->foto;
+        //return 'https://picsum.photos/300/300'; //{{ asset ('/storage/users/'.$user->foto)}}
     }
 
     public static function adminlte_desc()
@@ -66,6 +72,6 @@ class User extends Authenticatable
     }
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        return 'admin/profile';
     }
 }

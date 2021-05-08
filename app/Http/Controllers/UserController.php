@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    
+
     /*public function index()
     {
         return view('usuario');
@@ -103,8 +103,8 @@ class UserController extends Controller
             $record = User::find($id);
             $record->update([
                 'foto' => $request->foto, //Carbon::parse()->format('Y-m-01'),
-                'nombres' => $request->nombres,
-                'apellidos' => $request->apellidos,
+                'name' => $request->name,
+                'lastname' => $request->lastname,
             ]);
             return back()->with('info', 'Registro actualizado con éxito');
             //return response()->json(['success' => 'Registro actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
@@ -131,8 +131,8 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return view('admin.perfil', compact('user'));
-    } 
+        return view('admin.profile.perfil', compact('user'));
+    }
     //resetpass
     public function resetpass()
     {
