@@ -150,7 +150,7 @@
                     <div class="row w-100 align-items-center">
                         <div class="col text-center">
                             <button id="cmd" class="btn btn-danger  btn-sm" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>Descargar en pdf</b></button>
-                            <input class="btn btn-primary  btn-sm" type='button' id='btn' value='Imprimir' onclick='printDiv();'>
+                            <input class="btn btn-primary btn-sm" type='button' id='btn' value='Imprimir' onclick="printDiv('content')"  title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
 
                             <a href="javascript:void(0)" id="deleteRecord1" data-toggle="tooltip" data-id="{{$antecedent->id}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Eliminar este registro</a>
                         </div>
@@ -431,7 +431,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -549,22 +549,12 @@
         doc.save('antecedente.pdf');
     });
     /* Imprimir */
-    function printDiv() {
-
-        var divToPrint = document.getElementById('content');
-
-        var newWin = window.open('', 'Print-Window');
-
-        newWin.document.open();
-
-        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-
-        newWin.document.close();
-
-        setTimeout(function() {
-            newWin.close();
-        }, 10);
-
+    function printDiv(nombreDiv) {
+        var contenido = document.getElementById(nombreDiv).innerHTML;
+        var contenidoOriginal = document.body.innerHTML;
+        document.body.innerHTML = contenido;
+        window.print();
+        document.body.innerHTML = contenidoOriginal;
     }
 </script>
 <script>

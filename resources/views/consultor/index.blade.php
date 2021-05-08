@@ -2,10 +2,7 @@
 @section('navbar')
 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
     <li class="nav-item">
-        <a class="nav-link" href="{{ url('/moders') }}">Inicio <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link text-success" href="{{ route('moders.consulta') }}">Consulta <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ url('/consultor') }}">Inicio <span class="sr-only">(current)</span></a>
     </li>
 </ul>
 @endsection
@@ -45,7 +42,7 @@
 
             <div class="card-body">
 
-                <form action="{{route('moders.resultado')}}" method="get">
+                <form action="{{route('consultor.resultado')}}" method="get">
                     <div class="input-group mb-3 col-sm-8">
 
                         <input type="text" name="text" id="search" class="form-control form-control-lg" placeholder="Escriba un nombre aquí para encontrar un antecedente (ej. Juan)" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -166,7 +163,7 @@
                         <!-- /.card-header -->
                         <div class="card-body" id="content">
                             <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
-                                <img  id="idimag" class="rounded-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" height="100" alt="punto jotapege">
+                                <img id="idimag" class="rounded-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" height="100" alt="punto jotapege">
                             </div>
                             <li class="list-group-item">
                                 <b>Nombre: </b> <a class="float-right" id="arrestado">ALEX</a>
@@ -183,7 +180,7 @@
                             <p><b>Localidad: </b><span id="localidad"></span></p>
                             <p><b>Zona o Barrio: </b><span id="zonabarrio"></span></p>
                             <p><b>Lugar del hecho: </b><span id="lugarhecho"></span></p>
-                            
+
                             <p><b>GPS: </b><span id="gps"></span></p>
                             <p><b>Unidad: </b><span id="unidad"></span></p>
                             <p><b>Tempeancia: </b><span id="temperancia"></span></p>
@@ -193,16 +190,17 @@
                             <p><b>Remitido: </b><span id="remitidoa"></span></p>
                             <p><b>Nombres: </b><span id="nombres"></span></p>
                             <p><b>Pertenencias: </b><span id="pertenencias"></span></p>
-                            
-                            
+
+
                         </div>
                         <!-- /.card -->
                         <div class="card">
                             <div class="container-fluid h-100">
                                 <div class="row w-100 align-items-center">
                                     <div class="col text-center">
-                                        <button id="cmd" class="btn btn-danger" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>Descargar en pdf</b></button>
+                                        <button id="cmd" class="btn btn-danger" title="Clic para para descargar en PDF este registro" data-toggle="tooltip" data-html="true"><b>Descargar en pdf</b></button>
                                         <input class="btn btn-primary" type='button' id='btn' value='Imprimir' onclick="printDiv('content')"  title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +253,7 @@
     $('#search').autocomplete({
         source: function(request, response) {
             $.ajax({
-                url: "{{route('moders.search')}}",
+                url: "{{route('consultor.search')}}",
                 dataType: 'json',
                 data: {
                     term: request.term
@@ -289,6 +287,17 @@
         doc.save('antecedente.pdf');
     });
     /* Imprimir */
+    function printDiv2() {
+        var divToPrint = document.getElementById('content');
+        var newWin = window.open('', 'Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+        newWin.document.close();
+        setTimeout(function() {
+            newWin.close();
+        }, 10);
+    }
+
     function printDiv(nombreDiv) {
         var contenido = document.getElementById(nombreDiv).innerHTML;
         var contenidoOriginal = document.body.innerHTML;
@@ -343,17 +352,17 @@
     function verdetalle(id, arrestado, ci, foto, nacido, nacionalidad, edad, genero, gestion, fechahecho, hora, mesregistro, departamento, provincia, municipio, localidad, zonabarrio, lugarhecho, gps, unidad, temperancia, causaarresto, nathecho, arma, remitidoa, nombres, pertenencias) {
         $('.modal-title').html("Detalle del antecedente");
         $('#modalverdetalle').modal('show');
-        if(foto == "persona.png"){
+        if (foto == "persona.png") {
 
-        }else{
+        } else {
             $('#idimag').attr("src", '/storage/personas/' + foto);
         }
-        
+
         //$('#nombre').val(arrestado);
         //document.getElementById('nombre').innerHTML = arrestado;
         document.getElementById('arrestado').innerHTML = arrestado;
         document.getElementById('ci').innerHTML = ci;
-        
+
         document.getElementById('genero').innerHTML = genero;
         document.getElementById('gestion').innerHTML = gestion;
         document.getElementById('fechahecho').innerHTML = fechahecho;

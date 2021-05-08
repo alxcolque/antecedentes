@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-//Route::resource('/', ModeradorController::class)->names('moders');
+Route::resource('/', ModeradorController::class)->names('moders');
 Route::get('', [ModeradorController::class, 'index']);//->name('moderador');
 //imagen queryimage
 Route::post('editimage', [ModeradorController::class, 'editimage']);

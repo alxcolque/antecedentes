@@ -25,7 +25,7 @@ class SoloAdmin
                 return redirect('moders');// si es un usuario normal redirige a la ruta USER
 			break;	
             case ('3'):
-                return redirect('users');//si es administrador redirige al moderador
+                return redirect('consultor');//si es administrador redirige al moderador
             break;
         }
     }

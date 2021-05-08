@@ -7,14 +7,15 @@ use App\Models\User;
 use Illuminate\Http\Middleware\SoloUser;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     
-    public function index()
+    /*public function index()
     {
         return view('usuario');
-    }
+    }*/
 
     public function profileimage(Request $request)
     {
@@ -121,5 +122,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function perfil()
+    {
+        $user = Auth::user();
+        return view('moders.perfil', compact('user'));
     }
 }
