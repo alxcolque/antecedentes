@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    use Notifiable;
     use HasFactory, Notifiable;
 
     /**
@@ -17,9 +18,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nombres',
-        'apellidos',
-        'nombreusuario',
+        'name',
+        'lastname',
+        'username',
         'email',
         'password',
         'rol',
@@ -45,11 +46,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     //relacion uno a muchos  
-    public function imports(){
+    public function imports()
+    {
         return $this->hasMany(Import::class);
     }
     //relacion uno a uno polimorfica
-    public function action(){
-        return $this->morphOne(Action::class,'usuario');//usurio nombre de un metodo
+    public function action()
+    {
+        return $this->morphOne(Action::class, 'usuario'); //usurio nombre de un metodo
+    }
+    public static function adminlte_image()
+    {
+        return 'https://picsum.photos/300/300';
+    }
+
+    public static function adminlte_desc()
+    {
+        return 'ADMINISTRADOR';
+    }
+    public function adminlte_profile_url()
+    {
+        return 'profile/username';
     }
 }

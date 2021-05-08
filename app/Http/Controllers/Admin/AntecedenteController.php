@@ -581,7 +581,7 @@ class AntecedenteController extends Controller
         //acciones del usuario
         $action = new Action();
         $date = new DateTime();
-        $action->usuario = auth()->user()->nombreusuario;
+        $action->usuario = auth()->user()->username;
         $action->accion = $msg;
         $action->fecha = $date->format('Y-m-d H:i:s');
         $action->save();
@@ -646,12 +646,7 @@ class AntecedenteController extends Controller
             $detailant->person_id = Person::max('id');
             $detailant->save();
             //acciones del usuario
-            $action = new Action();
-            $date = new DateTime();
-            $action->usuario = auth()->user()->nombreusuario;
-            $action->accion = "Un antecedentes registrado";
-            $action->fecha = $date->format('Y-m-d H:i:s');
-            $action->save();
+            $this->recordallactions('Antecedente registrado');
 
             return view('admin.antecedentes.create');
         } catch (\Exception $e) {

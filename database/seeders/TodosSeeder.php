@@ -16,27 +16,27 @@ class TodosSeeder extends Seeder
     public function run()
     {
         $usuarioadmin=User::create([
-            'nombres'=>'Joselito',
-            'apellidos'=>'Corre Ysalta',
-            'nombreusuario'=>'Admin',
+            'name'=>'Joselito',
+            'lastname'=>'Corre Ysalta',
+            'username'=>'Admin',
             'email'=>'admin@mail.com',
             'password'=>Hash::make('admin123'),
             'rol'=>1,
             'foto'=>'user.png',
         ]);
         $usuario1=User::create([
-            'nombres'=>'Usuario1',
-            'apellidos'=>'X Y',
-            'nombreusuario'=>'usuario1',
+            'name'=>'Usuario1',
+            'lastname'=>'X Y',
+            'username'=>'usuario1',
             'email'=>'usuario1@mail.com',
             'password'=>Hash::make('usuario1123'),
             'rol'=>2,
             'foto'=>'user.png',
         ]);
         $usuario2=User::create([
-            'nombres'=>'Constantino',
-            'apellidos'=>'Del Castillo',
-            'nombreusuario'=>'consultor',
+            'name'=>'Constantino',
+            'lastname'=>'Del Castillo',
+            'username'=>'consultor',
             'email'=>'consultor@mail.com',
             'password'=>Hash::make('consultor123'),
             'rol'=>3,

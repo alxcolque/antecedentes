@@ -128,4 +128,15 @@ class UserController extends Controller
         $user = Auth::user();
         return view('moders.perfil', compact('user'));
     }
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('admin.perfil', compact('user'));
+    } 
+    //resetpass
+    public function resetpass()
+    {
+        //$user = Auth::user();
+        return 'Hola d';
+    }
 }

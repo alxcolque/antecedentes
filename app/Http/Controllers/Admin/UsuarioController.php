@@ -55,9 +55,9 @@ class UsuarioController extends Controller
         $id = $request->id;
 
         $details = [
-            'nombres' => $request->nombres,
-            'apellidos' => $request->apellidos,
-            'nombreusuario' => $request->nombreusuario,
+            'name' => $request->name,
+            'lastname' => $request->lastname,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => $request->password,
             'rol' => $request->rol

@@ -60,9 +60,9 @@
                                         <span class="badge bg-danger">CONSULTOR</span>
                                         @endswitch
                                     </td>
-                                    <td>{{$row->nombres}}</td>
-                                    <td>{{$row->apellidos}}</td>
-                                    <td>{{$row->nombreusuario}}</td>
+                                    <td>{{$row->name}}</td>
+                                    <td>{{$row->lastname}}</td>
+                                    <td>{{$row->username}}</td>
                                     <td>{{$row->email}}</td>
 
                                     <td>{{$row->foto}}</td>
@@ -93,19 +93,19 @@
                     <div class="form-group row">
                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nombres" id="nombres" placeholder="Nombres">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nombres">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos">
+                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Apellidos">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="nombreusuario" class="col-sm-2 col-form-label">Usuario</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nombreusuario" id="nombreusuario" placeholder="Nombre de usuario">
+                            <input type="text" class="form-control" name="username" id="username" placeholder="Nombre de usuario">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -261,9 +261,9 @@
                     $('#btn-save').val("edit-user");
                     $('#my-modal').modal('show');
                     $('#id').val(data.id);
-                    $('#nombres').val(data.nombres);
-                    $('#apellidos').val(data.apellidos);
-                    $('#nombreusuario').val(data.nombreusuario);
+                    $('#name').val(data.name);
+                    $('#lastname').val(data.lastname);
+                    $('#username').val(data.username);
                     $('#email').val(data.email);
                     $('#password').val(data.password);
                     $('#foto').val(data.foto);

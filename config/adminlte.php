@@ -65,11 +65,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
-    'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_header' => true,
+    'usermenu_header_class' => 'bg-light',
+    'usermenu_image' =>true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -101,12 +101,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card' => 'card-outline card-success',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-flat btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-dark-success elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -193,7 +193,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -225,7 +225,7 @@ return [
 
     'menu' => [
         [
-            'text' => 'Link 1',
+            //'text' => 'Link 1',
             'url'  => '#',
             'topnav_user'  => true,
         ],
@@ -304,12 +304,12 @@ return [
         ['header' => 'AJUSTES DE CUENTA'],
         [
             'text' => 'Mi perfil',
-            'url'  => 'admin/settings',
+            'route' => 'admin.profile',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'Cambiar contraseña',
-            'url'  => 'admin/settings',
+            'route' => 'admin.password',
             'icon' => 'fas fa-fw fa-lock',
         ],
         

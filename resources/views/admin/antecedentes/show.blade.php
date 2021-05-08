@@ -159,7 +159,7 @@
 
 
                         <div class="tab-pane" id="settings">
-                            <form class="form-horizontal" action="{{ route('admin.antecedentesff.update', $antecedent[0]->id) }}" method="POST">
+                            <form class="form-horizontal" action="{{ route('admin.antecedentes.update', $antecedent[0]->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-group row">
@@ -307,7 +307,7 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                        <button type="submit" class="btn btn-danger">Aceptar</button>
                                     </div>
                                 </div>
                             </form>

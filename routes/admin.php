@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PersonController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\UserController;
 
 Route::get('',[AntecedenteController::class, 'index'])->name('admin.home');
 //Route::get('',[AntecedenteController::class, 'admin.import']);
@@ -42,3 +43,6 @@ Route::get('deleteallantecedents', [App\Http\Controllers\Admin\AntecedenteContro
 Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteController::class, 'index'])->name('antecedentestable');
 Route::get('eliminarecord', [App\Http\Controllers\Admin\AntecedenteController::class, 'eliminarecord'])->name('eliminarecord');
 Route::post('deleter/{id}', [AntecedenteController::class, 'deleter']);
+//profile admin.password
+Route::get('perfil', [UserController::class, 'profile'])->name('admin.profile');
+Route::get('password', [UserController::class, 'resetpass'])->name('admin.password');
