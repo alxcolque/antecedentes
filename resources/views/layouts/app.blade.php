@@ -94,6 +94,18 @@
                                 <i class="fa fa-cog"></i>
                                 {{ __(' Ajustes') }}
                             </a>
+                            @if(Auth::user()->rol == "2")
+                            <a class="dropdown-item" href="{{ route('moders.password') }}">
+                                <i class="fa fa-lock"></i>
+                                {{ __(' Cambiar contraseña') }}
+                            </a>
+                            @else
+                            <a class="dropdown-item" href="{{ route('consultor.password') }}">
+                                <i class="fa fa-lock"></i>
+                                {{ __(' Cambiar contraseña') }}
+                            </a>
+                            @endif
+                            
 
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

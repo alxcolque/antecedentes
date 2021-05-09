@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModeradorController;
 use App\Http\Controllers\UserController;
@@ -24,3 +25,6 @@ Route::post('deleter/{id}', [ModeradorController::class, 'deleter']);
 //image profile
 Route::post('profileimage', [UserController::class, 'profileimage']);
 Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
+
+Route::get('change-password', [ChangePasswordController::class, 'index'])->name('moders.password');
+Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');

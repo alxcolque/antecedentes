@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AdviceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AntecedenteController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PersonController;
@@ -48,3 +49,5 @@ Route::get('profile', [UserController::class, 'profile'])->name('admin.profile')
 Route::get('password', [UserController::class, 'resetpass'])->name('admin.password');
 
 //Route::get('/profile', [UserController::class, 'resetpass'])->name('admin.profile');
+Route::get('change-password', [ChangePasswordController::class, 'index'])->name('admin.password');
+Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
