@@ -7,6 +7,12 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <h3>Control de usuarios del sistema</h3>
 
+<div class="alert alert-warning alert-dismissible fade show print-warning-msg" role="alert" style="display:none">
+    <ul></ul>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <div class="alert alert-success alert-dismissible fade show print-success-msg" role="alert" style="display:none">
     <ul></ul>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -178,16 +184,16 @@
                         </div>
                         <div class="form-check col-sm-3">
                             <input class="form-check-input" type="radio" name="rol" value="2">
-                            <label class="form-check-label">Moderador</label>
+                            <label class="form-check-label">Usuario 1</label>
                         </div>
                         <div class="form-check col-sm-3">
                             <input class="form-check-input" type="radio" name="rol" checked="" value="3">
-                            <label class="form-check-label">Usuario Comun</label>
+                            <label class="form-check-label">Consultor</label>
                         </div>
                     </div>
 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary btn-submit" id="btn-save" value="create">Guardar Cambios
+                        <button type="submit" class="btn btn-primary btn-submit2" id="btn-save" value="create">Guardar Cambios
                         </button>
                     </div>
                 </form>
@@ -196,232 +202,319 @@
             </div>
         </div>
     </div>
-    @stop
+</div>
+<!-- Modal -->
+<div class="modal fade" id="my-modal2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="title2"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm2" name="userForm2" class="form-horizontal" enctype="multipart/form-data">
 
-    @section('css')
-    <!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
-    <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+                    <div class="form-group row">
+                        <label for="Rol" class="col-sm-2 col-form-label">Rol</label>
+                        <div class="form-check col-sm-3">
+                            <input class="form-check-input" type="radio" name="rol2" value="1">
+                            <label class="form-check-label">Admin</label>
+                        </div>
+                        <div class="form-check col-sm-3">
+                            <input class="form-check-input" type="radio" name="rol2" value="2">
+                            <label class="form-check-label">Usuario 1</label>
+                        </div>
+                        <div class="form-check col-sm-3">
+                            <input class="form-check-input" type="radio" name="rol2" checked="" value="3">
+                            <label class="form-check-label">Consultor</label>
+                        </div>
+                    </div>
 
-    <style>
-        #username {
-            text-transform: lowercase;
-        }
-    </style>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-submit" id="btn-save2" value="create">Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+@stop
 
-    @stop
+@section('css')
+<!-- <link rel="stylesheet" href="/css/admin_custom.css">  -->
+<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
 
-    @section('js')
+<style>
+    #username {
+        text-transform: lowercase;
+    }
+</style>
 
-    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+@stop
 
-    <script>
-        var SITEURL = "{{URL::to('')}}";
-        $(document).ready(function() {
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $('#laravel_datatable').DataTable({
-                processing: true,
-                //serverSide: true,
-                responsive: true,
-                autoWidth: false,
-                order: [
-                    [0, 'desc']
-                ],
-                "language": {
-                    "lengthMenu": "Mostrar " +
-                        '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
-                        " registros por página",
-                    "zeroRecords": "No existe registros - discupa",
-                    "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No records available",
-                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                    "search": "Buscar:",
-                    "paginate": {
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
+@section('js')
+
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+
+<script>
+    var SITEURL = "{{URL::to('')}}";
+    $(document).ready(function() {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $('#laravel_datatable').DataTable({
+            processing: true,
+            //serverSide: true,
+            responsive: true,
+            autoWidth: false,
+            order: [
+                [0, 'desc']
+            ],
+            "language": {
+                "lengthMenu": "Mostrar " +
+                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                    " registros por página",
+                "zeroRecords": "No existe registros - discupa",
+                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No records available",
+                "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                "search": "Buscar:",
+                "paginate": {
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            /*"ajax": "{{route('usu')}}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
                 },
-                /*"ajax": "{{route('usu')}}",
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false
-                    },
-                    
-                    {
-                        data: 'rol',
-                        name: 'rol'
-                    },
-                    {
-                        data: 'nombres',
-                        name: 'nombres'
-                    },
-                    {
-                        data: 'apellidos',
-                        name: 'apellidos'
-                    },
-                    {
-                        data: 'nombreusuario',
-                        name: 'nombreusuario'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'foto',
-                        name: 'foto',
-                        orderable: false
-                    },
-                ],*/
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false
+                },
+                
+                {
+                    data: 'rol',
+                    name: 'rol'
+                },
+                {
+                    data: 'nombres',
+                    name: 'nombres'
+                },
+                {
+                    data: 'apellidos',
+                    name: 'apellidos'
+                },
+                {
+                    data: 'nombreusuario',
+                    name: 'nombreusuario'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'foto',
+                    name: 'foto',
+                    orderable: false
+                },
+            ],*/
 
-            });
-            /*  When user click add user button */
-            $('#create_new').click(function() {
-                $('#btn-save').val("create-user");
-                $('#user_id').val('');
-                $('#userForm').trigger("reset");
-                $('#title').html("Nuevo Usario");
-                $('#my-modal').modal('show');
+        });
+        /*  When user click add user button */
+        $('#create_new').click(function() {
+            $('#btn-save').val("create-user");
+            $('#user_id').val('');
+            $('#userForm').trigger("reset");
+            $('#title').html("Nuevo Usario");
+            $('#my-modal').modal('show');
 
-            });
-            /* When click edit user */
-            $('body').on('click', '.edit-user', function() {
-                var user_id = $(this).data('id');
+        });
+        /* When click edit user */
+        $('body').on('click', '.edit-user', function() {
+            var user_id = $(this).data('id');
+            var authid = '{{Auth::user()->id}}';
+            if (authid == user_id) {
+                alert('El cambio de rol no es permitido para Usted...');
+            } else {
                 $.get('usuarios/' + user_id + '/edit', function(data) {
 
-                    $('#title').html("Editar Usuario");
-                    $('#btn-save').val("edit-user");
-                    $('#my-modal').modal('show');
+                    $('#title2').html("Cambiar rol del usuario");
+                    $('#btn-save2').val("Editar");
+                    $('#my-modal2').modal('show');
                     $('#id').val(data.id);
-                    $('#name').val(data.name);
-                    $('#lastname').val(data.lastname);
-                    $('#username').val(data.username);
-                    $('#email').val(data.email);
-                    $('#password').val(data.password);
-                    $('#foto').val(data.foto);
-                    $('#modal-preview').attr('alt', 'No image available');
 
                 })
-            });
-            //Eliminar un registro
-            $('body').on('click', '#delete-user', function() {
-                var user_id = $(this).data("id");
-                if (confirm("Usted va elimnar !")) {
-                    $.ajax({
-                        type: "get",
-                        url: "usuarios/delete/" + user_id,
-                        success: function(data) {
-                            $(".print-success-msg").find("ul").html(data.success);
-                            $(".print-success-msg").css('display', 'block');
-                            setTimeout(function() {
-                                location.reload();
-                            }, 3000);
-                            //alert(data.success);
-                        },
-                        error: function(data) {
-                            alert('Error:', data);
-                        }
-                    });
+            }
+
+        });
+        //Actualizar
+        $(".btn-submit2").click(function(e) {
+
+            e.preventDefault();
+
+            //alert("dsdf");
+            e.preventDefault();
+            var actionType = $('#btn-save2').val();
+            $('#btn-save2').html('Enviando..');
+            var rol = $('input[name="rol2"]:checked').val();
+
+            $.ajax({
+                url: "{{ route('admin.usuarios.update',1) }}/",
+                type: 'POST',
+                data: {
+                    _token: CSRF_TOKEN,
+                    rol: rol,
+                },
+                success: function(data) {
+                    if ($.isEmptyObject(data.error)) {
+                        //alert(data.success);
+
+                        $('#my-modal').modal('hide');
+                        //$('#userForm').trigger("reset");
+                        $('#btn-save').html('Guardar cambios');
+
+                        $(".print-success-msg").find("ul").html(data.success);
+                        $(".print-success-msg").css('display', 'block');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+
+                    } else {
+                        //printErrorMsg(data.error);
+                    }
                 }
             });
-            $(".btn-submit").click(function(e) {
 
-                e.preventDefault();
-
-                //alert("dsdf");
-                e.preventDefault();
-                var actionType = $('#btn-save').val();
-                $('#btn-save').html('Enviando..');
-                //var formData = new FormData(this);
-                var name = $("#name").val();
-                var lastname = $("#lastname").val();
-                var username = $("#username").val();
-                var password = $("#password").val();
-                var confirm_password = $("#confirm_password").val();
-                var email = $("#email").val();
-                var rol = $('input[name="rol"]:checked').val();
-
+        });
+        //Eliminar un registro
+        $('body').on('click', '#delete-user', function() {
+            var user_id = $(this).data("id");
+            if (confirm("Usted va elimnar este usuario !")) {
                 $.ajax({
-                    url: "{{ route('admin.usuarios.store') }}",
-                    type: 'POST',
-                    data: {
-                        _token: CSRF_TOKEN,
-                        name: name,
-                        lastname: lastname,
-                        username: username,
-                        password: password,
-                        confirm_password: confirm_password,
-                        email: email,
-                        rol: rol,
-                    },
+                    type: "get",
+                    url: "usuarios/delete/" + user_id,
                     success: function(data) {
-                        if ($.isEmptyObject(data.error)) {
-                            //alert(data.success);
-
-                            $('#my-modal').modal('hide');
-                            $('#userForm').trigger("reset");
-                            $('#btn-save').html('Guardar cambios');
-
+                        if (data.warning) {
+                            $(".print-warning-msg").find("ul").html(data.warning);
+                            $(".print-warning-msg").css('display', 'block');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
+                        } else {
                             $(".print-success-msg").find("ul").html(data.success);
                             $(".print-success-msg").css('display', 'block');
                             setTimeout(function() {
                                 location.reload();
-                            }, 3000);
-
-                        } else {
-                            printErrorMsg(data.error);
+                            }, 2000);
                         }
+
+                        //alert(data.success);
+                    },
+                    error: function(data) {
+                        alert('Error:', data);
                     }
                 });
+            }
+        });
+        $(".btn-submit").click(function(e) {
 
+            e.preventDefault();
+
+            //alert("dsdf");
+            e.preventDefault();
+            var actionType = $('#btn-save').val();
+            $('#btn-save').html('Enviando..');
+            //var formData = new FormData(this);
+            var name = $("#name").val();
+            var lastname = $("#lastname").val();
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var confirm_password = $("#confirm_password").val();
+            var email = $("#email").val();
+            var rol = $('input[name="rol"]:checked').val();
+
+            $.ajax({
+                url: "{{ route('admin.usuarios.store') }}",
+                type: 'POST',
+                data: {
+                    _token: CSRF_TOKEN,
+                    name: name,
+                    lastname: lastname,
+                    username: username,
+                    password: password,
+                    confirm_password: confirm_password,
+                    email: email,
+                    rol: rol,
+                },
+                success: function(data) {
+                    if ($.isEmptyObject(data.error)) {
+                        //alert(data.success);
+
+                        $('#my-modal').modal('hide');
+                        $('#userForm').trigger("reset");
+                        $('#btn-save').html('Guardar cambios');
+
+                        $(".print-success-msg").find("ul").html(data.success);
+                        $(".print-success-msg").css('display', 'block');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+
+                    } else {
+                        printErrorMsg(data.error);
+                    }
+                }
             });
 
-            function printErrorMsg(msg) {
-                $(".print-error-msg").find("ul").html('');
-                $(".print-error-msg").css('display', 'block');
-                $.each(msg, function(key, value) {
-                    $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
-                });
-            }
-
-
         });
 
-        //validar password
-        $('#password, #confirm_password').on('keyup', function() {
-            if ($('#password').val() == '') {
-                $('#message').html('Sin datos').css('color', 'white');
-                $('#confirm_password').css("border-color", "red");
-            } 
-            else if ($('#confirm_password').val() == $('input[name="password"]').val() && $('#confirm_password').val().length > 5) {
-                //$('#confirm_password').css( 'border-color','green');
-
-                //$('#confirm_password').css("border-color", "green");
-                //element.classList.remove("borderRed");
-                var element = document.getElementById('confirm_password');
-                // element.style.removeAttribute("border");
-                element.style.border = "";
-                var element = document.getElementById('confirm_password');
-                element.style.border = "2px solid green";
-
-                $('#message').html('Correcto').css('color', 'green');
-
-            } else {
-                $('#message').html('Las contraseñas no coinciden o es menor a 5 caracteres').css('color', 'red');
-                $('#confirm_password').css("border-color", "red");
-            }
-
-        });
-
-        function forceLower(strInput) {
-            strInput.value = strInput.value.toLowerCase();
+        function printErrorMsg(msg) {
+            $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display', 'block');
+            $.each(msg, function(key, value) {
+                $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+            });
         }
-    </script>
 
-    @stop
+
+    });
+
+    //validar password
+    $('#password, #confirm_password').on('keyup', function() {
+        if ($('#password').val() == '') {
+            $('#message').html('Sin datos').css('color', 'white');
+            $('#confirm_password').css("border-color", "red");
+        } else if ($('#confirm_password').val() == $('input[name="password"]').val() && $('#confirm_password').val().length > 5) {
+            //$('#confirm_password').css( 'border-color','green');
+
+            //$('#confirm_password').css("border-color", "green");
+            //element.classList.remove("borderRed");
+            var element = document.getElementById('confirm_password');
+            // element.style.removeAttribute("border");
+            element.style.border = "";
+            var element = document.getElementById('confirm_password');
+            element.style.border = "2px solid green";
+
+            $('#message').html('Correcto').css('color', 'green');
+
+        } else {
+            $('#message').html('Las contraseñas no coinciden o es menor a 5 caracteres').css('color', 'red');
+            $('#confirm_password').css("border-color", "red");
+        }
+
+    });
+
+    function forceLower(strInput) {
+        strInput.value = strInput.value.toLowerCase();
+    }
+</script>
+
+@stop

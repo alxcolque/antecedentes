@@ -88,7 +88,7 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        //
+        
     }
 
     public function edit($id)
@@ -108,11 +108,16 @@ class UsuarioController extends Controller
     
     public function destroy($id)
     {
-        $user  = User::where('id',$id)->first();
-        $user->delete();
-        $this->recordallactions("Usuario ".$user->username." Eliminado");
+        if(auth()->user()->id == $id){
+            //return back()->with('warning','No puedes eliminar a este administrador');
+            return response()->json(['warning' => 'No puedes eliminar a este administrador']);
+        }else{
+            $user  = User::where('id',$id)->first();
+            $user->delete();
+            $this->recordallactions("Usuario ".$user->username." Eliminado");
+            return response()->json(['success'=>'Usuario '.$user->username.' Eliminado con Éxito.']);
+        }
         
-        return response()->json(['success'=>'Usuario '.$user->username.' Eliminado con Éxito.']);
     }
 
     public function recordallactions($msg)
