@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Action;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
-use Redirect, Response, DB;
 use File;
+use Illuminate\Support\Facades\Hash;
 use PDF;
+use Validator;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -48,87 +52,79 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'lastname' => 'required',
+            'password' => 'required|min:5',
+            'email' => 'required|email|unique:users',
+            'username' => 'required|unique:users',
+            'confirm_password'=>'required',
+            'rol' => 'required'
         ]);
 
-        $id = $request->id;
-
-        $details = [
-            'name' => $request->name,
-            'lastname' => $request->lastname,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => $request->password,
-            'rol' => $request->rol
-        ];
-
-        if ($files = $request->file('foto')) {
-
-            //delete old file
-            \File::delete('public/user/' . $request->hidden_image);
-
-            //insert new file
-            $destinationPath = 'public/user/'; // upload path
-            $profileImage = date('YmdHis') . "." . $files->getClientOriginalExtension();
-            $files->move($destinationPath, $profileImage);
-            $details['foto'] = "$profileImage";
-        }
-
-        $user   =   User::updateOrCreate(['id' => $id], $details);
-
-        return Response::json($user);
+        
+        //try {
+            if ($validator->passes()) {
+                
+                $save = new User;
+                $save->name = $request->name;
+                $save->lastname = $request->lastname;
+                $save->username = $request->username;
+                $save->email = $request->email;
+                $save->password = Hash::make($request->password);
+                $save->foto = 'user.png';
+                $save->rol = $request->rol;
+                $save->save();
+                $this->recordallactions("Usuario ".$request->username.' Creado');
+                return response()->json(['success' => 'Usuario creado con éxito. ']);
+                //
+            }
+            return response()->json(['error' => $validator->errors()->all()]);
+        /*} catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }*/
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $where = array('id' => $id);
         $user  = User::where($where)->first();
 
-        return Response::json($user);
+        //return Response::json($user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
-        $data = User::where('id', $id)->first(['foto']);
-        \File::delete('public/user/' . $data->foto);
-        $product = User::where('id', $id)->delete();
+        $user  = User::where('id',$id)->first();
+        $user->delete();
+        $this->recordallactions("Usuario ".$user->username." Eliminado");
+        
+        return response()->json(['success'=>'Usuario '.$user->username.' Eliminado con Éxito.']);
+    }
 
-        return Response::json($product);
+    public function recordallactions($msg)
+    {
+        //Record::truncate();
+
+        //acciones del usuario
+        $action = new Action();
+        $date = new DateTime();
+        $action->usuario = auth()->user()->username;
+        $action->accion = $msg;
+        $action->fecha = $date->format('Y-m-d H:i:s');
+        $action->save();
     }
 }

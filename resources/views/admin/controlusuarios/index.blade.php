@@ -4,8 +4,41 @@
 
 @section('content_header')
 <!-- CSRF Token -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
-<h1>Inicio</h1>
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+<h3>Control de usuarios del sistema</h3>
+
+<div class="alert alert-success alert-dismissible fade show print-success-msg" role="alert" style="display:none">
+    <ul></ul>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+@if (session('error'))
+<div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+<!-- warning -->
+@if(session('warning'))
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('warning')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+<!-- msg success -->
+@if(session('info'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('info')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 @stop
 
 @section('content')
@@ -43,7 +76,7 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0);" id="delete-user" data-toggle="tooltip" data-original-title="Delete" data-id="{{ $row->id }}" class="delete btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i>
+                                            <i class="fas fa-times"></i>
                                         </a>
                                     </td>
                                     <td>
@@ -65,7 +98,14 @@
                                     <td>{{$row->username}}</td>
                                     <td>{{$row->email}}</td>
 
-                                    <td>{{$row->foto}}</td>
+                                    <td>
+                                        @if ($row->foto == "user.png")
+                                        <img src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" width="30" class="rounded-circle" alt="">
+
+                                        @else
+                                        <img src="{{ asset ('/storage/users/'.$row->foto)}}" width="30" class="rounded-circle" alt="">
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -88,42 +128,46 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="alert alert-danger print-error-msg" style="display:none">
+                    <ul></ul>
+                </div>
                 <form id="userForm" name="userForm" class="form-horizontal" enctype="multipart/form-data">
-                    <input type="hidden" name="id" id="id">
+
                     <div class="form-group row">
                         <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="name" id="name" placeholder="Nombres">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nombres" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Apellidos">
+                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Apellidos" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="nombreusuario" class="col-sm-2 col-form-label">Usuario</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Nombre de usuario">
+                            <input type="text" class="form-control" name="username" id="username" placeholder="Nombre de usuario" required onkeyup="return forceLower(this);">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="password" id="password" placeholder="Contraseña">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="password" class="col-sm-2 col-form-label">Confirmar</label>
+                        <label for="password" class="col-sm-2 col-form-label">Confirmar contaseña</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="password" id="password" placeholder="Contraseña">
+                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirmar Contraseña" required>
+                            <span id='message'></span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -142,16 +186,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label">Foto</label>
-                        <div class="col-sm-4">
-                            <input id="foto" type="file" name="foto" accept="image/*" onchange="readURL(this);">
-                            <input type="hidden" name="hidden_image" id="hidden_image">
-                        </div>
-                    </div>
-                    <img id="modal-preview" src="https://via.placeholder.com/150" alt="Preview" class="form-group hidden" width="100" height="100">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="btn-save" value="create">Guardar Cambios
+                        <button type="submit" class="btn btn-primary btn-submit" id="btn-save" value="create">Guardar Cambios
                         </button>
                     </div>
                 </form>
@@ -167,21 +203,23 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
 
+    <style>
+        #username {
+            text-transform: lowercase;
+        }
+    </style>
+
     @stop
 
     @section('js')
+
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 
     <script>
         var SITEURL = "{{URL::to('')}}";
         $(document).ready(function() {
-            //alert("alet");
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $('#laravel_datatable').DataTable({
                 processing: true,
                 //serverSide: true,
@@ -250,7 +288,7 @@
                 $('#userForm').trigger("reset");
                 $('#title').html("Nuevo Usario");
                 $('#my-modal').modal('show');
-                $('#modal-preview').attr('src', 'https://via.placeholder.com/150');
+
             });
             /* When click edit user */
             $('body').on('click', '.edit-user', function() {
@@ -268,10 +306,7 @@
                     $('#password').val(data.password);
                     $('#foto').val(data.foto);
                     $('#modal-preview').attr('alt', 'No image available');
-                    if (data.foto) {
-                        $('#modal-preview').attr('src', SITEURL + 'public/user/' + data.foto);
-                        $('#hidden_image').attr('src', SITEURL + 'public/user/' + data.foto);
-                    }
+
                 })
             });
             //Eliminar un registro
@@ -282,54 +317,110 @@
                         type: "get",
                         url: "usuarios/delete/" + user_id,
                         success: function(data) {
-                            var oTable = $('#laravel_datatable').dataTable();
-                            oTable.fnDraw(false);
+                            $(".print-success-msg").find("ul").html(data.success);
+                            $(".print-success-msg").css('display', 'block');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+                            //alert(data.success);
                         },
                         error: function(data) {
-                            console.log('Error:', data);
+                            alert('Error:', data);
                         }
                     });
                 }
             });
-        });
-        $('body').on('submit', '#userForm', function(e) {
-            alert("dsdf");
-            e.preventDefault();
-            var actionType = $('#btn-save').val();
-            $('#btn-save').html('Sending..');
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: SITEURL + "/admin/usuarios/store",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: (data) => {
-                    $('#userForm').trigger("reset");
-                    $('#my-modal').modal('hide');
-                    $('#btn-save').html('Save Changes');
-                    var oTable = $('#laravel_datatable').dataTable();
-                    oTable.fnDraw(false);
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                    $('#btn-save').html('Save Changes');
-                }
+            $(".btn-submit").click(function(e) {
+
+                e.preventDefault();
+
+                //alert("dsdf");
+                e.preventDefault();
+                var actionType = $('#btn-save').val();
+                $('#btn-save').html('Enviando..');
+                //var formData = new FormData(this);
+                var name = $("#name").val();
+                var lastname = $("#lastname").val();
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var confirm_password = $("#confirm_password").val();
+                var email = $("#email").val();
+                var rol = $('input[name="rol"]:checked').val();
+
+                $.ajax({
+                    url: "{{ route('admin.usuarios.store') }}",
+                    type: 'POST',
+                    data: {
+                        _token: CSRF_TOKEN,
+                        name: name,
+                        lastname: lastname,
+                        username: username,
+                        password: password,
+                        confirm_password: confirm_password,
+                        email: email,
+                        rol: rol,
+                    },
+                    success: function(data) {
+                        if ($.isEmptyObject(data.error)) {
+                            //alert(data.success);
+
+                            $('#my-modal').modal('hide');
+                            $('#userForm').trigger("reset");
+                            $('#btn-save').html('Guardar cambios');
+
+                            $(".print-success-msg").find("ul").html(data.success);
+                            $(".print-success-msg").css('display', 'block');
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+
+                        } else {
+                            printErrorMsg(data.error);
+                        }
+                    }
+                });
+
             });
+
+            function printErrorMsg(msg) {
+                $(".print-error-msg").find("ul").html('');
+                $(".print-error-msg").css('display', 'block');
+                $.each(msg, function(key, value) {
+                    $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+                });
+            }
+
+
         });
 
-        function readURL(input, id) {
-            id = id || '#modal-preview';
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $(id).attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-                $('#modal-preview').removeClass('hidden');
-                $('#start').hide();
+        //validar password
+        $('#password, #confirm_password').on('keyup', function() {
+            if ($('#password').val() == '') {
+                $('#message').html('Sin datos').css('color', 'white');
+                $('#confirm_password').css("border-color", "red");
+            } 
+            else if ($('#confirm_password').val() == $('input[name="password"]').val() && $('#confirm_password').val().length > 5) {
+                //$('#confirm_password').css( 'border-color','green');
+
+                //$('#confirm_password').css("border-color", "green");
+                //element.classList.remove("borderRed");
+                var element = document.getElementById('confirm_password');
+                // element.style.removeAttribute("border");
+                element.style.border = "";
+                var element = document.getElementById('confirm_password');
+                element.style.border = "2px solid green";
+
+                $('#message').html('Correcto').css('color', 'green');
+
+            } else {
+                $('#message').html('Las contraseñas no coinciden o es menor a 5 caracteres').css('color', 'red');
+                $('#confirm_password').css("border-color", "red");
             }
+
+        });
+
+        function forceLower(strInput) {
+            strInput.value = strInput.value.toLowerCase();
         }
     </script>
 
