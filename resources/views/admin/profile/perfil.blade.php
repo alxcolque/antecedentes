@@ -41,7 +41,7 @@
         <ul class="nav nav-pills">
           <li class="nav-item" title="Mi perfil" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Mi perfil</a></li>
 
-          <li class="nav-item" title="Actualizar perfil" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Ajustes</a></li>
+          <li class="nav-item " title="Actualizar perfil" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab"> Ajustes</a></li>
         </ul>
       </div><!-- /.card-header -->
 

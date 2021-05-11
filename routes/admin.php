@@ -23,6 +23,9 @@ Route::resource('importaciones',ImportController::class)->names('admin.importaci
 Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
+//Ruta para  actualizar el usuario
+Route::post('updateuser', [UsuarioController::class, 'updateuser'])->name('admin.updateuser');
+
 //ruta para registrar la tabla de importacion registrarantecedentesusuario1
 Route::get('registrarimport', [AntecedenteController::class, 'registrarimport'])->name('registrarimport');
 Route::get('registrarantecedentesusuario1', [AntecedenteController::class, 'registrarantecedentesusuario1'])->name('registrarantecedentesusuario1');

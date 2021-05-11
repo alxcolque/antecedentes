@@ -197,7 +197,7 @@
             </div>
 
             <div class="form-group row">
-                <label for="NATHECHO" class="col-sm-4 col-form-label">NATHECHO</label>
+                <label for="NATHECHO" class="col-sm-4 col-form-label">NATURALEZA DEL HECHO</label>
                 <div class="col-sm-8">
                     <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required>
                 </div>

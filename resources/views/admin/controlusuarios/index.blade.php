@@ -78,7 +78,7 @@
                                 <tr>
                                     <td>{{$row->id}}</td>
                                     <td>
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $row->id }}" data-original-title="Edit" class="edit btn btn-dark btn-sm edit-user">
+                                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $row->id }}" data-original-title="Edit" class="edit btn btn-primary btn-sm edit-user">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="javascript:void(0);" id="delete-user" data-toggle="tooltip" data-original-title="Delete" data-id="{{ $row->id }}" class="delete btn btn-danger btn-sm">
@@ -193,7 +193,7 @@
                     </div>
 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary btn-submit2" id="btn-save" value="create">Guardar Cambios
+                        <button type="submit" class="btn btn-primary btn-submit" id="btn-save" value="create">Guardar Cambios
                         </button>
                     </div>
                 </form>
@@ -214,8 +214,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="userForm2" name="userForm2" class="form-horizontal" enctype="multipart/form-data">
-
+            <form id="userForm2" name="userForm2" class="form-horizontal" enctype="multipart/form-data">
+                    <input type="text" id="id2" hidden>
+                    <h5  >Nombre de usuario: <span class="text-primary" id="name123"></span></h5>
                     <div class="form-group row">
                         <label for="Rol" class="col-sm-2 col-form-label">Rol</label>
                         <div class="form-check col-sm-3">
@@ -233,7 +234,7 @@
                     </div>
 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary btn-submit" id="btn-save2" value="create">Guardar Cambios
+                        <button type="submit" class="btn btn-primary btn-submit2" id="btn-save2" value="create">Guardar Cambios
                         </button>
                     </div>
                 </form>
@@ -344,13 +345,14 @@
             if (authid == user_id) {
                 alert('El cambio de rol no es permitido para Usted...');
             } else {
-                $.get('usuarios/' + user_id + '/edit', function(data) {
+                $.get('/admin/usuarios/' + user_id + '/edit', function(data) {
 
                     $('#title2').html("Cambiar rol del usuario");
                     $('#btn-save2').val("Editar");
                     $('#my-modal2').modal('show');
-                    $('#id').val(data.id);
-
+                    $('#id2').val(data.id);
+                    $('#name123').html(data.username);
+                    //alert(data.id);
                 })
             }
 
@@ -359,33 +361,32 @@
         $(".btn-submit2").click(function(e) {
 
             e.preventDefault();
-
-            //alert("dsdf");
-            e.preventDefault();
             var actionType = $('#btn-save2').val();
             $('#btn-save2').html('Enviando..');
             var rol = $('input[name="rol2"]:checked').val();
-
+            var id = $("#id2").val();
             $.ajax({
-                url: "{{ route('admin.usuarios.update',1) }}/",
+                url: "{{ route('admin.updateuser')}}",
                 type: 'POST',
                 data: {
                     _token: CSRF_TOKEN,
                     rol: rol,
+                    id: id
                 },
                 success: function(data) {
+                    //alert(data.success);
                     if ($.isEmptyObject(data.error)) {
                         //alert(data.success);
 
-                        $('#my-modal').modal('hide');
+                        $('#my-modal2').modal('hide');
                         //$('#userForm').trigger("reset");
-                        $('#btn-save').html('Guardar cambios');
+                        $('#btn-save2').html('Guardar cambios');
 
                         $(".print-success-msg").find("ul").html(data.success);
                         $(".print-success-msg").css('display', 'block');
                         setTimeout(function() {
                             location.reload();
-                        }, 3000);
+                        }, 2000);
 
                     } else {
                         //printErrorMsg(data.error);
@@ -397,6 +398,7 @@
         //Eliminar un registro
         $('body').on('click', '#delete-user', function() {
             var user_id = $(this).data("id");
+            
             if (confirm("Usted va elimnar este usuario !")) {
                 $.ajax({
                     type: "get",

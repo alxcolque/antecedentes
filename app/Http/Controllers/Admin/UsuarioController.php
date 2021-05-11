@@ -52,35 +52,35 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'lastname' => 'required',
             'password' => 'required|min:5',
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'confirm_password'=>'required',
+            'confirm_password' => 'required',
             'rol' => 'required'
         ]);
 
-        
+
         //try {
-            if ($validator->passes()) {
-                
-                $save = new User;
-                $save->name = $request->name;
-                $save->lastname = $request->lastname;
-                $save->username = $request->username;
-                $save->email = $request->email;
-                $save->password = Hash::make($request->password);
-                $save->foto = 'user.png';
-                $save->rol = $request->rol;
-                $save->save();
-                $this->recordallactions("Usuario ".$request->username.' Creado');
-                return response()->json(['success' => 'Usuario creado con éxito. ']);
-                //
-            }
-            return response()->json(['error' => $validator->errors()->all()]);
+        if ($validator->passes()) {
+
+            $save = new User;
+            $save->name = $request->name;
+            $save->lastname = $request->lastname;
+            $save->username = $request->username;
+            $save->email = $request->email;
+            $save->password = Hash::make($request->password);
+            $save->foto = 'user.png';
+            $save->rol = $request->rol;
+            $save->save();
+            $this->recordallactions("Usuario " . $request->username . ' Creado');
+            return response()->json(['success' => 'Usuario creado con éxito. ']);
+            //
+        }
+        return response()->json(['error' => $validator->errors()->all()]);
         /*} catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }*/
@@ -88,36 +88,50 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        
     }
 
     public function edit($id)
     {
         $where = array('id' => $id);
         $user  = User::where($where)->first();
-
-        //return Response::json($user);
+        //$product = Product::find($id);
+        //return response()->json($product);
+        return response()->json($user);
     }
 
-    
+
     public function update(Request $request, $id)
     {
-        //
+        //return response()->json(['success'=>'Usuario  Actualizado con Éxito.']);
     }
-
-    
-    public function destroy($id)
+    public function updateuser(Request $request)
     {
-        if(auth()->user()->id == $id){
-            //return back()->with('warning','No puedes eliminar a este administrador');
-            return response()->json(['warning' => 'No puedes eliminar a este administrador']);
-        }else{
-            $user  = User::where('id',$id)->first();
-            $user->delete();
-            $this->recordallactions("Usuario ".$user->username." Eliminado");
-            return response()->json(['success'=>'Usuario '.$user->username.' Eliminado con Éxito.']);
+        try {
+            
+            $record = User::find($request->id);
+            $record->update([
+                'rol' => $request->rol, 
+            ]);
+            //return back()->with('info', 'Registro actualizado con éxito');
+            return response()->json(['success' => 'Usuario actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
         
+    }
+
+
+    public function destroy($id)
+    {
+        if (auth()->user()->id == $id) {
+            //return back()->with('warning','No puedes eliminar a este administrador');
+            return response()->json(['warning' => 'No puedes eliminar a este administrador']);
+        } else {
+            $user  = User::where('id', $id)->first();
+            $user->delete();
+            $this->recordallactions("Usuario " . $user->username . " Eliminado");
+            return response()->json(['success' => 'Usuario ' . $user->username . ' Eliminado con Éxito.']);
+        }
     }
 
     public function recordallactions($msg)
