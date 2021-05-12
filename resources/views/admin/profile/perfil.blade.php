@@ -40,7 +40,7 @@
       <div class="card-header p-2">
         <ul class="nav nav-pills">
           <li class="nav-item" title="Mi perfil" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Mi perfil</a></li>
-
+          <li class="text-light">_</li>
           <li class="nav-item " title="Actualizar perfil" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab"> Ajustes</a></li>
         </ul>
       </div><!-- /.card-header -->
@@ -206,7 +206,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

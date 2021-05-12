@@ -104,20 +104,24 @@ class UsuarioController extends Controller
     {
         //return response()->json(['success'=>'Usuario  Actualizado con Éxito.']);
     }
+
+    // obteniendo el 'user_agent':
+    //
+
+
     public function updateuser(Request $request)
     {
         try {
-            
             $record = User::find($request->id);
             $record->update([
-                'rol' => $request->rol, 
+                'rol' => $request->rol,
             ]);
+            $this->recordallactions("Usuario " .gethostname(). " atualizado");
             //return back()->with('info', 'Registro actualizado con éxito');
-            return response()->json(['success' => 'Usuario actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
+            return response()->json(['success' => 'Usuario actualizado con éxito']); //->with('info', 'Registro actualizado con éxito');*/
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        
     }
 
 
@@ -145,5 +149,21 @@ class UsuarioController extends Controller
         $action->accion = $msg;
         $action->fecha = $date->format('Y-m-d H:i:s');
         $action->save();
+    }
+
+
+    public function ObtenerIP($ip)
+    {
+        if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown"))
+            $ip = getenv("HTTP_CLIENT_IP");
+        else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown"))
+            $ip = getenv("HTTP_X_FORWARDED_FOR");
+        else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown"))
+            $ip = getenv("REMOTE_ADDR");
+        else if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
+            $ip = $_SERVER['REMOTE_ADDR'];
+        else
+            $ip = "IP desconocida";
+        return ($ip);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Advice;
+use App\Models\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,77 +28,74 @@ class AdviceController extends Controller
      */
     public function create()
     {
-        return view('admin.avisos.create');
+        $advices = Advice::orderBy('id', 'desc')->get();
+        return view('admin.avisos.create',compact('advices'));
     }
+    public function adviceimage(Request $request)
+    {
+        try {
+            $folderPath = public_path('storage/avisos/');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+            $image_parts = explode(";base64,", $request->image);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+
+            $imageName = uniqid() . '.png';
+
+            $imageFullPath = $folderPath . $imageName;
+
+            file_put_contents($imageFullPath, $image_base64);
+
+            $saveFile = new Image();
+            $saveFile->title = $imageName;
+            $saveFile->save();
+            $datos = array(
+                'nombrefoto' => $imageName
+            );
+            //Devolvemos el array pasado a JSON como objeto
+
+            return json_encode($datos, JSON_FORCE_OBJECT);
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
     public function store(Request $request)
     {
         $request->validate([
             'titulo' => 'required',
-            'file' => 'required|image',
+            'imagen' => 'required',
             'descripcion' => 'required'
         ]);
-
-        //$advice = Advice::create($request->all());
         $advice = Advice::create([
             'titulo' => $request->titulo,
-            'imagen' => Storage::put('avisos', $request->file('file')),
+            'imagen' => $request->imagen,
             'descripcion' => $request->descripcion,
 
         ]);
-        /*if($request->file('file')){
-            $url = Storage::put('avisos',$request->file('file'));
-        }*/ 
-        return redirect()->route('admin.avisos.index', $advice)->with('info', 'El aviso se creó con éxito');
+        return redirect()->route('admin.avisos.index')->with('info', 'El aviso se creó con éxito');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Advice $advice)
     {
         return view('admin.avisos.show', compact('advice'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Advice $aviso)
     {
         return view('admin.avisos.edit', compact('aviso'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Advice $aviso)
     {
         $request->validate([
             'titulo' => 'required',
-            //'file'=>'required|image',
+            'imagen'=>'required',
             'descripcion' => 'required'
         ]);
-        //echo Storage::put('avisos', $request->file('file'));
-        /*echo $request->file('file');
-        echo $request->file;
-        return $aviso;*/
         $aviso->update($request->all());
+        return redirect()->route('admin.avisos.index')->with('info', 'El aviso se actualizó con éxito');
+        /*$aviso->update($request->all());
         if ($request->file('file')) {
             //$url = Storage::put('avisos', $request->file('file'));
             if ($aviso->imagen) {
@@ -112,20 +110,14 @@ class AdviceController extends Controller
                     'descripcion' => $request->descripcion,
                 ]);
             }
-        }
+        }*/
         /* $aviso -> update($request->only(['titulo','imagen','descripcion']));
         if($request->hasFile('file')){
             $imagen = $request->file('file')->getClientOriginalName();
         } */
-        return redirect()->route('admin.avisos.index', $aviso)->with('info', 'El aviso se actualizó con éxito');
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Advice $aviso)
     {
         $aviso->delete();

@@ -17,9 +17,9 @@
       <rect width="100%" height="100%" fill="#777" />
             <div class="container">
                 <div class="carousel-caption text-start">
-                    <h1>Example headline.</h1>
-                    <p>Some representative placeholder content for the first slide of the carousel.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                    <h1>Imagen F.</h1>
+                    <p>La mejor manera de vivir es ayudando y apoyando al pueblo.</p>
+                    <!-- <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
                 </div>
             </div>
     </div>
@@ -28,9 +28,9 @@
       <rect width="100%" height="100%" fill="#777" />
             <div class="container">
                 <div class="carousel-caption text-start">
-                    <h1>Example headline.</h1>
-                    <p>Some representative placeholder content for the first slide of the carousel.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                    <h1>Imagen F.</h1>
+                    <p>La mejor manera de vivir es ayudando y apoyando al pueblo.</p>
+                    <!-- <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
                 </div>
             </div>
     </div>
@@ -39,9 +39,9 @@
       <rect width="100%" height="100%" fill="#777" />
             <div class="container">
                 <div class="carousel-caption text-start">
-                    <h1>Example headline.</h1>
-                    <p>Some representative placeholder content for the first slide of the carousel.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                    <h1>Imagen F.</h1>
+                    <p>La mejor manera de vivir es ayudando y apoyando al pueblo.</p>
+                    <!-- <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
                 </div>
             </div>
     </div>
@@ -108,7 +108,7 @@
             <p class="lead">{{$row->descripcion}}</p>
         </div>
         <div class="col-md-5">
-        <img class="rounded-circle" src="{{Storage::url($row->imagen)}}" alt="" height="200">
+        <img class="rounded-circle" src="{{ asset ('/storage/avisos/'.$row->imagen)}}" alt="" height="200">
             
         </div>
     </div>
@@ -120,7 +120,7 @@
             <p class="lead">{{$row->descripcion}}</p>
         </div>
         <div class="col-md-5 order-md-1">
-        <img class="rounded-circle" src="{{Storage::url($row->imagen)}}" alt="" height="200">
+        <img class="rounded-circle" src="{{ asset ('/storage/avisos/'.$row->imagen)}}" alt="" height="200">
 
         </div>
     </div>

@@ -23,6 +23,11 @@ Route::resource('importaciones',ImportController::class)->names('admin.importaci
 Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
+//Guardar foto adviceimage
+
+Route::post('adviceimage', [AdviceController::class, 'adviceimage']);
+//Route::put('update/{id}', [UserController::class, 'update'])->name('admin.advice.update');
+
 //Ruta para  actualizar el usuario
 Route::post('updateuser', [UsuarioController::class, 'updateuser'])->name('admin.updateuser');
 

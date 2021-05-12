@@ -59,8 +59,8 @@
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item" title="Improtacion excel" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Desde Excel</a></li>
-
-                    <li class="nav-item" title="Datos desde el exterior" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Desde Usuario Moderador</a></li>
+                    <li class="text-light">_</li>
+                    <li class="nav-item" title="Datos desde el exterior" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab">Desde Usuario Moderador</a></li>
                 </ul>
             </div><!-- /.card-header -->
 
@@ -72,9 +72,9 @@
                             <div class="ml-auto p-2">
                                 <div class="">
                                     <a href="registrarimport" onclick="
-return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-dark" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
+return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
                                     
-                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{1}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord">Limpiar tabla</a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{1}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fas fa-times"></i> Limpiar tabla</a>
                                 </div>
 
 
@@ -171,8 +171,8 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                             <div class="ml-auto p-2">
                                 <div class="">
                                     <a href="registrarantecedentesusuario1" onclick="
-return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-info" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{2}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord">Limpiar tabla</a>
+return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{2}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fas fa-times"></i> Limpiar tabla</a>
                                 </div>
 
 

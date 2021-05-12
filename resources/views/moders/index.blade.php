@@ -41,8 +41,8 @@
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item" title="Mi registro" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Antecedentes</a></li>
-
-                    <li class="nav-item" title="Registrar nuevo antecedente" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Registrar Antecedente</a></li>
+                    <li class="text-dark">_</li>
+                    <li class="nav-item" title="Registrar nuevo antecedente" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab">Registrar Antecedente</a></li>
                 </ul>
             </div><!-- /.card-header -->
 
@@ -175,7 +175,7 @@
                                         <div class="col-sm-8">
                                             <input type="text" id="latinTextBox" name="mesregistro" class="awesomplete form-control" placeholder="MES REGISTRO" autocomplete="off" data-list="ENERO,FEBRERO,MARZO,ABRIL,MAYO,JUNIO,JULIO,AGOSTO,SEPTIEMBRE,OCTUBRE,NOVIEMBRE,DICIEMBRE" data-minChars="1" required onkeyup="this.value = this.value.toUpperCase();">
                                             <div class="invalid-feedback">
-                                                Please provide a valid city.
+                                                Mes válido por favor.
                                             </div>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="NATHECHO" class="col-sm-4 col-form-label">NATHECHO</label>
+                                        <label for="NATHECHO" class="col-sm-4 col-form-label">NATURALEZA DEL HECHO</label>
                                         <div class="col-sm-8">
                                             <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
@@ -244,7 +244,7 @@
                                     <div class="form-group row">
                                         <label for="ARMA" class="col-sm-4 col-form-label">ARMA</label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="NINGUNO" name="arma" class="form-control" placeholder="ARMA" required>
+                                            <input type="text" value="NINGUNO" name="arma" class="form-control" placeholder="ARMA" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">

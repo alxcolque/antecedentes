@@ -52,7 +52,7 @@
                     </div>
                 </form>
 
-                @if(count($antecedents) <= 0) <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @if(count($antecedents) <= 0) <div class="alert alert-primary alert-dismissible fade show" role="alert">
                     <strong></strong> Encontrar un antecedente escribiendo el nombre de la persona en la caja de búsqueda
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -353,7 +353,7 @@
         $('.modal-title').html("Detalle del antecedente");
         $('#modalverdetalle').modal('show');
         if (foto == "persona.png") {
-
+            $('#idimag').attr("src",'https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg');
         } else {
             $('#idimag').attr("src", '/storage/personas/' + foto);
         }
