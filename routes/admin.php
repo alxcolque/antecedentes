@@ -23,6 +23,10 @@ Route::resource('importaciones',ImportController::class)->names('admin.importaci
 Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
+
+//Bitacora limpiar y descargar bitácora
+Route::get('limpiarbitacora', [ActionController::class, 'limpiarBitacora'])->name('limpiarbitacora');
+
 //Guardar foto adviceimage
 
 Route::post('adviceimage', [AdviceController::class, 'adviceimage']);

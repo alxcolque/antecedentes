@@ -576,15 +576,24 @@ class AntecedenteController extends Controller
     //Control acciones
     public function recordallactions($msg)
     {
-        //Record::truncate();
 
-        //acciones del usuario
-        $action = new Action();
-        $date = new DateTime();
-        $action->usuario = auth()->user()->username;
-        $action->accion = $msg;
-        $action->fecha = $date->format('Y-m-d H:i:s');
-        $action->save();
+         //Record::truncate();
+         $actioncount = DB::table('actions')->count();
+        
+         if($actioncount == 0){
+             $id = 0;
+         }
+         else{
+             $id = DB::table('actions')->max('id');
+         }
+         //acciones del usuario
+         $action = new Action();
+         $date = new DateTime();
+         $action->id = $id+1;
+         $action->usuario = auth()->user()->username;
+         $action->accion = $msg;
+         $action->fecha = $date->format('Y-m-d H:i:s');
+         $action->save();
     }
 
     public function create()

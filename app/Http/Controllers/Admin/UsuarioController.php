@@ -116,7 +116,7 @@ class UsuarioController extends Controller
             $record->update([
                 'rol' => $request->rol,
             ]);
-            $this->recordallactions("Usuario " .gethostname(). " atualizado");
+            $this->recordallactions("Rol atualizado");
             //return back()->with('info', 'Registro actualizado con éxito');
             return response()->json(['success' => 'Usuario actualizado con éxito']); //->with('info', 'Registro actualizado con éxito');*/
         } catch (\Exception $exception) {
@@ -141,29 +141,22 @@ class UsuarioController extends Controller
     public function recordallactions($msg)
     {
         //Record::truncate();
-
+        $actioncount = DB::table('actions')->count();
+        
+        if($actioncount == 0){
+            $id = 1;
+        }
+        else{
+            $id = DB::table('actions')->max('id');
+        }
         //acciones del usuario
         $action = new Action();
         $date = new DateTime();
+        $action->id = $id;
         $action->usuario = auth()->user()->username;
         $action->accion = $msg;
-        $action->fecha = $date->format('Y-m-d H:i:s');
+        $action->fecha = $date->format('d-m-Y H:i:s');
         $action->save();
     }
 
-
-    public function ObtenerIP($ip)
-    {
-        if (getenv("HTTP_CLIENT_IP") && strcasecmp(getenv("HTTP_CLIENT_IP"), "unknown"))
-            $ip = getenv("HTTP_CLIENT_IP");
-        else if (getenv("HTTP_X_FORWARDED_FOR") && strcasecmp(getenv("HTTP_X_FORWARDED_FOR"), "unknown"))
-            $ip = getenv("HTTP_X_FORWARDED_FOR");
-        else if (getenv("REMOTE_ADDR") && strcasecmp(getenv("REMOTE_ADDR"), "unknown"))
-            $ip = getenv("REMOTE_ADDR");
-        else if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown"))
-            $ip = $_SERVER['REMOTE_ADDR'];
-        else
-            $ip = "IP desconocida";
-        return ($ip);
-    }
 }

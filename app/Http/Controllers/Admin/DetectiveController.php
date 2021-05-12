@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Detective;
 use App\Http\Controllers\Controller;
+use App\Models\Action;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DetectiveController extends Controller
 {
@@ -89,5 +92,27 @@ class DetectiveController extends Controller
         //
         Detective::destroy($id);
         return  redirect('admin/detectives');
+    }
+
+    public function recordallactions($msg)
+    {
+
+         //Record::truncate();
+         $actioncount = DB::table('actions')->count();
+        
+         if($actioncount == 0){
+             $id = 0;
+         }
+         else{
+             $id = DB::table('actions')->max('id');
+         }
+         //acciones del usuario
+         $action = new Action();
+         $date = new DateTime();
+         $action->id = $id+1;
+         $action->usuario = auth()->user()->username;
+         $action->accion = $msg;
+         $action->fecha = $date->format('Y-m-d H:i:s');
+         $action->save();
     }
 }

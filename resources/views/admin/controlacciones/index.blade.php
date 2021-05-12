@@ -4,6 +4,31 @@
 
 @section('content_header')
 <h4>Acciones que ocurren en el Sistema</h4>
+@if (session('error'))
+<div class="alert alert-danger alert-dismissible fade show">{{ session('error') }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif 
+<!-- warning -->
+@if(session('warning'))
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('warning')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+<!-- msg success -->
+@if(session('info'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Hey!</strong> {{session('info')}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
 @stop
 
 @section('content')
@@ -11,7 +36,7 @@
 <div class="section">
     <div class="card">
         <div class="row" style="padding: 3px 15px;">
-            <a href="/" class="pull-right btn btn-secondary btm-sm"><i class="fas fa-trash"></i> Limpiar todo las acciones</a>
+            <a href="limpiarbitacora" id="limpiarpdf" onclick="return confirm('¿Seguro que quiere limpiar la tabla?')" class="pull-right btn btn-secondary btm-sm"><i class="fas fa-trash"></i> Limpiar todo las acciones</a>
             <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
         </div><br>
         <div class="card-body">
@@ -48,38 +73,72 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
 <link rel="stylesheet" href="/css/app.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
-
+<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.css" rel="stylesheet" />
 @stop
 
 @section('js')
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
 
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#mitable').DataTable({
-            processing: true,
-            //serverSide: true,
-            responsive: true,
-            autoWidth: false,
-            "language": {
-                "lengthMenu": "Mostrar " +
-                    '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
-                    " registros por página",
-                "zeroRecords": "No existe registros - discupa",
-                "info": "Mostrando la pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No records available",
-                "infoFiltered": "(filtrado de _MAX_ registros totales)",
-                "search": "Buscar:",
-                "paginate": {
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                }
-            }
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'pdf',
+                title: 'Customized PDF Title',
+                filename: 'Bitácora'
+            }, {
+                extend: 'excel',
+                title: 'Customized EXCEL Title',
+                filename: 'Bitácora'
+            }, {
+                extend: 'csv',
+                filename: 'Bitácora'
+            }]
         });
+        /*var table = $("#mitable").DataTable({
+            ordering: true
+        });*/
+
+        /*new $.fn.dataTable.Buttons(table, {
+                buttons: [{
+                    extend: 'pdfHtml5',
+                    text: 'Abrir en PDF',
+                    download: 'open',
+                    className: 'btn-danger',
+                    messageTop: 'Copia de seguridad de bitácora',
+                    title: 'Acciones',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    },
+                    customize: function(doc) {
+                        doc.styles.title = {
+                            color: 'red',
+                            fontSize: '40',
+                            alignment: 'center'
+                        }
+                        doc.styles['td:nth-child(2)'] = {
+                            width: '100px',
+                            'max-width': '100px'
+                        }
+                    }
+                }, ],
+            });
+
+            table.buttons(0, null).container().appendTo(
+                table.table().container()
+            );*/
     });
 </script>
 @stop
