@@ -378,7 +378,7 @@ class AntecedenteController extends Controller
                 Record::destroy($record->id);
             }
             //Record::truncate();
-            $this->recordallactions('Importacion de un archivo excel');
+            $this->recordallactions('Datos aceptados en la BDD de importacion del archivo excel');
             return redirect('/admin/antecedentes')->with('info', 'Importación exitosa a la base de datos');
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
@@ -451,7 +451,7 @@ class AntecedenteController extends Controller
                 Record::destroy($record->id);
             }
             //Record::truncate();
-            $this->recordallactions('Importacion de un archivo excel');
+            $this->recordallactions('Registro Antecedente aceptado (usuario1) para la base de datos');
             return redirect('/admin/antecedentes')->with('info', 'Datos guardados exitosamente');
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
@@ -483,10 +483,13 @@ class AntecedenteController extends Controller
             
                 DB::table('records')->where('tiporegistro', '=', $tiporegistro)->delete();
                 //return response()->json(['success'=>'Customer deleted!']);
+                $this->recordallactions('Eliminación de regitros impotado a través de excel');
                 return redirect('admin/import')->with('info', 'La tabla de importación de excel se ha limpiado con éxto');
+                
             } else {
                 DB::table('records')->where('tiporegistro', '=', 2)->delete();
-                return redirect('admin/import')->with('info', 'La datos registrados de los usuarios se ha limpiado con éxto');
+                $this->recordallactions('Rechazo al registro de antecedentes de los usuarios1');
+                return redirect('admin/import')->with('info', 'Los datos registrados de los usuarios se han limpiado con éxto');
             }
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
@@ -655,7 +658,7 @@ class AntecedenteController extends Controller
             $detailant->person_id = Person::max('id');
             $detailant->save();
             //acciones del usuario
-            $this->recordallactions('Antecedente registrado');
+            $this->recordallactions('Antecedente registrado, (usuario1) esperando ser aceptado...');
 
             return view('admin.antecedentes.create');
         } catch (\Exception $e) {
@@ -677,7 +680,7 @@ class AntecedenteController extends Controller
             DB::table('people')->delete();
             return view('admin.antecedentes.index', compact('cant_ant'))->with('info', 'La tabla antecedentes se ha limpiado con éxito');
             //return redirect('/admin/antecedentes')->with('info', 'La tabla antecedentes se ha limpiado con éxito');
-
+            $this->recordallactions('Registro de todo los antecedentes fue eliminado permantentemente');
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }

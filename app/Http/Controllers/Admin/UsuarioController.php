@@ -113,10 +113,26 @@ class UsuarioController extends Controller
     {
         try {
             $record = User::find($request->id);
+            if($request->rol == 1){
+                $rolname = "ADMIN";
+            }
+            else if($request->rol == 2){
+                $rolname = "USUARIO1";
+            }else{
+                $rolname = "COSULTOR";
+            }
+            if($record->rol == 1){
+                $rolname1 = "ADMIN";
+            }
+            else if($request->rol == 2){
+                $rolname1 = "USUARIO1";
+            }else{
+                $rolname1 = "COSULTOR";
+            }
             $record->update([
                 'rol' => $request->rol,
             ]);
-            $this->recordallactions("Rol atualizado");
+            $this->recordallactions("Se cambió rol para ".$record->username. ' de '.$rolname1.' al '.$rolname );
             //return back()->with('info', 'Registro actualizado con éxito');
             return response()->json(['success' => 'Usuario actualizado con éxito']); //->with('info', 'Registro actualizado con éxito');*/
         } catch (\Exception $exception) {
@@ -140,23 +156,22 @@ class UsuarioController extends Controller
 
     public function recordallactions($msg)
     {
-        //Record::truncate();
-        $actioncount = DB::table('actions')->count();
+         $actioncount = DB::table('actions')->count();
         
-        if($actioncount == 0){
-            $id = 1;
-        }
-        else{
-            $id = DB::table('actions')->max('id');
-        }
-        //acciones del usuario
-        $action = new Action();
-        $date = new DateTime();
-        $action->id = $id;
-        $action->usuario = auth()->user()->username;
-        $action->accion = $msg;
-        $action->fecha = $date->format('d-m-Y H:i:s');
-        $action->save();
+         if($actioncount == 0){
+             $id = 0;
+         }
+         else{
+             $id = DB::table('actions')->max('id');
+         }
+         //acciones del usuario
+         $action = new Action();
+         $date = new DateTime();
+         $action->id = $id+1;
+         $action->usuario = auth()->user()->username;
+         $action->accion = $msg;
+         $action->fecha = $date->format('Y-m-d H:i:s');
+         $action->save();
     }
 
 }

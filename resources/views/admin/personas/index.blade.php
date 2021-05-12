@@ -12,10 +12,6 @@
 
 <div class="section">
     <div class="card">
-        <div class="row" style="padding: 3px 15px;">
-            <a href="javascript:void(0)" class="btn btn-success btn-sm" id="create_new"><i class="fas fa-plus"></i> Registrar nuevo usuario</a>
-            <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
-        </div><br>
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper">
                 <div class="row">
@@ -24,7 +20,6 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Accion</th>
                                     <th>Nombre</th>
                                     <th>CI</th>
                                     <th>Nacido en:</th>
@@ -38,12 +33,7 @@
                                 @foreach ($people as $row)
                                 <tr>
                                     <td>{{$row->id}}</td>
-                                    <td>
-                                        <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{ $row->id }}" data-original-title="Edit" class="edit btn btn-dark btn-sm edit-user">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-
+                                    
                                     <td>{{$row->arrestado}}</td>
                                     <td>{{$row->ci}}</td>
                                     <td>{{$row->nacido}}</td>

@@ -33,7 +33,7 @@
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                     <div class="form-group">
-                        <label for="Imagen">Titulo</label>
+                        <label for="Imagen">Imagen</label>
                         <input class="form-control" value="{{$aviso->imagen}}" placeholder="Nombre de la imagen" name="imagen" id="imagen" readonly required>
                     </div>
                     @error('imagen')

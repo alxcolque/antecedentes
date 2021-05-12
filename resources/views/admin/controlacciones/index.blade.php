@@ -36,7 +36,7 @@
 <div class="section">
     <div class="card">
         <div class="row" style="padding: 3px 15px;">
-            <a href="limpiarbitacora" id="limpiarpdf" onclick="return confirm('¿Seguro que quiere limpiar la tabla?')" class="pull-right btn btn-secondary btm-sm"><i class="fas fa-trash"></i> Limpiar todo las acciones</a>
+            <a href="limpiarbitacora" id="limpiarpdf" onclick="return confirm('¿Seguro que quiere limpiar la tabla?')" class="pull-right btn btn-secondary btm-sm"><i class="fas fa-trash"></i> Limpiar todas las acciones</a>
             <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
         </div><br>
         <div class="card-body">
@@ -75,13 +75,14 @@
 @section('css')
 <link rel="stylesheet" href="/css/app.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css">
+<!-- Para generar pdf excel y csv -->
 <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.css" rel="stylesheet" />
 @stop
 
 @section('js')
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
-
+<!-- Para generar pdf excel y csv -->
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -96,11 +97,11 @@
             dom: 'Bfrtip',
             buttons: [{
                 extend: 'pdf',
-                title: 'Customized PDF Title',
+                title: 'Informacion en PDF',
                 filename: 'Bitácora'
             }, {
                 extend: 'excel',
-                title: 'Customized EXCEL Title',
+                title: 'Informacion en EXCEL',
                 filename: 'Bitácora'
             }, {
                 extend: 'csv',

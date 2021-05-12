@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Models\Image;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Middleware\SoloUser;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -107,6 +110,7 @@ class UserController extends Controller
                 'lastname' => $request->lastname,
             ]);
             return back()->with('info', 'Registro actualizado con éxito');
+            $this->recordallactions(auth()->user()->username.' ha actualizado su perfil');
             //return response()->json(['success' => 'Registro actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
@@ -138,5 +142,27 @@ class UserController extends Controller
     {
         //$user = Auth::user();
         return 'Hola d';
+    }
+    //Control acciones
+    public function recordallactions($msg)
+    {
+
+         //Record::truncate();
+         $actioncount = DB::table('actions')->count();
+        
+         if($actioncount == 0){
+             $id = 0;
+         }
+         else{
+             $id = DB::table('actions')->max('id');
+         }
+         //acciones del usuario
+         $action = new Action();
+         $date = new DateTime();
+         $action->id = $id+1;
+         $action->usuario = auth()->user()->username;
+         $action->accion = $msg;
+         $action->fecha = $date->format('Y-m-d H:i:s');
+         $action->save();
     }
 }

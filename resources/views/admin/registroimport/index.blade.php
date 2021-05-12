@@ -29,7 +29,7 @@
                             <tr>
                                 <td>{{$row->id}}</td>
                                 <td>{{$row->fechaimport}}</td>
-                                <td>{{$row->user_id}}</td>
+                                <td>{{$row->name}}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -64,9 +64,9 @@ class DetectiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Detective $detective)
     {
-        //
+        return view('admin.detectives.edit', compact('detective'));
     }
 
     /**
@@ -76,9 +76,14 @@ class DetectiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Detective $detective)
     {
-        //
+        $request->validate([
+            'nombres' => 'required',
+        ]);
+        $detective->update($request->all());
+        $this->recordallactions('El personal policial '.$request->nombres.' ha sido editado');
+        return redirect()->route('admin.detectives.index')->with('info', 'Personal policial se actualizó con éxito');
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Import;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
 {
@@ -15,7 +16,13 @@ class ImportController extends Controller
      */
     public function index()
     {
-        $imports = Import::all();
+        $imports = DB::table('imports')
+                ->join('users', 'imports.user_id', '=', 'users.id')
+                ->get(array(
+                    'imports.id',
+                    'fechaimport',
+                    'name',
+                ));
         return view('admin.registroimport.index',compact('imports'));
     }
 
