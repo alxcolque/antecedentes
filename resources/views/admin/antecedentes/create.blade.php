@@ -4,6 +4,7 @@
 
 @section('content_header')
 <h1>Registro de antecedentes</h1>
+<a href="/admin/antecedentes" id="dasdasdf" class="pull-right btn btn-dark btm-sm"><i class="fas fa-arrow-left"></i> Volver atrás</a>
 @stop
 
 @section('content')
@@ -199,7 +200,7 @@
             <div class="form-group row">
                 <label for="NATHECHO" class="col-sm-4 col-form-label">NATURALEZA DEL HECHO</label>
                 <div class="col-sm-8">
-                    <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required>
+                    <input type="text" name="nathecho" class="form-control" placeholder="ROBO, ASECINATO, ETC." required>
                 </div>
             </div>
             <div class="form-group row">
@@ -228,7 +229,7 @@
             <div class="form-group row">
                 <label for="ACCION DIRECTA" class="col-sm-4 col-form-label">ACCION DIRECTA</label>
                 <div class="col-sm-8">
-                    <input type="text" name="nombres" class="form-control" placeholder="ACCION DIRECTA" required>
+                    <input type="text" name="nombres" class="form-control" placeholder="NOMBRE DEL OFICIAL EJ: SGTO JUAN" required>
                 </div>
             </div>
             <div class="form-group row">
@@ -255,7 +256,7 @@
             </div>
             <div class="form-group row">
                 <div class="offset-sm-2 col-sm-10">
-                    <button type="submit" class="btn btn-dark">Submit</button>
+                    <button type="submit" class="btn btn-dark">REGISTRAR</button>
                 </div>
             </div>
         </form>

@@ -312,9 +312,10 @@ class AntecedenteController extends Controller
             if ($count === 0) {
                 $import_id = 2;
                 $records = DB::table('records')->where('tiporegistro', "1")->get();
-                $min = DB::table('records')->where('tiporegistro',"1")->get(array(
-                    'gestion'));
-                if(is_integer($min[0]->gestion)) {
+                $min = DB::table('records')->where('tiporegistro', "1")->get(array(
+                    'gestion'
+                ));
+                if (is_integer($min[0]->gestion)) {
                     return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, no son correctos');
                 }
                 //tabla import
@@ -326,9 +327,10 @@ class AntecedenteController extends Controller
                 $import->save();
             } else {
                 $records = DB::table('records')->where('tiporegistro', "1")->get();
-                $min = DB::table('records')->where('tiporegistro',"1")->get(array(
-                    'gestion'));
-                if(is_integer($min[0]->gestion)) {
+                $min = DB::table('records')->where('tiporegistro', "1")->get(array(
+                    'gestion'
+                ));
+                if (is_integer($min[0]->gestion)) {
                     return redirect('/admin/import')->with('error', 'Revise los datos antes de importar, Estos no son correctos');
                 }
                 //tabla import
@@ -383,34 +385,12 @@ class AntecedenteController extends Controller
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        
     }
     public function registrarantecedentesusuario1()
     {
         try {
-            $count = Import::count('id');
-            if ($count === 0) {
-                $import_id = 2;
-                $records = DB::table('records')->where('tiporegistro', 2)->get();
-                
-                //tabla import
-                $import = new Import();
-                $date = new DateTime();
-                $import->id = $import_id;
-                $import->fechaimport = $date->format('Y-m-d H:i:s');
-                $import->user_id = auth()->user()->id;
-                $import->save();
-            } else {
-                $records = DB::table('records')->where('tiporegistro', 2)->get();
-                
-                //tabla import
-                $import = new Import();
-                $date = new DateTime();
-                $import->fechaimport = $date->format('Y-m-d H:i:s');
-                $import->user_id = auth()->user()->id;
-                $import->save();
-            }
             
+            $records = DB::table('records')->where('tiporegistro', 2)->get();
             foreach ($records as $record) { //echo $antecedent."\n";
                 $antecedent = new Antecedent();
                 $antecedent->gestion = $record->gestion;
@@ -432,7 +412,7 @@ class AntecedenteController extends Controller
                 $antecedent->province_id = $this->getProvinceID($record->departamento, $record->provincia);
                 $antecedent->detective_id = $this->getDetectiveID($record->nombres);
                 $antecedent->crime_id = $this->getCrimeID($record->causaarresto);
-                $antecedent->import_id = Import::max('id');
+                $antecedent->import_id = 1;
                 //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
                 $antecedent->save();
                 $person = new Person();
@@ -456,7 +436,6 @@ class AntecedenteController extends Controller
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        
     }
     public function import()
     {
@@ -477,15 +456,14 @@ class AntecedenteController extends Controller
     }
     public function deleterecordall($tiporegistro)
     {
-        
+
         try {
             if ($tiporegistro === "1") {
-            
+
                 DB::table('records')->where('tiporegistro', '=', $tiporegistro)->delete();
                 //return response()->json(['success'=>'Customer deleted!']);
                 $this->recordallactions('Eliminación de regitros impotado a través de excel');
                 return redirect('admin/import')->with('info', 'La tabla de importación de excel se ha limpiado con éxto');
-                
             } else {
                 DB::table('records')->where('tiporegistro', '=', 2)->delete();
                 $this->recordallactions('Rechazo al registro de antecedentes de los usuarios1');
@@ -580,23 +558,22 @@ class AntecedenteController extends Controller
     public function recordallactions($msg)
     {
 
-         //Record::truncate();
-         $actioncount = DB::table('actions')->count();
-        
-         if($actioncount == 0){
-             $id = 0;
-         }
-         else{
-             $id = DB::table('actions')->max('id');
-         }
-         //acciones del usuario
-         $action = new Action();
-         $date = new DateTime();
-         $action->id = $id+1;
-         $action->usuario = auth()->user()->username;
-         $action->accion = $msg;
-         $action->fecha = $date->format('Y-m-d H:i:s');
-         $action->save();
+        //Record::truncate();
+        $actioncount = DB::table('actions')->count();
+
+        if ($actioncount == 0) {
+            $id = 0;
+        } else {
+            $id = DB::table('actions')->max('id');
+        }
+        //acciones del usuario
+        $action = new Action();
+        $date = new DateTime();
+        $action->id = $id + 1;
+        $action->usuario = auth()->user()->username;
+        $action->accion = $msg;
+        $action->fecha = $date->format('Y-m-d H:i:s');
+        $action->save();
     }
 
     public function create()
@@ -678,9 +655,10 @@ class AntecedenteController extends Controller
             DB::table('detectives')->delete();
             DB::table('crimes')->delete();
             DB::table('people')->delete();
+            $this->recordallactions('Registro de todo los antecedentes fue eliminado permantentemente');
             return view('admin.antecedentes.index', compact('cant_ant'))->with('info', 'La tabla antecedentes se ha limpiado con éxito');
             //return redirect('/admin/antecedentes')->with('info', 'La tabla antecedentes se ha limpiado con éxito');
-            $this->recordallactions('Registro de todo los antecedentes fue eliminado permantentemente');
+            
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
@@ -701,6 +679,57 @@ class AntecedenteController extends Controller
 
     public function update(Request $request, $id)
     {
+        try {
+            //return $id;
+            $person = Person::find($id);
+            $person->update([
+
+                'arrestado' => $request->arrestado,
+                'ci' => $request->ci,
+                'nacido' => $request->nacido,
+                'nacionalidad' => $request->nacionalidad,
+                'edad' => $request->edad,
+                'genero' => $request->genero,
+                'foto' => $request->fotopersona,
+                //'tiporegistro' => 1,
+
+            ]);
+
+            $antecedent = Antecedent::find($id);
+            $antecedent->update([
+                'gestion' => $request->gestion,
+                'fechahecho' => $request->fechahecho,
+                'hora' => $request->hora,
+                'mesregistro' => $request->mesregistro,
+                'municipio' => $request->municipio,
+                'localidad' => $request->localidad,
+                'zonabarrio' => $request->zonabarrio,
+                'lugarhecho' => $request->lugarhecho,
+                'gps' => $request->gps,
+                'unidad' => $request->unidad,
+                'temperancia' => $request->temperancia,
+                'nathecho' => $request->nathecho,
+                'arma' => $request->arma,
+                'remitidoa' => $request->remitidoa,
+                'pertenencias' => $request->pertenencias,
+                //causa arresto
+                /*'province_id' = $this->getProvinceID($request->departamento, $request->provincia),
+                'detective_id' = $this->getDetectiveID($request->nombres),
+                'crime_id' = $this->getCrimeID($request->causaarresto),
+                'import_id' = 1,*/
+
+            ]);
+            $app = Antecedent::find($id);
+            $app->province_id = $this->getProvinceID($request->departamento, $request->provincia);
+            $app->detective_id = $this->getDetectiveID($request->nombres);
+            $app->crime_id = $this->getCrimeID($request->causaarresto);
+            $app->save();
+            $this->recordallactions('Antecedente actualizado, con id'.$id);
+            return back()->with('info', 'Antecedente actualizado con éxito');
+            //return response()->json(['success' => 'Registro actualizado con éxito']);//->with('info', 'Registro actualizado con éxito');*/
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
 

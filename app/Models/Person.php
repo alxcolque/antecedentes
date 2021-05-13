@@ -9,7 +9,17 @@ class Person extends Model
 {
     use HasFactory;
     //relacion muchos a muchos
-    public function antecedents(){
+    protected $fillable = [
+        'arrestado',
+        'ci',
+        'nacido',
+        'nacionalidad',
+        'edad',
+        'genero',
+        'foto',
+    ];
+    public function antecedents()
+    {
         return $this->belongsToMany(Antecedent::class, 'antecedent_person');
     }
 }

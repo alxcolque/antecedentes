@@ -258,11 +258,11 @@ return [
                     'url'  => 'admin/import',
                     'icon' => 'fas fa-fw fa-file-excel',
                 ],
-                [
+                /* [
                     'text' => 'Importaciones',
                     'url'  => 'admin/importaciones',
                     'icon' => 'fas fa-fw fa-file-import',
-                ],
+                ], */
                 [
                     'text' => 'Arrestados',
                     'url'  => 'admin/personas',

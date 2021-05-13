@@ -10,7 +10,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@endif 
+@endif
 <!-- warning -->
 @if(session('warning'))
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -70,7 +70,7 @@
 
                     <div class="">
                         <!-- <a href="csvexport" class="btn btn-secondary btn-sm" title="Descargar el archivo en formato CSV" data-toggle="tooltip" data-html="true"><i class="fas fa-file-csv"></i> Export CSV</a> -->
-                        <a href="file-export" class="btn btn-success  btn-sm" title="Descargar el archivo en formato EXCEL" data-toggle="tooltip" data-html="true"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp;
+                        <!-- <a href="file-export" class="btn btn-success  btn-sm" title="Descargar el archivo en formato EXCEL" data-toggle="tooltip" data-html="true"><i class="fas fa-file-excel"></i> Export EXCEL</a>&nbsp; -->
                         <!-- <a href="/importfile" class="pull-right btn btn-success"><i class="fas fa-file-import"></i> Import</a> -->
                     </div>
                     <div class="btn-group btn-group-sm mt-auto ml-auto p-2 " aria-label="Basic example">
@@ -248,6 +248,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/daterangepicker.js"></script>
 <script type="text/javascript" src="/js/awesomplete.min.js"></script>
+<!-- Para generar pdf excel y csv -->
+<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.css" rel="stylesheet" />
+
+<!-- Para generar pdf excel y csv -->
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 
 <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
@@ -321,7 +332,7 @@
                   
               }
           });*/
-        $('#antecedentes').DataTable({
+        var table = $('#antecedentes').DataTable({
             processing: true,
             //serverSide: true,
             responsive: true,
@@ -452,6 +463,43 @@
                 [0, 'desc']
             ]
         });
+        new $.fn.dataTable.Buttons(table, {
+            buttons: [{
+                    extend: 'pdfHtml5',
+                    text: 'Abrir en PDF',
+                    download: 'open',
+                    className: 'btn-danger',
+                    messageTop: 'Copia de seguridad de Antecedentes',
+                    title: 'Antecedentes',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+                    },
+                    customize: function(doc) {
+                        doc.styles.title = {
+                            color: 'red',
+                            fontSize: '40',
+                            alignment: 'center'
+                        }
+                        doc.styles['td:nth-child(2)'] = {
+                            width: '100px',
+                            'max-width': '100px'
+                        }
+                    }
+                },
+                {
+                    extend: 'excel',
+                    title: 'Informacion en EXCEL',
+                    filename: 'Antecedentes'
+                }
+            ],
+
+        });
+
+        table.buttons(0, null).container().appendTo(
+            table.table().container()
+        );
     }
     $('#ajustes').click(function() {
 

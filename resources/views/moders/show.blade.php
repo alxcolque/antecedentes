@@ -35,8 +35,19 @@
 <!-- Fin mensajes -->
 <!-- Tablas de antecedentes mas reciente -->
 <!-- contenido -->
-<div class="container-fluid">
+<div class="card">
     <div class="row">
+        <div class="card-body">
+            <a href="/moders" class="btn btn-info btm-sm btn-blok"><i class="fa fa-arrow-left"></i> Volver atrás</a>
+        </div>
+
+    </div>
+
+</div>
+<div class="card">
+
+    <div class="row">
+
         <div class="col-md-7">
 
             <!-- Profile Image -->
@@ -45,7 +56,7 @@
                     <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                         @if($antecedent->fotopersona == "persona.png")
                         <img class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
-                        
+
                         @else
                         <img class="profile-user-img img-fluid img-circle" src="{{ asset ('/storage/personas/'.$antecedent->fotopersona)}}" alt="User profile picture">
                         @endif
@@ -150,7 +161,7 @@
                     <div class="row w-100 align-items-center">
                         <div class="col text-center">
                             <button id="cmd" class="btn btn-danger  btn-sm" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true"><b>Descargar en pdf</b></button>
-                            <input class="btn btn-primary btn-sm" type='button' id='btn' value='Imprimir' onclick="printDiv('content')"  title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
+                            <input class="btn btn-primary btn-sm" type='button' id='btn' value='Imprimir' onclick="printDiv('content')" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
 
                             <a href="javascript:void(0)" id="deleteRecord1" data-toggle="tooltip" data-id="{{$antecedent->id}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm"><i class="fa fa-times"></i> Eliminar este registro</a>
                         </div>
@@ -165,8 +176,8 @@
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item" title="Obsevaciones" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Observaciones</a></li>
-
-                        <li class="nav-item" title="Sección para ajustar datos" data-toggle="tooltip" data-html="true"><a class="nav-link" href="#settings" data-toggle="tab">Ajuste</a></li>
+                        <li class="text-dark">_</li>
+                        <li class="nav-item" title="Sección para ajustar datos" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab">Ajuste</a></li>
                     </ul>
                 </div><!-- /.card-header -->
 
@@ -197,7 +208,7 @@
 
 
                         <div class="tab-pane" id="settings">
-                            <div class="alert alert-warning alert-dismissible fade show">Le sugiero que haga cambios con mucho cuidado !!!
+                            <div class="alert alert-warning alert-dismissible fade show">Le sugiero que haga los cambios con mucho cuidado !!!
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -208,11 +219,11 @@
 
                                 <div class="text-center" title="Foto de la persona" data-toggle="tooltip" data-html="true">
                                     @if($antecedent->fotopersona == "persona.png")
+                                    <img id="idimag" class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
 
-                                    <img id="idimag" class="profile-user-img img-fluid img-circle" src="{{ asset ('/storage/personas/'.$antecedent->fotopersona)}}" alt="User profile picture">
 
                                     @else
-                                    <img id="idimag" class="profile-user-img img-fluid img-circle" src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" alt="User profile picture">
+                                    <img id="idimag" class="profile-user-img img-fluid img-circle" src="{{ asset ('/storage/personas/'.$antecedent->fotopersona)}}" alt="User profile picture">
                                     @endif
 
                                     <input type="file" name="before_crop_image" id="before_crop_image" accept="image/*" />
@@ -237,6 +248,30 @@
                                     <label for="ci" class="col-sm-4 col-form-label">CI</label>
                                     <div class="col-sm-8">
                                         <input type="text" name="ci" id="cival" class="form-control" value="{{$antecedent->ci}}" placeholder="CI" required onkeyup="this.value = this.value.toUpperCase();">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="NACIDO EN" class="col-sm-4 col-form-label">NACIDO EN</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="nacido" class="form-control" value="{{$antecedent->nacido}}" placeholder="NACIDO EN" required onkeyup="this.value = this.value.toUpperCase();">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="NACIONALIDAD" class="col-sm-4 col-form-label">NACIONALIDAD</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="nacionalidad" class="form-control" value="{{$antecedent->nacionalidad}}" placeholder="NACIONALIDAD" required onkeyup="this.value = this.value.toUpperCase();">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="EDAD" class="col-sm-4 col-form-label">EDAD</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="edadArr" name="edad" class="form-control" value="{{$antecedent->edad}}" placeholder="EDAD" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="GENERO" class="col-sm-4 col-form-label">GENERO</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" name="genero" class="form-control" value="{{$antecedent->genero}}" placeholder="GENERO" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                 </div>
 
@@ -307,30 +342,7 @@
                                         <input type="text" name="unidad" class="form-control" value="{{$antecedent->unidad}}" placeholder="UNIDAD" required onkeyup="this.value = this.value.toUpperCase();">
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="NACIDO EN" class="col-sm-4 col-form-label">NACIDO EN</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="nacido" class="form-control" value="{{$antecedent->nacido}}" placeholder="NACIDO EN" required onkeyup="this.value = this.value.toUpperCase();">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="NACIONALIDAD" class="col-sm-4 col-form-label">NACIONALIDAD</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="nacionalidad" class="form-control" value="{{$antecedent->nacionalidad}}" placeholder="NACIONALIDAD" required onkeyup="this.value = this.value.toUpperCase();">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="EDAD" class="col-sm-4 col-form-label">EDAD</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" id="edadArr" name="edad" class="form-control" value="{{$antecedent->edad}}" placeholder="EDAD" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="GENERO" class="col-sm-4 col-form-label">GENERO</label>
-                                    <div class="col-sm-8">
-                                        <input type="text" name="genero" class="form-control" value="{{$antecedent->genero}}" placeholder="GENERO" required onkeyup="this.value = this.value.toUpperCase();">
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group row">
                                     <label for="TEMPERANCIA" class="col-sm-4 col-form-label">TEMPERANCIA</label>
                                     <div class="col-sm-8">

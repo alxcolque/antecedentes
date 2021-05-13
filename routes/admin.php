@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
 use App\Http\Controllers\Admin\PersonController;
 use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 
 Route::get('',[AntecedenteController::class, 'index'])->name('admin.home');
@@ -63,3 +64,6 @@ Route::get('password', [UserController::class, 'resetpass'])->name('admin.passwo
 //Route::get('/profile', [UserController::class, 'resetpass'])->name('admin.profile');
 Route::get('change-password', [ChangePasswordController::class, 'index'])->name('admin.password');
 Route::post('change-password', [ChangePasswordController::class, 'store'])->name('change.password');
+// buscar
+Route::get('search', [HomeController::class, 'search'])->name('admin.search');
+Route::get('resultadobusqueda', [HomeController::class, 'resultadobusqueda'])->name('admin.resultado');

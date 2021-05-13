@@ -10,7 +10,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@endif 
+@endif
 <!-- warning -->
 @if(session('warning'))
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -93,10 +93,13 @@
 
 <script>
     $(document).ready(function() {
-        $('#mitable').DataTable({
+        /*var table = $('#mitable').DataTable({
+            order: [
+                    [0, 'desc']
+                ],
             dom: 'Bfrtip',
             buttons: [{
-                extend: 'pdf',
+                extend: 'pdf', className: 'btn-danger' ,
                 title: 'Informacion en PDF',
                 filename: 'Bitácora'
             }, {
@@ -106,14 +109,8 @@
             }, {
                 extend: 'csv',
                 filename: 'Bitácora'
-            }]
-        });
-        /*var table = $("#mitable").DataTable({
-            ordering: true
-        });*/
-
-        /*new $.fn.dataTable.Buttons(table, {
-                buttons: [{
+            }],
+            buttons: [{
                     extend: 'pdfHtml5',
                     text: 'Abrir en PDF',
                     download: 'open',
@@ -135,11 +132,68 @@
                         }
                     }
                 }, ],
-            });
+        });*/
+        var table = $("#mitable").DataTable({
+            //ordering: true,
+            processing: true,
+            //serverSide: true,
+            responsive: true,
+            autoWidth: false,
+            order: [
+                [0, 'desc']
+            ],
+            "language": {
+                    "lengthMenu": "Mostrar " +
+                        '<select class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select>' +
+                        " registros por página",
+                    "zeroRecords": "No existe registros - discupa",
+                    "info": "Mostrando la pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No records available",
+                    "infoFiltered": "(filtrado de _MAX_ registros totales)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
 
-            table.buttons(0, null).container().appendTo(
-                table.table().container()
-            );*/
+        });
+
+        new $.fn.dataTable.Buttons(table, {
+            buttons: [{
+                    extend: 'pdfHtml5',
+                    text: 'Abrir en PDF',
+                    download: 'open',
+                    className: 'btn-danger',
+                    messageTop: 'Copia de seguridad de bitácora',
+                    title: 'Acciones',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3]
+                    },
+                    customize: function(doc) {
+                        doc.styles.title = {
+                            color: 'red',
+                            fontSize: '40',
+                            alignment: 'center'
+                        }
+                        doc.styles['td:nth-child(2)'] = {
+                            width: '100px',
+                            'max-width': '100px'
+                        }
+                    }
+                },
+                {
+                    extend: 'excel',
+                    title: 'Informacion en EXCEL',
+                    filename: 'Bitácora'
+                }
+            ],
+
+        });
+
+        table.buttons(0, null).container().appendTo(
+            table.table().container()
+        );
     });
 </script>
 @stop
