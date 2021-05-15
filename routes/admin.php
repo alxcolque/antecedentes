@@ -1,5 +1,6 @@
 <?php
 
+use App\Charts\AntecedeteChart;
 use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AdviceController;
 use Illuminate\Support\Facades\Route;
@@ -67,3 +68,8 @@ Route::post('change-password', [ChangePasswordController::class, 'store'])->name
 // buscar
 Route::get('search', [HomeController::class, 'search'])->name('admin.search');
 Route::get('resultadobusqueda', [HomeController::class, 'resultadobusqueda'])->name('admin.resultado');
+//Charts
+Route::get('chart-line',  [AntecedeteChart::class, 'chartLine'])->name('admin.chart');
+Route::get('chart-line-ajax', [AntecedeteChart::class, 'chartLineAjax'])->name('admin.chart_ajax');
+//Route::get('charts','ChartController@index');
+Route::post('chart', [HomeController::class, 'fetch_data'])->name('admin.chart');

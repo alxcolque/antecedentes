@@ -30,8 +30,50 @@ class HomeController extends Controller
         $cant_ant = Antecedent::count();
         $cant_preant = DB::table('records')->where('tiporegistro', 2)->count();
         $cant_pol = Detective::count();
-        return view('home', compact('cant_ant', 'cant_preant', 'cant_pol', 'antecedents'));
+
+        $data['year_list'] = $this->fetch_year();
+
+
+        return view('home', compact('cant_ant', 'cant_preant', 'cant_pol', 'antecedents'))->with($data);
     }
+    //Charts
+    public function fetch_year() {
+        $data = DB::table('antecedents')
+        ->select(DB::raw('gestion'))
+        ->groupBy('gestion')
+        ->orderBy('gestion', 'DESC')->get();
+        return $data;
+    }
+    
+    public function fetch_data(Request $request)
+    {
+        if ($request->input('year')) {
+
+            $chart_data = $this->fetch_chart_data($request->input('year'));
+
+            foreach ($chart_data->toArray() as $row) {
+
+                $output[] = array(
+                    'month'  => $row->mesregistro,
+                    'profit' => floatval($row->cant)
+                );
+            }
+
+            echo json_encode($output);
+        }
+    }
+
+    function fetch_chart_data($year)
+    {
+        $data =  DB::table('antecedents')
+        ->select(DB::raw('mesregistro'),DB::raw('count(*) as cant'))
+        ->groupby('gestion','mesregistro')
+        ->where('gestion',$year)
+        //->orderBy('mesregistro', 'ASC')
+        ->get();
+        return $data;
+    }
+    //End Charts
     public function tbtljsonantecedentes()
     {
         return datatables()->of(Antecedent::all())->toJson();
@@ -42,11 +84,14 @@ class HomeController extends Controller
         $cant_preant = DB::table('records')->where('tiporegistro', 2)->count();
         $cant_pol = Detective::count();
         $texto = $request->get('text');
+
+        $data['year_list'] = $this->fetch_year();
+
         if (strlen($texto) <= 0) {
             $antecedents = [];
 
 
-            return view('home', compact('cant_ant', 'cant_preant', 'cant_pol', 'antecedents'));
+            return view('home', compact('cant_ant', 'cant_preant', 'cant_pol', 'antecedents'))->with($data);
         }
 
         $antecedents = DB::table('antecedents')
@@ -87,7 +132,7 @@ class HomeController extends Controller
                 'nombres',
             ));
         $i = 0;
-        return view('home', compact('i','cant_ant', 'cant_preant', 'cant_pol', 'antecedents'));
+        return view('home', compact('i', 'cant_ant', 'cant_preant', 'cant_pol', 'antecedents'))->with($data);
     }
     public function search(Request $request)
     {
