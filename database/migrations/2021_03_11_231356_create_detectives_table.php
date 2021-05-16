@@ -14,7 +14,7 @@ class CreateDetectivesTable extends Migration
     public function up()
     {
         Schema::create('detectives', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('nombres');
             /*$table->string('apellidos');
             $table->string('ci')->unique();

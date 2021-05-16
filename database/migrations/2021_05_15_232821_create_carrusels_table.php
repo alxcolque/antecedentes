@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCrimesTable extends Migration
+class CreateCarruselsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateCrimesTable extends Migration
      */
     public function up()
     {
-        Schema::create('crimes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('causaarresto', 100);
+        Schema::create('carrusels', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 50)->nullable();
+            $table->string('image', 200)->nullable();
+            $table->string('description', 250)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateCrimesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crimes');
+        Schema::dropIfExists('carrusels');
     }
 }

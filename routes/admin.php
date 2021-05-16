@@ -39,7 +39,7 @@ Route::post('updateuser', [UsuarioController::class, 'updateuser'])->name('admin
 
 //ruta para registrar la tabla de importacion registrarantecedentesusuario1
 Route::get('registrarimport', [AntecedenteController::class, 'registrarimport'])->name('registrarimport');
-Route::get('registrarantecedentesusuario1', [AntecedenteController::class, 'registrarantecedentesusuario1'])->name('registrarantecedentesusuario1');
+Route::get('registrarantecedentesusuario1', [AntecedenteController::class, 'registrarantecedentesusuario1'])->name('admin.registrarantecedentesusuario1');
 Route::post('deleterecord/{tiporegistro}', [AntecedenteController::class, 'deleterecordall'])->name('deleterecord');
 //Ajax datatables antecedentes
 //Route::get('tableantecedentes', [HomeController::class, 'tbtljsonantecedentes']);
@@ -58,6 +58,8 @@ Route::get('deleteallantecedents', [App\Http\Controllers\Admin\AntecedenteContro
 Route::get('antecedentestable', [App\Http\Controllers\Admin\AntecedenteController::class, 'index'])->name('antecedentestable');
 Route::get('eliminarecord', [App\Http\Controllers\Admin\AntecedenteController::class, 'eliminarecord'])->name('eliminarecord');
 Route::post('deleter/{id}', [AntecedenteController::class, 'deleter']);
+//Ver record
+Route::get('{id}/ver', [AntecedenteController::class, 'ver'])->name('ver');
 //profile admin.password
 Route::get('profile', [UserController::class, 'profile'])->name('admin.profile');
 Route::get('password', [UserController::class, 'resetpass'])->name('admin.password');

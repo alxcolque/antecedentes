@@ -28,17 +28,6 @@
 <div class="content-fluid">
     <div class="row">
         <div class="col-4" title="Conteo de registros antes de guadar en la base de datos" data-toggle="tooltip" data-html="true">
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{$cantidad}}</h3>
-                    <p><span>Registros importados desde excel</span></p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-file-excel"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-4" title="Conteo de registros antes de guadar en la base de datos" data-toggle="tooltip" data-html="true">
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{$cantidad1}}</h3>
@@ -49,6 +38,18 @@
                 </div>
             </div>
         </div>
+        <div class="col-4" title="Conteo de registros antes de guadar en la base de datos" data-toggle="tooltip" data-html="true">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{$cantidad}}</h3>
+                    <p><span>Registros importados desde excel</span></p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+            </div>
+        </div>
+
 
         <!-- <a href="/csvexport" class="pull-right btn btn-primary"><i class="fas fa-file-csv"></i> Export</a>
         <a href="/excelexport" class="pull-right btn btn-default"><i class="fas fa-file-excel"></i> Export</a>&nbsp;  -->
@@ -58,22 +59,118 @@
         <div class="card">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item" title="Improtacion excel" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Desde Excel</a></li>
+                    <li class="nav-item" title="Improtacion excel" data-toggle="tooltip" data-html="true"><a class="nav-link active" href="#activity" data-toggle="tab">Desde Usuario Moderador</a></li>
                     <li class="text-light">_</li>
-                    <li class="nav-item" title="Datos desde el exterior" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab">Desde Usuario Moderador</a></li>
+                    <li class="nav-item" title="Datos desde el exterior" data-toggle="tooltip" data-html="true"><a class="nav-link btn btn-block btn-outline-primary btn-sm" href="#settings" data-toggle="tab">Desde Excel </a></li>
                 </ul>
             </div><!-- /.card-header -->
 
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
+
+
+                        <div class="row">
+
+                            <div class="ml-auto p-2">
+                                <div class="">
+                                    <a href="{{route('admin.registrarantecedentesusuario1')}}" onclick="
+return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{2}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fas fa-times"></i> Limpiar tabla</a>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <table id="antecedentes1" class="table-striped table-bordered" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Accion</th>
+                                    <th>Gestion</th>
+                                    <th>Fecha Hecho</th>
+                                    <th>Hora</th>
+                                    <th>Mes</th>
+                                    <th>Deptartamento</th>
+                                    <th>Provincia</th>
+                                    <th>Municipio</th>
+                                    <th>Localidad</th>
+                                    <th>Zona Barrio</th>
+                                    <th>Lugar Hecho</th>
+                                    <th>GPS</th>
+                                    <th>Unidad</th>
+                                    <th>Arrestado</th>
+                                    <th>CI</th>
+                                    <th>Nacido</th>
+                                    <th>Nacionalidad</th>
+                                    <th>Edad</th>
+                                    <th>Genero</th>
+                                    <th>Temperancia</th>
+                                    <th>CausaArresto</th>
+                                    <th>Naturaleza</th>
+                                    <th>Arma</th>
+                                    <th>Remitido a</th>
+                                    <th>P. Policial</th>
+                                    <th>Pertenencias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($records as $record)
+                                @if($record->tiporegistro === "2")
+                                <tr>
+
+                                    <td>{{ ++$i }}</td>
+                                    <td>
+                                        <button onclick="deleteConfirmation('{{$record->id}}')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-html="true" title="Eliminar esta fila"><i class="fas fa-times"></i></button>
+                                        <a href="{{route('ver',$record->id)}}" class="btn btn-primary  btn-sm" data-toggle="tooltip" data-html="true" title="Ver esta fila"><i class="fas fa-eye"></i></a>
+                                    </td>
+                                    <td>{{ $record->gestion }}</td>
+                                    <td>{{ $record->fechahecho }}</td>
+                                    <td>{{ $record->hora }}</td>
+                                    <td>{{ $record->mesregistro }}</td>
+                                    <td>{{ $record->departamento }}</td>
+                                    <td>{{ $record->provincia }}</td>
+                                    <td>{{ $record->municipio }}</td>
+                                    <td>{{ $record->localidad }}</td>
+                                    <td>{{ $record->zonabarrio }}</td>
+                                    <td>{{ $record->lugarhecho }}</td>
+                                    <td>{{ $record->gps }}</td>
+                                    <td>{{ $record->unidad }}</td>
+                                    <td>{{ $record->arrestado }}</td>
+                                    <td>{{ $record->ci }}</td>
+                                    <td>{{ $record->nacido }}</td>
+                                    <td>{{ $record->nacionalidad }}</td>
+                                    <td>{{ $record->edad }}</td>
+                                    <td>{{ $record->genero }}</td>
+                                    <td>{{ $record->temperancia }}</td>
+                                    <td>{{ $record->causaarresto }}</td>
+                                    <td>{{ $record->nathecho }}</td>
+                                    <td>{{ $record->arma }}</td>
+                                    <td>{{ $record->remitidoa }}</td>
+                                    <td>{{ $record->nombres }}</td>
+                                    <td>{{ $record->pertenencias }}</td>
+
+
+                                </tr>
+                                @endif
+                                @endforeach
+
+                            </tbody>
+
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="tab-pane" id="settings">
                         <div class="row">
 
                             <div class="ml-auto p-2">
                                 <div class="">
                                     <a href="registrarimport" onclick="
 return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn btn-dark btn-sm" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-                                    
+
                                     <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{1}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fas fa-times"></i> Limpiar tabla</a>
                                 </div>
 
@@ -157,99 +254,6 @@ return confirm('¿Seguro que quiere importar en la base de datos?')" class="btn 
                                 </tr>
                                 @endif
                                 @endforeach
-                            </tbody>
-
-
-                        </table>
-
-                    </div>
-
-
-                    <div class="tab-pane" id="settings">
-                        <div class="row">
-
-                            <div class="ml-auto p-2">
-                                <div class="">
-                                    <a href="registrarantecedentesusuario1" onclick="
-return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-html="true" title="Clic para insertar en la base de datos"><i class="fas fa-database"></i> Guardar En la base datos</a>
-                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{2}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fas fa-times"></i> Limpiar tabla</a>
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <table id="antecedentes1" class="table-striped table-bordered" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Accion</th>
-                                    <th>Gestion</th>
-                                    <th>Fecha Hecho</th>
-                                    <th>Hora</th>
-                                    <th>Mes</th>
-                                    <th>Deptartamento</th>
-                                    <th>Provincia</th>
-                                    <th>Municipio</th>
-                                    <th>Localidad</th>
-                                    <th>Zona Barrio</th>
-                                    <th>Lugar Hecho</th>
-                                    <th>GPS</th>
-                                    <th>Unidad</th>
-                                    <th>Arrestado</th>
-                                    <th>CI</th>
-                                    <th>Nacido</th>
-                                    <th>Nacionalidad</th>
-                                    <th>Edad</th>
-                                    <th>Genero</th>
-                                    <th>Temperancia</th>
-                                    <th>CausaArresto</th>
-                                    <th>Naturaleza</th>
-                                    <th>Arma</th>
-                                    <th>Remitido a</th>
-                                    <th>P. Policial</th>
-                                    <th>Pertenencias</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($records as $record)
-                                @if($record->tiporegistro === "2")
-                                <tr>
-
-                                    <td>{{ ++$i }}</td>
-                                    <td>
-                                        <button onclick="deleteConfirmation('{{$record->id}}')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-html="true" title="Eliminar esta fila"><i class="fas fa-times"></i></button>
-                                    </td>
-                                    <td>{{ $record->gestion }}</td>
-                                    <td>{{ $record->fechahecho }}</td>
-                                    <td>{{ $record->hora }}</td>
-                                    <td>{{ $record->mesregistro }}</td>
-                                    <td>{{ $record->departamento }}</td>
-                                    <td>{{ $record->provincia }}</td>
-                                    <td>{{ $record->municipio }}</td>
-                                    <td>{{ $record->localidad }}</td>
-                                    <td>{{ $record->zonabarrio }}</td>
-                                    <td>{{ $record->lugarhecho }}</td>
-                                    <td>{{ $record->gps }}</td>
-                                    <td>{{ $record->unidad }}</td>
-                                    <td>{{ $record->arrestado }}</td>
-                                    <td>{{ $record->ci }}</td>
-                                    <td>{{ $record->nacido }}</td>
-                                    <td>{{ $record->nacionalidad }}</td>
-                                    <td>{{ $record->edad }}</td>
-                                    <td>{{ $record->genero }}</td>
-                                    <td>{{ $record->temperancia }}</td>
-                                    <td>{{ $record->causaarresto }}</td>
-                                    <td>{{ $record->nathecho }}</td>
-                                    <td>{{ $record->arma }}</td>
-                                    <td>{{ $record->remitidoa }}</td>
-                                    <td>{{ $record->nombres }}</td>
-                                    <td>{{ $record->pertenencias }}</td>
-
-
-                                </tr>
-                                @endif
-                                @endforeach
-
                             </tbody>
 
 
@@ -404,8 +408,8 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                 success: function(data) {
                     //table.draw();
                     setTimeout(function() {
-                                location.reload();
-                            }, 1000);
+                        location.reload();
+                    }, 1000);
                 },
                 error: function(data) {
                     console.log('Error:', data);

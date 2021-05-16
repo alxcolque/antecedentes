@@ -14,7 +14,7 @@ class CreateRecordsTable extends Migration
     public function up()
     {
         Schema::create('records', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('gestion',10);
             $table->string('fechahecho', 50);
             $table->string('hora', 50)->nullable();
@@ -40,8 +40,9 @@ class CreateRecordsTable extends Migration
             $table->string('remitidoa', 50)->nullable();
             $table->string('nombres', 100)->nullable();
             $table->string('pertenencias', 100)->nullable();
-            $table->enum('tiporegistro', [1, 2]);
+            $table->enum('tiporegistro', [1, 2, 3]);
             $table->string('fotopersona', 100)->nullable();
+            $table->string('username', 50)->nullable();
             $table->timestamps();
         });
     }

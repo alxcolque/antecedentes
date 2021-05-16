@@ -26,9 +26,11 @@ class ModeradorController extends Controller
     // Get all record === 2 
     public function getrecords()
     {
+        $username = auth()->user()->username;
         if (request()->ajax()) {
             return datatables()->of(DB::table('records')
-                ->where('tiporegistro', "2")
+                ->where('tiporegistro', 3)
+                ->where('username', $username)
                 ->get(array(
                     'id',
                     'arrestado',
@@ -92,6 +94,36 @@ class ModeradorController extends Controller
             return back()->withError($exception->getMessage())->withInput();
         }
     }
+
+    //Enviar registro a la central
+    public function enviarantecedentes()
+    {
+        $username = auth()->user()->username;
+        try {
+
+            DB::table('records')
+                ->where('tiporegistro', 3)
+                ->where('username', $username)
+                ->update(['tiporegistro' => 2]);
+            return redirect('moders')->with('info', 'Datos enviados exitosamente');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
+    //Elimianar todo
+    public function deleterecordall($tiporegistro)
+    {
+        $username = auth()->user()->username;
+        try {
+            DB::table('records')
+                ->where('tiporegistro', '=', 3)
+                ->where('username', '=', $username)
+                ->delete();
+            return redirect('moders')->with('info', 'La tabla se han borrado con éxito');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -138,9 +170,9 @@ class ModeradorController extends Controller
             $record->remitidoa = $request->remitidoa;
             $record->pertenencias = $request->pertenencias;
             $record->nombres = $request->nombres;
-            $record->tiporegistro = 2;
+            $record->tiporegistro = 3;
             $record->fotopersona = $request->fotopersona;
-
+            $record->username = auth()->user()->username;
             $record->save();
 
             return redirect('/moders')->with('info', 'Los datos se han guadado con éxito');
@@ -308,7 +340,6 @@ class ModeradorController extends Controller
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }
-        
     }
 
     /**

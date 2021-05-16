@@ -14,7 +14,7 @@ class CreateAdviceTable extends Migration
     public function up()
     {
         Schema::create('advice', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->text('titulo');
             $table->string('imagen', 200)->nullable();
             $table->longText('descripcion');

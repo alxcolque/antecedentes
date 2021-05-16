@@ -43,6 +43,7 @@ class RecordsImport implements ToModel//, WithHeadingRow
             'nombres' => $row[23],
             'pertenencias' => $row[24],
             'fotopersona'=>'persona.png',
+            'username'=>auth()->user()->username,
             'tiporegistro' => 1,
         ]);
     }

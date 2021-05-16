@@ -14,7 +14,7 @@ class CreateAntecedentsTable extends Migration
     public function up()
     {
         Schema::create('antecedents', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('gestion',10);
             $table->string('fechahecho', 100)->nullable();
             $table->string('hora', 100)->nullable();

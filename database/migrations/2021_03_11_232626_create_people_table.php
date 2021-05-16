@@ -14,7 +14,7 @@ class CreatePeopleTable extends Migration
     public function up()
     {
         Schema::create('people', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('arrestado', 100);
             $table->string('ci', 50)->nullable();
             $table->string('nacido', 100)->nullable();

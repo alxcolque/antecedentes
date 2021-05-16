@@ -22,6 +22,10 @@ Route::get('perfil', [ModeradorController::class, 'perfil'])->name('perfil');
 Route::get('consulta/search', [ModeradorController::class, 'search'])->name('moders.search');
 Route::get('consulta/resultadobusqueda', [ModeradorController::class, 'resultadobusqueda'])->name('moders.resultado');
 Route::post('deleter/{id}', [ModeradorController::class, 'deleter']);
+// Enviar registro
+Route::get('enviarantecedentes', [ModeradorController::class, 'enviarantecedentes'])->name('enviarantecedentes');
+//Elimina todo
+Route::post('deleterecord/{tiporegistro}', [ModeradorController::class, 'deleterecordall'])->name('deleterecord');
 //image profile
 Route::post('profileimage', [UserController::class, 'profileimage']);
 Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');

@@ -49,12 +49,29 @@
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="activity">
+                        <div class="row">
 
+                            <div class="ml-auto p-2">
+                                <div class="">
+                                    <a href="{{url('/moders/enviarantecedentes')}}" onclick="
+return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn btn-info btn-sm" data-toggle="tooltip" data-html="true" title="Clic para enviar a la central"><i class="fa fa-database"></i> Enviar todo</a>
+                                    <a href="javascript:void(0)" data-toggle="tooltip" data-id="{{3}}" data-original-title="Eliminar todos los registros de la tabla actual" class="btn btn-danger btn-sm deleteRecord"><i class="fa fa-times"></i> Limpiar tabla</a>
+                                </div>
+
+
+                            </div>
+                        </div>
                         <table id="mytable" class="datatable stripe row-border order-column" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Acciones</th>
+                                    <th>Arrestado</th>
+                                    <th>CI</th>
+                                    <th>Nacido</th>
+                                    <th>Nacionalidad</th>
+                                    <th>Edad</th>
+                                    <th>Genero</th>
                                     <th>Gestion</th>
                                     <th>Fecha Hecho</th>
                                     <th>Hora</th>
@@ -67,12 +84,7 @@
                                     <th>Lugar Hecho</th>
                                     <th>GPS</th>
                                     <th>Unidad</th>
-                                    <th>Arrestado</th>
-                                    <th>CI</th>
-                                    <th>Nacido</th>
-                                    <th>Nacionalidad</th>
-                                    <th>Edad</th>
-                                    <th>Genero</th>
+
                                     <th>Temperancia</th>
                                     <th>CausaArresto</th>
                                     <th>Naturaleza</th>
@@ -275,30 +287,30 @@
                                     </div>
 
                                 </div>
-                                
+
 
 
                             </div>
                             <div class="card bg-secondary">
-                                    <div class="container-fluid h-100">
-                                        <div class="row w-100 align-items-center">
-                                            <div class="form-group ">
-                                                <div class="col text-center">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
-                                                        </label>
-                                                    </div>
+                                <div class="container-fluid h-100">
+                                    <div class="row w-100 align-items-center">
+                                        <div class="form-group ">
+                                            <div class="col text-center">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
-                                                <div class="">
-                                                    <button type="submit" class="btn btn-info">Guardar registro</button>
-                                                </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <div class="">
+                                                <button type="submit" class="btn btn-info">Guardar registro</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </form>
                     </div>
                     <!-- /.tab-pane -->
@@ -366,6 +378,21 @@
 <link rel="stylesheet" href="/css/awesomplete.theme.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+<style>
+    /* Ensure that the demo table scrolls */
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+
+    div.container {
+        width: 80%;
+    }
+</style>
 @endsection
 @section('js')
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -658,6 +685,37 @@
 
                     }
                 })
+            });
+        });
+
+    });
+</script>
+<!-- eliminar record -->
+<script>
+    $(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('body').on('click', '.deleteRecord', function() {
+
+            var Record_id = $(this).data("id");
+            confirm("¿Seguro desea eliminar todos los registros!!!?");
+
+            $.ajax({
+                type: "POST",
+                url: "{{url('moders/deleterecord')}}/" + Record_id,
+
+                success: function(data) {
+                    //table.draw();
+                    setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                }
             });
         });
 
