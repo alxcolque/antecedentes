@@ -101,10 +101,10 @@
                                     </td>
                                     <td>{{$row->name}}</td>
                                     <td>{{$row->lastname}}</td>
-                                    <td>{{$row->username}}</td>
-                                    <td>{{$row->email}}</td>
+                                    <td class="text-info"><b>{{$row->username}}</b></td>
+                                    <td> <a href="mailto:{{$row->email}}?Subject=Saludos,%20necesito%20responda%20de%20inmediato ">{{$row->email}}</a> </td>
 
-                                    <td>
+                                    <td> 
                                         @if ($row->foto == "user.png")
                                         <img src="https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg" width="30" class="rounded-circle" alt="">
 

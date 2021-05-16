@@ -29,7 +29,7 @@ class ModeradorController extends Controller
         $username = auth()->user()->username;
         if (request()->ajax()) {
             return datatables()->of(DB::table('records')
-                ->where('tiporegistro', 3)
+                ->whereIn('tiporegistro', [2, 3])
                 ->where('username', $username)
                 ->get(array(
                     'id',

@@ -13,7 +13,7 @@ Route::get('', [ModeradorController::class, 'index']);//->name('moderador');
 //imagen queryimage
 Route::post('editimage', [ModeradorController::class, 'editimage']);
 Route::post('store', [ModeradorController::class, 'store'])->name('moders.store');
-Route::put('update/{id}', [ModeradorController::class, 'update'])->name('moders.update');
+Route::put('moders/update/{id}', [ModeradorController::class, 'update'])->name('moders.updaterecord');
 //get all recors = 2
 Route::get('getrecords', [ModeradorController::class, 'getrecords'])->name('getrecords');
 Route::get('{id}/ver', [ModeradorController::class, 'ver'])->name('ver');

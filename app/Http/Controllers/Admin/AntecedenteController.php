@@ -443,7 +443,7 @@ class AntecedenteController extends Controller
         try {
             $where = array('id' => $id);
             $antecedent  = Record::where($where)->first();
-            return view('moders.show', compact('antecedent'));
+            return view('admin.antecedentes.recordshow', compact('antecedent'));
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
         }

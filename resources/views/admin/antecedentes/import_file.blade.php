@@ -87,6 +87,7 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                                 <tr>
                                     <th>No</th>
                                     <th>Accion</th>
+                                    <th>Registro por</th>
                                     <th>Gestion</th>
                                     <th>Fecha Hecho</th>
                                     <th>Hora</th>
@@ -122,8 +123,9 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                                     <td>{{ ++$i }}</td>
                                     <td>
                                         <button onclick="deleteConfirmation('{{$record->id}}')" class="btn btn-danger  btn-sm" data-toggle="tooltip" data-html="true" title="Eliminar esta fila"><i class="fas fa-times"></i></button>
-                                        <a href="{{route('ver',$record->id)}}" class="btn btn-primary  btn-sm" data-toggle="tooltip" data-html="true" title="Ver esta fila"><i class="fas fa-eye"></i></a>
+                                        <a href="{{route('admin.ver',$record->id)}}" class="btn btn-primary  btn-sm" data-toggle="tooltip" data-html="true" title="Ver esta fila"><i class="fas fa-eye"></i></a>
                                     </td>
+                                    <td class="text-success"> <a href="{{route('admin.usuarios.index')}}">{{ $record->username }}</a> </td>
                                     <td>{{ $record->gestion }}</td>
                                     <td>{{ $record->fechahecho }}</td>
                                     <td>{{ $record->hora }}</td>

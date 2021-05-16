@@ -213,7 +213,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form class="form-horizontal" action="{{ route('moders.update', $antecedent->id) }}" method="POST">
+                            <form class="form-horizontal" action="{{ route('moders.updaterecord', $antecedent->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 
