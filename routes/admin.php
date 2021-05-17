@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AdviceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AntecedenteController;
+use App\Http\Controllers\admin\CarruselController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
@@ -25,6 +26,10 @@ Route::resource('importaciones',ImportController::class)->names('admin.importaci
 Route::resource('acciones',ActionController::class)->names('admin.acciones');
 Route::resource('usuarios',UsuarioController::class)->names('admin.usuarios');
 Route::resource('avisos',AdviceController::class)->names('admin.avisos');
+Route::resource('carruseles',CarruselController::class)->names('admin.carruseles');
+// Guardar foto para carrucel
+
+Route::post('caruselimage', [CarruselController::class, 'caruselimage']);
 
 //Bitacora limpiar y descargar bitácora
 Route::get('limpiarbitacora', [ActionController::class, 'limpiarBitacora'])->name('limpiarbitacora');

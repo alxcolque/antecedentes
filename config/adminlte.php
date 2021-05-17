@@ -293,6 +293,11 @@ return [
             'route' => 'admin.avisos.index',
             'icon' => 'fas fa-fw fa-bullhorn',
         ],
+        [
+            'text' => 'Carruseles',
+            'route' => 'admin.carruseles.index',
+            'icon' => 'fas fa-fw fa-car',
+        ],
 
         /*[
             'text'        => 'pages',

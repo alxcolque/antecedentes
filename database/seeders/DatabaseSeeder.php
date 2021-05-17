@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
         Storage::deleteDirectory('users');
         Storage::makeDirectory('users');
 
+        Storage::deleteDirectory('carruseles');
+        Storage::makeDirectory('carruseles');
+
         $this->call(TodosSeeder::class);
     }
 }

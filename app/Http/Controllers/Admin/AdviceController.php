@@ -28,8 +28,7 @@ class AdviceController extends Controller
      */
     public function create()
     {
-        $advices = Advice::orderBy('id', 'desc')->get();
-        return view('admin.avisos.create',compact('advices'));
+        return view('admin.avisos.create',);
     }
     public function adviceimage(Request $request)
     {
