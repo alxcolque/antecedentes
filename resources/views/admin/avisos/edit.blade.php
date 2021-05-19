@@ -19,14 +19,14 @@
 
                 <div class="col-md-6 mt-2">
                     <div class="form-group">
-                        <label for="titulo">Titulo</label>
+                        <label for="titulo">Título</label>
                         <input class="form-control" value="{{$aviso->titulo}}" placeholder="Ingrese el titulo del post" name="titulo" type="text" id="titulo" required onkeyup="this.value = this.value.toUpperCase();">
                     </div>
                     @error('titulo')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                     <div class="form-group">
-                        <label>Textarea</label>
+                        <label>Descripción</label>
                         <textarea class="form-control" rows="3" placeholder="Descripcion breve" id="descripcion" name="descripcion" required>{{$aviso->descripcion}}</textarea>
                     </div>
                     @error('descripcion')

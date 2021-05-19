@@ -17,21 +17,21 @@
 
                 <div class="col-md-6 mt-2">
                     <div class="form-group">
-                        <label for="titulo">Titulo</label>
+                        <label for="titulo">Título</label>
                         <input class="form-control" placeholder="Ingrese el titulo del post" name="titulo" type="text" id="titulo" required onkeyup="this.value = this.value.toUpperCase();">
                     </div>
                     @error('titulo')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                     <div class="form-group">
-                        <label>Textarea</label>
+                        <label>Descripción</label>
                         <textarea class="form-control" rows="3" placeholder="Descripcion breve" id="descripcion" name="descripcion" required></textarea>
                     </div>
                     @error('descripcion')
                     <span class="text-danger">{{$message}}</span>
                     @enderror
                     <div class="form-group">
-                        <label for="Imagen">Titulo</label>
+                        <label for="Imagen">Nombre Imagen</label>
                         <input class="form-control" placeholder="Nombre de la imagen" name="imagen" id="imagen" readonly required>
                     </div>
                     @error('imagen')
