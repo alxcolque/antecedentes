@@ -21,7 +21,8 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('soloadmin', ['only' => ['index']]);
+        $this->middleware('soloadmin', ['only' => ['index','fetch_year','fetch_data','fetch_chart_data','tbtljsonantecedentes','resultadobusqueda','search']]);
+        //$this->middleware('can:home')->only('index');
     }
 
     public function index()

@@ -10,11 +10,26 @@ use Illuminate\Support\Facades\Storage;
 
 class AdviceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'create',
+                    'adviceimage',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy',
+                ]
+            ]
+        );
+    }
+
     public function index()
     {
         $advices = Advice::orderBy('id', 'desc')->get();
@@ -89,7 +104,7 @@ class AdviceController extends Controller
     {
         $request->validate([
             'titulo' => 'required',
-            'imagen'=>'required',
+            'imagen' => 'required',
             'descripcion' => 'required'
         ]);
         $aviso->update($request->all());
@@ -114,7 +129,6 @@ class AdviceController extends Controller
         if($request->hasFile('file')){
             $imagen = $request->file('file')->getClientOriginalName();
         } */
-        
     }
 
     public function destroy(Advice $aviso)

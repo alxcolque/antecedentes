@@ -9,11 +9,24 @@ use Illuminate\Support\Facades\DB;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'create',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy',
+                ]
+            ]
+        );
+    }
     public function index()
     {
         /*$personas = DB::table('detail_ants')

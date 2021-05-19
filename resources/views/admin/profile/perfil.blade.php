@@ -156,7 +156,7 @@
                   <div class="offset-sm-3 col-sm-10">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los cambios de esta acción</a>
+                        <input type="checkbox" required> Estoy de acuerdo <a>con los cambios de esta acción</a>
                       </label>
                     </div>
                   </div>

@@ -4,9 +4,9 @@ use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConsultorController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
 
 
+//Auth::routes(['register' => false]);
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //Route::resource('/', ConsultorController::class)->names('consultor');
 Route::get('', [ConsultorController::class, 'index'])->name('consultor');

@@ -25,6 +25,38 @@ use PhpParser\Node\Expr\New_;
 
 class AntecedenteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'import',
+                    'filterbydate',
+                    'filterbyYear',
+                    'filterall',
+                    'filterultimateimport',
+                    'registrarimport',
+                    'registrarimport',
+                    'registrarantecedentesusuario1',
+                    'ver',
+                    'deleterecordall',
+                    'fileExport',
+                    'recordallactions',
+                    'create',
+                    'store',
+                    'deleteallantecedents',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy',
+                    'deleter'
+                ]
+            ]
+        );
+    }
     public function index(Request $request)
     {
 
@@ -569,23 +601,26 @@ class AntecedenteController extends Controller
     //Control acciones
     public function recordallactions($msg)
     {
+        try {
+            //Record::truncate();
+            $actioncount = DB::table('actions')->count();
 
-        //Record::truncate();
-        $actioncount = DB::table('actions')->count();
-
-        if ($actioncount == 0) {
-            $id = 0;
-        } else {
-            $id = DB::table('actions')->max('id');
+            if ($actioncount == 0) {
+                $id = 0;
+            } else {
+                $id = DB::table('actions')->max('id');
+            }
+            //acciones del usuario
+            $action = new Action();
+            $date = new DateTime();
+            $action->id = $id + 1;
+            $action->usuario = auth()->user()->username;
+            $action->accion = $msg;
+            $action->fecha = $date->format('Y-m-d H:i:s');
+            $action->save();
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
-        //acciones del usuario
-        $action = new Action();
-        $date = new DateTime();
-        $action->id = $id + 1;
-        $action->usuario = auth()->user()->username;
-        $action->accion = $msg;
-        $action->fecha = $date->format('Y-m-d H:i:s');
-        $action->save();
     }
 
     public function create()
@@ -684,10 +719,14 @@ class AntecedenteController extends Controller
     }
     public function show($id) //show(Antecente $id)
     {
-        $antecedent = Antecedent::with('people', 'detective', 'crime', 'province')->where('id', $id)->get();
-        //echo $antecedent[0]->fechahecho;
-        //$antecedent = Antecedent::find($id);
-        return view('admin.antecedentes.show', compact('antecedent'));
+        try {
+            $antecedent = Antecedent::with('people', 'detective', 'crime', 'province')->where('id', $id)->get();
+            //echo $antecedent[0]->fechahecho;
+            //$antecedent = Antecedent::find($id);
+            return view('admin.antecedentes.show', compact('antecedent'));
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
     public function edit($id)
@@ -754,28 +793,37 @@ class AntecedenteController extends Controller
 
     public function destroy($id)
     {
-        $record = Record::find($id);
-        $record->delete();
+        try {
+            $record = Record::find($id);
+            $record->delete();
 
-        return redirect()->route('admin.antecedentes')->with('info', 'Se ha eliminado un registro');
+            return redirect()->route('admin.antecedentes')->with('info', 'Se ha eliminado un registro');
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
     public function deleter($id)
     {
-        $delete = Record::destroy($id);
+        try {
+            $delete = Record::destroy($id);
 
-        // check data deleted or not
-        if ($delete == 1) {
-            $success = true;
-            $message = "Registro eliminado con éxito";
-        } else {
-            $success = true;
-            $message = "Registro no encontrado";
+            // check data deleted or not
+            if ($delete == 1) {
+                $success = true;
+                $message = "Registro eliminado con éxito";
+            } else {
+                $success = true;
+                $message = "Registro no encontrado";
+            }
+
+            //  return response
+            return response()->json([
+                'success' => $success,
+                'message' => $message,
+            ]);
+        } catch (\Exception $e) {
+
+            return $e->getMessage();
         }
-
-        //  return response
-        return response()->json([
-            'success' => $success,
-            'message' => $message,
-        ]);
     }
 }

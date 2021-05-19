@@ -199,8 +199,8 @@
                                 <div class="row w-100 align-items-center">
                                     <div class="col text-center">
                                         <button id="cmd" class="btn btn-danger" title="Clic para para descargar en PDF este registro" data-toggle="tooltip" data-html="true"><b>Descargar en pdf</b></button>
-                                        <input class="btn btn-primary" type='button' id='btn' value='Imprimir' onclick="printDiv('content')"  title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
-                                        
+                                        <input class="btn btn-primary" type='button' id='btn' value='Imprimir' onclick="printDiv('content')" title="Clic para imprimir este registro" data-toggle="tooltip" data-html="true">
+
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="cerrarmod" class="btn btn-default" >Cerrar</button>
             </div>
         </div>
     </div>
@@ -269,6 +269,11 @@
     $(function() {
         $('[data-toggle="tooltip"]').tooltip()
     })
+    $('#cerrarmod').click(function() {
+        setTimeout(function() {
+            location.reload();
+        }, 500); //medio segundo
+    });
 </script>
 
 <script>
@@ -353,7 +358,7 @@
         $('.modal-title').html("Detalle del antecedente");
         $('#modalverdetalle').modal('show');
         if (foto == "persona.png") {
-            $('#idimag').attr("src",'https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg');
+            $('#idimag').attr("src", 'https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg');
         } else {
             $('#idimag').attr("src", '/storage/personas/' + foto);
         }

@@ -209,7 +209,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="cerrarmod" class="btn btn-default">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -245,6 +245,11 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
     <script>
+        $('#cerrarmod').click(function() {
+            setTimeout(function() {
+                location.reload();
+            }, 500);
+        });
         //var cursos = ['html', 'php', 'python'];
         $('#search').autocomplete({
             source: function(request, response) {
@@ -338,7 +343,7 @@
             $('.modal-title').html("Detalle del antecedente");
             $('#modalverdetalle').modal('show');
             if (foto == "persona.png") {
-                $('#idimag').attr("src",'https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg');
+                $('#idimag').attr("src", 'https://img1.freepng.es/20180623/vr/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c3c1e473.3568135015297806757942.jpg');
             } else {
                 $('#idimag').attr("src", '/storage/personas/' + foto);
             }

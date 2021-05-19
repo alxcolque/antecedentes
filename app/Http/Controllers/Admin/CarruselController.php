@@ -9,11 +9,25 @@ use Illuminate\Http\Request;
 
 class CarruselController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'create',
+                    'caruselimage',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy',
+                ]
+            ]
+        );
+    }
     public function index()
     {
         $carruseles = Carrusel::orderBy('id', 'desc')->get();

@@ -16,7 +16,26 @@ class ModeradorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('solomoder', ['only' => 'index']);
+        $this->middleware('solomoder', ['only' => [
+            'index',
+            'getrecords',
+            'editimage',
+            'enviarantecedentes',
+            'deleterecordall',
+            'tbtljsonantecedentes',
+            'create',
+            'store',
+            'ver',
+            'consulta',
+            'resultadobusqueda',
+            'search',
+            'edit',
+            'update',
+            'destroy',
+            'deleter',
+            'perfil'
+
+            ]]);
     }
 
     public function index()

@@ -14,7 +14,26 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'profile',
+                ]
+            ]
+        );
+        $this->middleware(
+            'solouser',
+            [
+                'only' => [
+                    'perfil',
+                ]
+            ]
+        );
+    }
     /*public function index()
     {
         return view('usuario');
@@ -130,7 +149,7 @@ class UserController extends Controller
     public function perfil()
     {
         $user = Auth::user();
-        return view('moders.perfil', compact('user'));
+        return view('consultor.perfil', compact('user'));
     }
     public function profile()
     {

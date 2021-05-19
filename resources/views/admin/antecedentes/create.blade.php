@@ -44,6 +44,7 @@
                     data-list="ENERO,FEBRERO,MARZO,ABRIL,MAYO,JUNIO,JULIO,AGOSTO,SEPTIEMBRE,OCTUBRE,NOVIEMBRE,DICIEMBRE"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                     <div class="invalid-feedback">
                         Please provide a valid city.
@@ -64,6 +65,7 @@
                     data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                 </div>
             </div>
@@ -79,49 +81,52 @@
                     data-list="SABAYA, CARANGAS, CERCADO, LADISLAO CABRERA, LITORAL, MEJILLONES, NOR CARANGAS, PANTALÉON DALENCE, POOPÓ, SAJAMA, PEDRO DE TOTORA, SAUCARÍ, SEBASTIÁN PAGADOR, SUD CARANGAS, TOMÁS BARRÓN"
                     data-minChars="1"
                     placeholder="PROVINCIAS"
-                    required>
+                    required
+                    onkeyup="this.value = this.value.toUpperCase();"
+                    >
+                    
                 </div>
             </div>
             <div class="form-group row">
                 <label for="MUNICIPIOS" class="col-sm-4 col-form-label">MUNICIPIOS</label>
                 <div class="col-sm-8">
-                    <input type="text" id="soloMUN" name="municipio" class="form-control" placeholder="MUNICIPIOS" required>
+                    <input type="text" id="soloMUN" name="municipio" class="form-control" placeholder="MUNICIPIOS" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="LOCALIDADES" class="col-sm-4 col-form-label">LOCALIDADES</label>
                 <div class="col-sm-8">
-                    <input type="text" name="localidad" class="form-control"  placeholder="LOCALIDADES" required>
+                    <input type="text" name="localidad" class="form-control"  placeholder="LOCALIDADES" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="ZONA O BARRIO" class="col-sm-4 col-form-label">ZONA BARRIO</label>
                 <div class="col-sm-8">
-                    <input type="text" name="zonabarrio" class="form-control"  placeholder="ZONA BARRIO" required>
+                    <input type="text" name="zonabarrio" class="form-control"  placeholder="ZONA BARRIO" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="LUGAR HECHO" class="col-sm-4 col-form-label">LUGAR HECHO</label>
                 <div class="col-sm-8">
-                    <input type="text" name="lugarhecho" class="form-control" placeholder="LUGAR HECHO" required>
+                    <input type="text" name="lugarhecho" class="form-control" placeholder="LUGAR HECHO" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="UNIDAD" class="col-sm-4 col-form-label">UNIDAD</label>
                 <div class="col-sm-8">
-                    <input type="text" name="unidad" value="FELCC" class="form-control"  placeholder="UNIDAD" required>
+                    <input type="text" name="unidad" value="FELCC" class="form-control"  placeholder="UNIDAD" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="ARRESTADO" class="col-sm-4 col-form-label">ARRESTADO</label>
                 <div class="col-sm-8">
-                    <input type="text" name="arrestado" class="form-control"  placeholder="ARRESTADO" required>
+                    <input type="text" name="arrestado" class="form-control"  placeholder="ARRESTADO" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="ci" class="col-sm-4 col-form-label">ci</label>
+                <label for="ci" class="col-sm-4 col-form-label">CI</label>
                 <div class="col-sm-8">
-                    <input type="text" name="ci" class="form-control"  placeholder="ci" required>
+                    <input type="text" name="ci" class="form-control"  placeholder="CEDULA DE IDENTIDAD" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
@@ -136,6 +141,7 @@
                     data-list="ORURO,LA PAZ,COCHABAMBA,SANTA CRUZ,POTOSI,TARIJA,CHUQUISACA,BENI,PANDO"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                 </div>
             </div>
@@ -152,6 +158,7 @@
                     data-list="VENEZOLANO,PERUANO,ARGENTINO,CHILENO,BRASILERO,BOLIVIANO"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                 </div>
             </div>
@@ -173,13 +180,14 @@
                     data-list="VARON,MUJER,OTRO"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                 </div>
             </div>
             <div class="form-group row">
                 <label for="TEMPERANCIA" class="col-sm-4 col-form-label">TEMPERANCIA</label>
                 <div class="col-sm-8">
-                    <input type="text" value="SOBRIO" name="temperancia" class="form-control" placeholder="TEMPERANCIA" required>
+                    <input type="text" value="SOBRIO" name="temperancia" class="form-control" placeholder="TEMPERANCIA" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
@@ -193,6 +201,7 @@
                     data-list="POR COMISION DEL DELITO (F.E.L.C.C.), ADUANA, POR COMISION DEL DELITO (F.E.L.C.N),POR COMISION DEL DELITO (F.E.LC.C.)"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
                 </div>
             </div>
@@ -200,13 +209,13 @@
             <div class="form-group row">
                 <label for="NATHECHO" class="col-sm-4 col-form-label">NATURALEZA DEL HECHO</label>
                 <div class="col-sm-8">
-                    <input type="text" name="nathecho" class="form-control" placeholder="ROBO, ASECINATO, ETC." required>
+                    <input type="text" name="nathecho" class="form-control" placeholder="ROBO, ASECINATO, ETC." required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="ARMA" class="col-sm-4 col-form-label">ARMA</label>
                 <div class="col-sm-8">
-                    <input type="text" value="NINGUNO" name="arma" class="form-control" placeholder="ARMA" required>
+                    <input type="text" value="NINGUNO" name="arma" class="form-control" placeholder="ARMA" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
@@ -222,6 +231,7 @@
                     data-list="FELCC,FELCV,FELCN)"
                     data-minChars="1"
                     required
+                    onkeyup="this.value = this.value.toUpperCase();"
                     >
 
                 </div>
@@ -229,19 +239,19 @@
             <div class="form-group row">
                 <label for="ACCION DIRECTA" class="col-sm-4 col-form-label">ACCION DIRECTA</label>
                 <div class="col-sm-8">
-                    <input type="text" name="nombres" class="form-control" placeholder="NOMBRE DEL OFICIAL EJ: SGTO JUAN" required>
+                    <input type="text" name="nombres" class="form-control" placeholder="NOMBRE DEL OFICIAL EJ: SGTO JUAN" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="PERTENENCIAS" class="col-sm-4 col-form-label">PERTENENCIAS</label>
                 <div class="col-sm-8">
-                    <input type="text" value="NINGUNO" name="pertenencias" class="form-control" placeholder="PERTENENCIAS" required>
+                    <input type="text" value="NINGUNO" name="pertenencias" class="form-control" placeholder="PERTENENCIAS" required onkeyup="this.value = this.value.toUpperCase();">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="GPS" class="col-sm-4 col-form-label">GPS</label>
                 <div class="col-sm-8">
-                    <input type="text" value="-17.969944,-67.115266" name="gps" class="form-control" placeholder="GPS" required>
+                    <input type="text"  id="gps" value="-17.969944,-67.115266" name="gps" class="form-control" placeholder="GPS" required>
                 </div>
             </div>
 
@@ -249,7 +259,7 @@
                 <div class="offset-sm-2 col-sm-10">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los cambios de esta acción</a>
+                            <input type="checkbox" required> Estoy de acuerdo <a>Con los cambios de esta acción</a>
                         </label>
                     </div>
                 </div>
@@ -308,7 +318,10 @@
             return /^[a-z]*$/i.test(value); });
         setInputFilter(document.getElementById("soloMUN"), function(value) {
             return /^[a-z]*$/i.test(value); });
-
+        //Solo acepta coordenadas
+        setInputFilter(document.getElementById("gps"), function(value) {
+                return /^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/i.test(value);
+            });
             //Edad validacion
         setInputFilter(document.getElementById("edadArr"), function(value) {
         return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 200); });

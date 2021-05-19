@@ -250,7 +250,7 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                                     <div class="form-group row">
                                         <label for="NATHECHO" class="col-sm-4 col-form-label">NATURALEZA DEL HECHO</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="nathecho" class="form-control" placeholder="NATHECHO" required onkeyup="this.value = this.value.toUpperCase();">
+                                            <input type="text" name="nathecho" class="form-control" placeholder="Ej: Robo, Asalto, etc." required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -269,7 +269,7 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                                     <div class="form-group row">
                                         <label for="ACCION DIRECTA" class="col-sm-4 col-form-label">ACCION DIRECTA</label>
                                         <div class="col-sm-8">
-                                            <input type="text" name="nombres" class="form-control" placeholder="ACCION DIRECTA" required onkeyup="this.value = this.value.toUpperCase();">
+                                            <input type="text" name="nombres" class="form-control" placeholder="Ej: Sgto. 1ro Juan Manuel" required onkeyup="this.value = this.value.toUpperCase();">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -298,7 +298,7 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                                             <div class="col text-center">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
+                                                        <input type="checkbox" required> Estoy de acuerdo <a>Con los términos de registro</a>
                                                     </label>
                                                 </div>
                                             </div>
@@ -346,7 +346,7 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="cerrarmod" class="btn btn-default">Cerrar</button>
             </div>
         </div>
     </div>
@@ -406,6 +406,11 @@ return confirm('¿Seguro que quiere guardar en la base de datos?')" class="btn b
 
 <!-- CRUD -->
 <script>
+    $('#cerrarmod').click(function() {
+        setTimeout(function() {
+            location.reload();
+        }, 500);
+    });
     $(document).ready(function() {
         // init datatable.
         var dataTable = $('.datatable').DataTable({

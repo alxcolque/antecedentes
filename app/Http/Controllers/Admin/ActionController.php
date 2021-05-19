@@ -15,6 +15,20 @@ class ActionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'recordallactions',
+                    'limpiarBitacora',
+                ]
+            ]
+        );
+    }
     public function index()
     {
         $actions = Action::orderBy('id', 'desc')->get();

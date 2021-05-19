@@ -1,9 +1,8 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
 use App\Charts\AntecedeteChart;
 use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AdviceController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AntecedenteController;
 use App\Http\Controllers\Admin\CarruselController;
 use App\Http\Controllers\ChangePasswordController;
@@ -13,6 +12,8 @@ use App\Http\Controllers\Admin\PersonController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+
+
 
 Route::get('',[AntecedenteController::class, 'index'])->name('admin.home');
 //Route::get('',[AntecedenteController::class, 'admin.import']);

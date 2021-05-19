@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('soloadmin', ['only' => ['index']]);
+        //$this->middleware('can:home')->only('index');
+    }
     public function index()
     {
         $usersChart = new AntecedenteChart;

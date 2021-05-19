@@ -15,11 +15,26 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(
+            'soloadmin',
+            [
+                'only' => [
+                    'index',
+                    'create',
+                    'updateuser',
+                    'store',
+                    'show',
+                    'edit',
+                    'update',
+                    'destroy',
+                    'recordallactions'
+                ]
+            ]
+        );
+    }
     public function index()
     {
         $users = User::orderBy('id', 'desc')->get();

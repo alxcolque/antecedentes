@@ -11,7 +11,11 @@ class ConsultorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('solouser',['only'=> ['index']]);
+        $this->middleware('solouser',['only'=> [
+            'index',
+            'resultadobusqueda',
+            'search',
+            ]]);
 
     }
     public function index()
