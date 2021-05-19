@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AdviceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AntecedenteController;
-use App\Http\Controllers\admin\CarruselController;
+use App\Http\Controllers\Admin\CarruselController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\Admin\DetectiveController;
 use App\Http\Controllers\Admin\ImportController;
