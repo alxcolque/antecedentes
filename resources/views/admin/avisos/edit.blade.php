@@ -63,7 +63,7 @@
                             <div class="col text-center">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" required> Estoy de acuerdo <a href="#">Con los términos de registro</a>
+                                        <input type="checkbox" required> Estoy seguro <a>de editar este registro</a>
                                     </label>
                                 </div>
                             </div>
