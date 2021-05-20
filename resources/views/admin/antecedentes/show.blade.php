@@ -587,7 +587,7 @@
                 size: 'viewport'
             }).then(function(response) {
                 $.ajax({
-                    url: "{{url('moders/editimage')}}",
+                    url: "{{route('admin.antecedentes.imagen')}}",
                     type: 'POST',
                     data: {
                         '_token': $('meta[name="csrf-token"]').attr('content'),

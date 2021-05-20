@@ -81,3 +81,4 @@ Route::get('chart-line',  [AntecedeteChart::class, 'chartLine'])->name('admin.ch
 Route::get('chart-line-ajax', [AntecedeteChart::class, 'chartLineAjax'])->name('admin.chart_ajax');
 //Route::get('charts','ChartController@index');
 Route::post('chart', [HomeController::class, 'fetch_data'])->name('admin.chart');
+Route::post('imagenantecedente', [AntecedenteController::class, 'editimage'])->name('admin.antecedentes.imagen');

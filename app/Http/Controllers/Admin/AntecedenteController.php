@@ -16,6 +16,7 @@ use App\Models\Department;
 use App\Models\Detective;
 use App\Models\Crime;
 use App\Models\Import;
+use App\Models\Models\Image;
 use App\Models\Person;
 use Exception;
 use DateTime;
@@ -824,6 +825,35 @@ class AntecedenteController extends Controller
         } catch (\Exception $e) {
 
             return $e->getMessage();
+        }
+    }
+    public function editimage(Request $request)
+    {
+        try {
+            $folderPath = public_path('storage/personas/');
+
+            $image_parts = explode(";base64,", $request->image);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+
+            $imageName = uniqid() . '.png';
+
+            $imageFullPath = $folderPath . $imageName;
+
+            file_put_contents($imageFullPath, $image_base64);
+
+            $saveFile = new Image();
+            $saveFile->title = $imageName;
+            $saveFile->save();
+            $datos = array(
+                'nombrefoto' => $imageName
+            );
+            //Devolvemos el array pasado a JSON como objeto
+
+            return json_encode($datos, JSON_FORCE_OBJECT);
+        } catch (\Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
     }
 }

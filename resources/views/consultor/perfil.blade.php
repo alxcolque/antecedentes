@@ -142,7 +142,7 @@
                 <div class="form-group row">
                   <label for="nombres" class="col-sm-4 col-form-label">Nombres</label>
                   <div class="col-sm-8">
-                    <input type="text" name="name" class="form-control" value="{{$user->nombres}}" placeholder="nombres" required>
+                    <input type="text" name="name" class="form-control" value="{{$user->name}}" placeholder="nombres" required>
                   </div>
                 </div>
                 <div class="form-group row">
