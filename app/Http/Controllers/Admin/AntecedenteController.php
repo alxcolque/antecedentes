@@ -422,6 +422,13 @@ class AntecedenteController extends Controller
     public function registrarantecedentesusuario1()
     {
         try {
+            //tabla import
+            //tabla import
+            $import = new Import();
+            $date = new DateTime();
+            $import->fechaimport = $date->format('Y-m-d H:i:s');
+            $import->user_id = auth()->user()->id;
+            $import->save();
 
             $records = DB::table('records')->where('tiporegistro', 2)->get();
             foreach ($records as $record) { //echo $antecedent."\n";
@@ -445,7 +452,7 @@ class AntecedenteController extends Controller
                 $antecedent->province_id = $this->getProvinceID($record->departamento, $record->provincia);
                 $antecedent->detective_id = $this->getDetectiveID($record->nombres);
                 $antecedent->crime_id = $this->getCrimeID($record->causaarresto);
-                $antecedent->import_id = 1;
+                $antecedent->import_id = Import::max('id');
                 //$antecedent -> import_id = $this-> getImpotID(auth()->user()->id);
                 $antecedent->save();
                 $person = new Person();
