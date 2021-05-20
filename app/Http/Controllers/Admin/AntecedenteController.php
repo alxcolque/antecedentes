@@ -748,9 +748,7 @@ class AntecedenteController extends Controller
         try {
             //return $id;
             $person = Person::find($id);
-            $this->authorize('update', $person);
             $person->update([
-
                 'arrestado' => $request->arrestado,
                 'ci' => $request->ci,
                 'nacido' => $request->nacido,
