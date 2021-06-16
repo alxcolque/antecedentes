@@ -86,6 +86,21 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            
+                            @if(Auth::user()->rol == "2")
+                            <a class="dropdown-item" href="{{ route('moders.perfil') }}">
+                                <i class="fa fa-user"></i>
+                                {{ __(' Mi perfil') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('moders.perfil') }}">
+                                <i class="fa fa-cog"></i>
+                                {{ __(' Ajustes') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('moders.password') }}">
+                                <i class="fa fa-lock"></i>
+                                {{ __(' Cambiar contraseña') }}
+                            </a>
+                            @else
                             <a class="dropdown-item" href="{{ route('perfil') }}">
                                 <i class="fa fa-user"></i>
                                 {{ __(' Mi perfil') }}
@@ -94,12 +109,6 @@
                                 <i class="fa fa-cog"></i>
                                 {{ __(' Ajustes') }}
                             </a>
-                            @if(Auth::user()->rol == "2")
-                            <a class="dropdown-item" href="{{ route('moders.password') }}">
-                                <i class="fa fa-lock"></i>
-                                {{ __(' Cambiar contraseña') }}
-                            </a>
-                            @else
                             <a class="dropdown-item" href="{{ route('consultor.password') }}">
                                 <i class="fa fa-lock"></i>
                                 {{ __(' Cambiar contraseña') }}

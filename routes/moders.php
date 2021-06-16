@@ -18,7 +18,7 @@ Route::put('moders/update/{id}', [ModeradorController::class, 'update'])->name('
 Route::get('getrecords', [ModeradorController::class, 'getrecords'])->name('getrecords');
 Route::get('{id}/ver', [ModeradorController::class, 'ver'])->name('ver');
 Route::get('consulta', [ModeradorController::class, 'consulta'])->name('moders.consulta');
-Route::get('perfil', [ModeradorController::class, 'perfil'])->name('perfil');
+Route::get('/moders/perfil', [ModeradorController::class, 'perfil'])->name('moders.perfil');
 Route::get('consulta/search', [ModeradorController::class, 'search'])->name('moders.search');
 Route::get('consulta/resultadobusqueda', [ModeradorController::class, 'resultadobusqueda'])->name('moders.resultado');
 Route::post('deleter/{id}', [ModeradorController::class, 'deleter']);
